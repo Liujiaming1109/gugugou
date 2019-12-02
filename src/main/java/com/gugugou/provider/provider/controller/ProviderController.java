@@ -1,7 +1,8 @@
-package com.gugugou.provider.controller;
+package com.gugugou.provider.provider.controller;
 
-import com.gugugou.provider.model.ProviderModel;
-import com.gugugou.provider.service.ProviderService;
+
+import com.gugugou.provider.provider.model.ProviderModel;
+import com.gugugou.provider.provider.service.ProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

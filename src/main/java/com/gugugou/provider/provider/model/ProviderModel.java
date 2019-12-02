@@ -1,4 +1,4 @@
-package com.gugugou.provider.model;
+package com.gugugou.provider.provider.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

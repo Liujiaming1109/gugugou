@@ -1,8 +1,8 @@
-package com.gugugou.provider.service.Impl;
+package com.gugugou.provider.provider.service.Impl;
 
-import com.gugugou.provider.dao.ProviderDao;
-import com.gugugou.provider.model.ProviderModel;
-import com.gugugou.provider.service.ProviderService;
+import com.gugugou.provider.provider.dao.ProviderDao;
+import com.gugugou.provider.provider.model.ProviderModel;
+import com.gugugou.provider.provider.service.ProviderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,6 +1,6 @@
-package com.gugugou.provider.dao;
+package com.gugugou.provider.provider.dao;
 
-import com.gugugou.provider.model.ProviderModel;
+import com.gugugou.provider.provider.model.ProviderModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

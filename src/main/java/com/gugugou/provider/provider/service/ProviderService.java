@@ -1,6 +1,7 @@
-package com.gugugou.provider.service;
+package com.gugugou.provider.provider.service;
 
-import com.gugugou.provider.model.ProviderModel;
+
+import com.gugugou.provider.provider.model.ProviderModel;
 
 /**
  * @author: chengShaoShao
