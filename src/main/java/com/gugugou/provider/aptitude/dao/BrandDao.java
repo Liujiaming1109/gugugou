@@ -1,6 +1,8 @@
 package com.gugugou.provider.aptitude.dao;
 
+import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author: chengShaoShao
@@ -9,6 +11,7 @@ import com.gugugou.provider.aptitude.model.BrandModel;
  * @Description:
  * @date 2019/12/2 14:51
  */
+@Mapper
 public interface BrandDao {
 
     /**
@@ -18,5 +21,11 @@ public interface BrandDao {
      */
     Long addBrand(BrandModel brandModel);
 
+    /**
+     * 批量新增附件路径
+     * @param accessoryUrlModel
+     * @return
+     */
+    Integer addAccessoryList(AccessoryUrlModel accessoryUrlModel);
 
 }
