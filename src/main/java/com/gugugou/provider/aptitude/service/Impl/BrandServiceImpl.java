@@ -22,6 +22,11 @@ public class BrandServiceImpl implements BrandService {
    @Resource
    private BrandDao aptitudeDao;
 
+    /**
+     * 新增品牌资质
+     * @param brandModel
+     * @return
+     */
     @Override
     public Long addBrand(BrandModel brandModel) {
         brandModel.setCreatedTime(new Date());

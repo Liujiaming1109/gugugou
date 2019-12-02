@@ -17,7 +17,7 @@
         #{removed})
     </insert>
 <!--批量新增品牌资质的附件-->
-    <insert id="insertList" parameterType="list" useGeneratedKeys="false" >
+    <insert id="addAccessoryList" parameterType="list" useGeneratedKeys="false" >
             insert into t_accessory_url
             (id, t_provider_fk, accessory_url, accessory_name, accessory_source, accessory_address, created_by, created_time, updated_by, updated_time, removed)
             values

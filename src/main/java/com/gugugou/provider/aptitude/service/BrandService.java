@@ -11,5 +11,10 @@ import com.gugugou.provider.aptitude.model.BrandModel;
  */
 public interface BrandService {
 
+    /**
+     * 新增品牌资质
+     * @param brandModel
+     * @return
+     */
     Long addBrand(BrandModel brandModel);
 }

@@ -25,6 +25,11 @@ public class BrandController {
     @Resource
     private BrandService brandService;
 
+    /**
+     * 新增品牌资质
+     * @param brandModel
+     * @return
+     */
     public Long addBrand(BrandModel brandModel) {
         logger.info("新增品牌资质的入参--brandModel：{}",brandModel);
         return brandService.addBrand(brandModel);

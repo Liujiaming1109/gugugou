@@ -10,7 +10,7 @@ import java.util.Date;
  * @author: chengShaoShao
  * @Title: BrandModel
  * @ProjectName: provider
- * @Description:
+ * @Description: 供应商-品牌资质表
  * @date 2019/12/2 14:39
  */
 @Data

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,8 +16,9 @@ import java.util.Date;
  */
 @Data
 @ToString
-public class ProviderModel {
+public class ProviderModel implements Serializable {
 
+    private static final long serialVersionUID = 1844878767945285205L;
     /** 主键id */
     private Integer id ;
     /** 品牌id */

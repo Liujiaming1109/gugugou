@@ -13,7 +13,7 @@ public final class ProviderCentreConsts {
     }
 
     /**
-     * 乐观锁状态：0
+     * 逻辑删除状态：0
      */
     public static final Integer REVISION_ZERO = 0;
 }
