@@ -1,6 +1,7 @@
 package com.gugugou.provider.provider.dao;
 
-import com.gugugou.provider.provider.model.ProviderModel;
+
+import com.gugugou.provider.provider.model.Models;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,5 +14,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProviderDao {
 
-    Integer addProvider(ProviderModel providerModel);
+    //添加财务信息
+    Long addProvider(Models models);
+
+   //修改财务信息
+    Long updateProvider(Models models);
+
+    //查找财务信息
+   /* Models findProvider(Integer tProviderFk);*/
 }
