@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.dao.ProviderDao">
+
+    <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
+        insert into t_common_configuration
+        (id, brand_id, brand_name, type, provider_id, provider_name, manage_status, manage_method, buckle_point, send_order_weight,
+        created_by, created_time, updated_by, updated_time, removed
+        )
+        values
+        (#{id}, #{brandId}, #{brandName}, #{type}, #{providerId}, #{providerName}, #{manageStatus}, #{manageMethod}, #{bucklePoint},
+        #{sendOrderWeight}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+    </insert>
+</mapper>
