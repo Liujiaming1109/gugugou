@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.service.Impl;
 
+import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.provider.dao.ProviderDao;
 import com.gugugou.provider.provider.model.ProviderModel;
 import com.gugugou.provider.provider.service.ProviderService;
@@ -25,7 +26,7 @@ public class ProviderServiceImpl implements ProviderService {
     public Long addProvider(ProviderModel providerModel) {
         providerModel.setCreatedBy("程绍绍");
         providerModel.setCreatedTime(new Date());
-        providerModel.setRemoved(0);
+        providerModel.setRemoved(ProviderCentreConsts.REVISION_ZERO);
         return providerDao.addProvider(providerModel);
     }
 }

@@ -1,6 +1,8 @@
 package com.gugugou.provider.provider.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,6 +13,8 @@ import java.util.Date;
  * @Description:
  * @date 2019/11/26 13:30
  */
+@Data
+@ToString
 public class ProviderModel {
 
     /** 主键id */
@@ -45,124 +49,4 @@ public class ProviderModel {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Integer getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(Integer providerId) {
-        this.providerId = providerId;
-    }
-
-    public String getProviderName() {
-        return providerName;
-    }
-
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
-    }
-
-    public String getManageStatus() {
-        return manageStatus;
-    }
-
-    public void setManageStatus(String manageStatus) {
-        this.manageStatus = manageStatus;
-    }
-
-    public Integer getManageMethod() {
-        return manageMethod;
-    }
-
-    public void setManageMethod(Integer manageMethod) {
-        this.manageMethod = manageMethod;
-    }
-
-    public String getBucklePoint() {
-        return bucklePoint;
-    }
-
-    public void setBucklePoint(String bucklePoint) {
-        this.bucklePoint = bucklePoint;
-    }
-
-    public String getSendOrderWeight() {
-        return sendOrderWeight;
-    }
-
-    public void setSendOrderWeight(String sendOrderWeight) {
-        this.sendOrderWeight = sendOrderWeight;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Date getUpdatedTime() {
-        return updatedTime;
-    }
-
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
-    }
-
-    public Integer getRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(Integer removed) {
-        this.removed = removed;
-    }
 }
