@@ -1,19 +1,16 @@
-package com.gugugou.provider.violations.dao;
+package com.gugugou.provider.violations.service;
 
 import com.gugugou.provider.violations.model.Violations;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
-public interface ViolationsDao {
+public interface ViolationsService {
     /**
      * 根据供应商id查询处罚单
      * @param id
      * @return
      */
     Violations getTicketById(Integer id);
-
     /**
      * 新增违规处罚单
      * @param violations
