@@ -23,10 +23,10 @@ public class ProviderServiceImpl implements ProviderService {
     private ProviderDao providerDao;
 
     @Override
-    public Long addProvider(ProviderModel providerModel) {
+    public Integer addProvider(ProviderModel providerModel) {
         providerModel.setCreatedBy("程绍绍");
         providerModel.setCreatedTime(new Date());
-        providerModel.setRemoved(ProviderCentreConsts.REVISION_ZERO);
+        providerModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         return providerDao.addProvider(providerModel);
     }
 }

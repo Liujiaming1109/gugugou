@@ -30,7 +30,7 @@ public class BrandController {
      * @param brandModel
      * @return
      */
-    public Long addBrand(BrandModel brandModel) {
+    public Integer addBrand(BrandModel brandModel) {
         logger.info("新增品牌资质的入参--brandModel：{}",brandModel);
         return brandService.addBrand(brandModel);
     }

@@ -16,5 +16,6 @@ public interface BrandService {
      * @param brandModel
      * @return
      */
-    Long addBrand(BrandModel brandModel);
+    Integer addBrand(BrandModel brandModel);
+
 }

@@ -26,7 +26,7 @@ public class ProviderController {
     private ProviderService providerService;
 
     @PostMapping("addProvider")
-    public Long addProvider(@RequestBody ProviderModel providerModel) {
+    public Integer addProvider(@RequestBody ProviderModel providerModel) {
         logger.info("新增---providerModel: {}", providerModel);
         return providerService.addProvider(providerModel);
     }

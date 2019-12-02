@@ -12,5 +12,5 @@ import com.gugugou.provider.provider.model.ProviderModel;
  */
 public interface ProviderService {
 
-    Long addProvider(ProviderModel providerModel);
+    Integer addProvider(ProviderModel providerModel);
 }

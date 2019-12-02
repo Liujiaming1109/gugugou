@@ -13,5 +13,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProviderDao {
 
-    Long addProvider(ProviderModel providerModel);
+    Integer addProvider(ProviderModel providerModel);
 }
