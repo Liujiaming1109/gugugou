@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gugugou.provider.violations.dao.ViolationsDao">
+    <insert id="addTicket" useGeneratedKeys="true">
+        insert into t_violations
+        (id, provider_id_fk, provider_name, punish_type, punish_sku_id, punish_amount,
+         punish_status, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{providerIdFk},#{providerName},#{punishType},#{punishSkuId},#{punishAmount},
+        #{punishStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},
+        #{removed})
+    </insert>
+    <update id="updateTicket" useGeneratedKeys="true">
+        update
+    </update>
+    <select id="getTicketById" resultType="com.gugugou.provider.violations.model.Violations">
+        select * from t_violations where provider_id_fk = #{id};
+    </select>
+    <select id="selectTicketList" resultType="com.gugugou.provider.violations.model.Violations">
+        select * from t_violations;t_violations
+    </select>
+</mapper>
