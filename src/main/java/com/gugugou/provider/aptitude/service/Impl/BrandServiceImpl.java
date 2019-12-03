@@ -30,7 +30,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Long addBrand(BrandModel brandModel) {
         brandModel.setCreatedTime(new Date());
-        brandModel.setRemoved(ProviderCentreConsts.REVISION_ZERO);
+        brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         return aptitudeDao.addBrand(brandModel);
     }
 }
