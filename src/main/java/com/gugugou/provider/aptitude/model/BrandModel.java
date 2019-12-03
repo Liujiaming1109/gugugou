@@ -20,7 +20,7 @@ import java.util.List;
 public class BrandModel implements Serializable {
 
     private static final long serialVersionUID = -3146823917046911251L;
-    /** 首页 */
+    /** 当前页面 */
     private Integer pageIndex;
     /** 每页数据 */
     private Integer pageSize;
