@@ -2,13 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.provider.dao.ProviderDao">
 
-    <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
-        insert into t_common_configuration
+   <!-- <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
+       /* insert into t_common_configuration
         (id, brand_id, brand_name, type, provider_id, provider_name, manage_status, manage_method, buckle_point, send_order_weight,
         created_by, created_time, updated_by, updated_time, removed
         )
         values
         (#{id}, #{brandId}, #{brandName}, #{type}, #{providerId}, #{providerName}, #{manageStatus}, #{manageMethod}, #{bucklePoint},
-        #{sendOrderWeight}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+        #{sendOrderWeight}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})*/
+    </insert>-->
+    <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
+        insert into t_finance
+        (id,t_provider_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
+        registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
+        alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id},#{tProviderFk},#{openBank},#{bankNumber},#{branchBankName},#{accountName},#{bankAddress},#{registeredAddress},#{bankDetailAddress},
+        #{registeredPhone},#{invoiceTitle},#{invoiceRecipientsPhone},#{invoiceRecipientsAddress},#{taxCode},#{taxIdentificationNumber},
+        #{alipayAccountName},#{alipayNumber},#{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
+
+    <update id="updateProvider">
+        update t_finance set
+        t_provider_fk=#{tProviderFk},open_pank=#{openBank},bank_number=#{bankNumber},branch_bank_name=#{branchBankName},account_name=#{accountName},bank_address=#{bankAddress},registered_address=#{registeredAddress},bank_detailAddress=#{bankDetailAddress},
+        registered_phone=#{registeredPhone},invoice_title=#{#{invoiceTitle}},invoice_recipients_phone=#{invoiceRecipientsPhone},invoice_recipients_address=#{invoiceRecipientsAddress},tax_code=#{taxCode},tax_identification_number=#{taxIdentificationNumber},
+        alipay_account_name=#{alipayAccountName},alipay_number=#{alipayNumber},created_by=#{createdBy}, created_time=#{createdTime}, updated_by=#{updatedBy}, updated_time=#{updatedTime}, removed=#{removed} where id = #{id}
+    </update>
+
+    <select id="findProvider" parameterType="Integer" >
+        select id,t_provider_fk,open_pank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detailAddress,
+        registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
+        alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
+        from t_finance where t_provider_fk = #{tProviderFk}
+    </select>
 </mapper>

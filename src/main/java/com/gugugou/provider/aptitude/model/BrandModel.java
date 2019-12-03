@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -17,9 +15,8 @@ import java.util.List;
  */
 @Data
 @ToString
-public class BrandModel implements Serializable {
+public class BrandModel {
 
-    private static final long serialVersionUID = 7805902451513149303L;
     /** 主键id */
     private Integer id ;
     /** 品牌名称 */
@@ -75,53 +72,4 @@ public class BrandModel implements Serializable {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
-
-    /**
-     * 商标权人出具的授权书附件
-     */
-    private List<AccessoryUrlModel> trademarkList;
-    /**
-     * 商标注册证附件
-     */
-    private List<AccessoryUrlModel> registerList;
-    /**
-     * 检测报告附件
-     */
-    private List<AccessoryUrlModel> examiningReportList;
-    /**
-     *产品清单附件
-     */
-    private List<AccessoryUrlModel> productList;
-    /**
-     * 非食品品牌生产厂商还需要同时提供《食品经营许可证》或 《食品流通许可证》附件
-     */
-    private List<AccessoryUrlModel> foodManufacturerList;
-    /**
-     * 生产厂商的《食品生产许可证》&产品涉及委托加工，需同时提供与生产厂商间的委托加工协议
-     */
-    private List<AccessoryUrlModel> processManufacturerList;
-    /**
-     * 《商品出入境检验检疫卫生证书》或《商品出入境检验检疫卫生证明》
-     */
-    private List<AccessoryUrlModel> exitAndEntryList;
-    /**
-     * 《食盐批发[含转(代)批发]许可证》
-     */
-    private List<AccessoryUrlModel> saltList;
-    /**
-     * 中华人民共和国海关进口货物报关单
-     */
-    private List<AccessoryUrlModel> importList;
-    /**
-     * 清真食品认证（国际Halal认证）
-     */
-    private List<AccessoryUrlModel> halalFoodList;
-    /**
-     * 有机食品认证
-     */
-    private List<AccessoryUrlModel> organicFoodList;
-    /**
-     * 贵司近3个月内向上一级经销商的进货发票复印件，且发票需体现此次申请的品牌名称。
-     */
-    private List<AccessoryUrlModel> invoiceList;
 }

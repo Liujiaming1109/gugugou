@@ -1,7 +1,8 @@
 package com.gugugou.provider.provider.controller;
 
 
-import com.gugugou.provider.provider.model.ProviderModel;
+
+import com.gugugou.provider.provider.model.Models;
 import com.gugugou.provider.provider.service.ProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +26,17 @@ public class ProviderController {
     @Resource
     private ProviderService providerService;
 
-    @PostMapping("addProvider")
-    public Integer addProvider(@RequestBody ProviderModel providerModel) {
-        logger.info("新增---providerModel: {}", providerModel);
-        return providerService.addProvider(providerModel);
+
+    //新增财务信息
+   @PostMapping("addProvider")
+    public Long addProvider(@RequestBody Models models){
+         return providerService.addProvider(models);
+    }
+
+    //修改财务信息
+    @PostMapping("updateProvider")
+    public Long updateProvider(@RequestBody Models models){
+        return providerService.updateProvider(models);
     }
 
 }

@@ -1,13 +1,12 @@
 package com.gugugou.provider.provider.service.Impl;
 
-import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.provider.dao.ProviderDao;
-import com.gugugou.provider.provider.model.ProviderModel;
+
+import com.gugugou.provider.provider.model.Models;
 import com.gugugou.provider.provider.service.ProviderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @author: chengShaoShao
@@ -22,11 +21,18 @@ public class ProviderServiceImpl implements ProviderService {
     @Resource
     private ProviderDao providerDao;
 
+
+
     @Override
-    public Integer addProvider(ProviderModel providerModel) {
-        providerModel.setCreatedBy("程绍绍");
-        providerModel.setCreatedTime(new Date());
-        providerModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-        return providerDao.addProvider(providerModel);
+    public Long addProvider(Models models) {
+        return providerDao.addProvider(models);
     }
+
+
+    //修改财务信息
+    @Override
+    public Long updateProvider(Models models) {
+        return providerDao.updateProvider(models);
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.gugugou.provider.provider.service;
 
 
-import com.gugugou.provider.provider.model.ProviderModel;
+import com.gugugou.provider.provider.model.Models;
 
 /**
  * @author: chengShaoShao
@@ -12,5 +12,10 @@ import com.gugugou.provider.provider.model.ProviderModel;
  */
 public interface ProviderService {
 
-    Integer addProvider(ProviderModel providerModel);
+    //新增财务信息
+    Long addProvider(Models models);
+
+   //修改财务信息
+    Long updateProvider(Models models);
+
 }

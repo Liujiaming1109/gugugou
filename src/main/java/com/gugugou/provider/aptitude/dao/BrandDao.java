@@ -4,8 +4,6 @@ import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * @author: chengShaoShao
  * @Title: AptitudeDao
@@ -21,13 +19,13 @@ public interface BrandDao {
      * @param brandModel
      * @return
      */
-    Integer addBrand(BrandModel brandModel);
+    Long addBrand(BrandModel brandModel);
 
     /**
      * 批量新增附件路径
-     * @param
+     * @param accessoryUrlModel
      * @return
      */
-    Integer addAccessoryList(List<AccessoryUrlModel> accessoryUrlModels);
+    Integer addAccessoryList(AccessoryUrlModel accessoryUrlModel);
 
 }
