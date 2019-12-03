@@ -15,7 +15,7 @@ public final class ProviderCentreConsts {
     /**
      * 逻辑删除状态：0
      */
-    public static final Integer REMOVED_ZERO = 0;
+    public static final Integer REVISION_ZERO = 0;
 
     /**
      * 附件来源：（0：供应商，1：品牌资质，2：违规处罚管理）
