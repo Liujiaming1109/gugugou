@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.provider.dao.InformationDao">
+
+
+    <insert id="addInformation" useGeneratedKeys="true" keyProperty="id">
+        insert into t_provider
+         (company_name,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number
+          business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,created_by, created_time, updated_by, updated_time, removed)
+          values
+          (#{companyName},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
+          #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},
+          #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+
+    </insert>
+    
+    <insert id="addInformations" parameterType="java.util.List">
+        insert into t_provider_contact (contact_type,contact_name,contact_phone,contact_wechat,contact_dingding,created_by, created_time, updated_by, updated_time, removed) values
+        <foreach collection="list" separator="," item="information">
+            (#{information.contactType},#{information.contactName},#{information.contactPhone},#{information.contactDingding},{information.createdBy}, #{information.createdTime},
+             #{information.updatedBy}, #{information.updatedTime}, #{information.removed})
+        </foreach>
+
+
+    </insert>
+    
+
+    <update id="updateInformation">
+
+    </update>
+
+    <select id="findInformation" parameterType="Integer" >
+
+    </select>
+    
+</mapper>

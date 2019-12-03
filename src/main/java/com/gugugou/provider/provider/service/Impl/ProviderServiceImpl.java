@@ -2,7 +2,7 @@ package com.gugugou.provider.provider.service.Impl;
 
 import com.gugugou.provider.provider.dao.ProviderDao;
 
-import com.gugugou.provider.provider.model.Models;
+import com.gugugou.provider.provider.model.Finance;
 import com.gugugou.provider.provider.service.ProviderService;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +22,23 @@ public class ProviderServiceImpl implements ProviderService {
     private ProviderDao providerDao;
 
 
-
+   //添加财务信息
     @Override
-    public Long addProvider(Models models) {
+    public int addProvider(Finance models) {
         return providerDao.addProvider(models);
     }
 
 
     //修改财务信息
     @Override
-    public Long updateProvider(Models models) {
+    public int updateProvider(Finance models) {
         return providerDao.updateProvider(models);
+    }
+
+    //查找财务信息
+    @Override
+    public Finance findProvider(int fk) {
+        return providerDao.findProvider(fk);
     }
 
 }

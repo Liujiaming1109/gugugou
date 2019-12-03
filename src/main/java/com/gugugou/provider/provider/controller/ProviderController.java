@@ -2,7 +2,7 @@ package com.gugugou.provider.provider.controller;
 
 
 
-import com.gugugou.provider.provider.model.Models;
+import com.gugugou.provider.provider.model.Finance;
 import com.gugugou.provider.provider.service.ProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +28,22 @@ public class ProviderController {
 
 
     //新增财务信息
-   @PostMapping("addProvider")
-    public Long addProvider(@RequestBody Models models){
+   @PostMapping("finance/addFinance")
+    public int addProvider(@RequestBody Finance models){
          return providerService.addProvider(models);
     }
 
     //修改财务信息
-    @PostMapping("updateProvider")
-    public Long updateProvider(@RequestBody Models models){
+    @PostMapping("/finance/updateFinance")
+    public int updateProvider(@RequestBody Finance models){
         return providerService.updateProvider(models);
     }
+
+    //查找财务信息
+    @GetMapping("finance/getFinanceById")
+    public Finance findProvider(@RequestParam int fk){
+       return  providerService.findProvider(fk);
+    }
+
 
 }

@@ -2,37 +2,116 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.provider.dao.ProviderDao">
 
-   <!-- <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
-       /* insert into t_common_configuration
-        (id, brand_id, brand_name, type, provider_id, provider_name, manage_status, manage_method, buckle_point, send_order_weight,
-        created_by, created_time, updated_by, updated_time, removed
-        )
-        values
-        (#{id}, #{brandId}, #{brandName}, #{type}, #{providerId}, #{providerName}, #{manageStatus}, #{manageMethod}, #{bucklePoint},
-        #{sendOrderWeight}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})*/
-    </insert>-->
     <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
         insert into t_finance
-        (id,t_provider_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
-        registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
+        (id,provider_id_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
+        registered_phone,invoice_title,invoice_recipients,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
         alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed)
         values
-        (#{id},#{tProviderFk},#{openBank},#{bankNumber},#{branchBankName},#{accountName},#{bankAddress},#{registeredAddress},#{bankDetailAddress},
-        #{registeredPhone},#{invoiceTitle},#{invoiceRecipientsPhone},#{invoiceRecipientsAddress},#{taxCode},#{taxIdentificationNumber},
+        (#{id},#{providerIdFk},#{openBank},#{bankNumber},#{branchBankName},#{accountName},#{bankAddress},#{registeredAddress},#{bankDetailAddress},
+        #{registeredPhone},#{invoiceTitle},#{invoiceRecipients},#{invoiceRecipientsPhone},#{invoiceRecipientsAddress},#{taxCode},#{taxIdentificationNumber},
         #{alipayAccountName},#{alipayNumber},#{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
 
-    <update id="updateProvider">
-        update t_finance set
-        t_provider_fk=#{tProviderFk},open_pank=#{openBank},bank_number=#{bankNumber},branch_bank_name=#{branchBankName},account_name=#{accountName},bank_address=#{bankAddress},registered_address=#{registeredAddress},bank_detailAddress=#{bankDetailAddress},
-        registered_phone=#{registeredPhone},invoice_title=#{#{invoiceTitle}},invoice_recipients_phone=#{invoiceRecipientsPhone},invoice_recipients_address=#{invoiceRecipientsAddress},tax_code=#{taxCode},tax_identification_number=#{taxIdentificationNumber},
-        alipay_account_name=#{alipayAccountName},alipay_number=#{alipayNumber},created_by=#{createdBy}, created_time=#{createdTime}, updated_by=#{updatedBy}, updated_time=#{updatedTime}, removed=#{removed} where id = #{id}
-    </update>
+    <sql id="updateProvider" >
+        UPDATE <include refid="t_finance"/>
+        <set >
+            <if test="id !=null" >
+                id = #{id},
+            </if>
+            <if test="providerIdFk !=null ">
+                rprovider_id_fk = #{providerIdFk},
+            </if>
+            <if test="openBank !=null" >
+                open_bank = #{openBank},
+            </if>
+            <if test="bankNumber !=null" >
+                bank_number = #{bankNumber},
+            </if>
+            <if test="branchBankName !=null" >
+                branch_bank_name = #{branchBankName},
+            </if>
+            <if test="accountName !=null" >
+                account_name = #{accountName},
+            </if>
+            <if test="bankAddress !=null" >
+                bank_address = #{bankAddress},
+            </if>
+            <if test=" registeredAddress !=null" >
+                registered_address = #{registeredAddress},
+            </if>
+            <if test="bankDetailAddress !=null" >
+                bank_detail_address = #{bankDetailAddress},
+            </if>
+            <if test="registeredPhone !=null" >
+                registered_phone = #{registeredPhone},
+            </if>
+            <if test="invoiceTitle !=null" >
+                invoice_title = #{invoiceTitle},
+            </if>
+            <if test="invoiceRecipients !=null" >
+                invoice_recipients = #{invoiceRecipients},
+            </if>
+            <if test="invoiceRecipientsPhone !=null" >
+                invoice_recipients_phone = #{invoiceRecipientsPhone},
+            </if>
+            <if test="invoiceRecipientsAddress !=null" >
+                invoice_recipients_address = #{invoiceRecipientsAddress},
+            </if>
+            <if test="taxCode !=null" >
+                tax_code = #{taxCode},
+            </if>
+            <if test="taxIdentificationNumber !=null" >
+                tax_identification_number = #{taxIdentificationNumber},
+            </if>
+            <if test="alipayAccountName !=null" >
+                alipay_account_name = #{alipayAccountName},
+            </if>
+            <if test="alipayNumber !=null" >
+                alipay_number = #{alipayNumber},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed},
+            </if>
+        </set>
+    </sql>
 
-    <select id="findProvider" parameterType="Integer" >
-        select id,t_provider_fk,open_pank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detailAddress,
+    <select id="findProvider" parameterType="int" resultMap="ProviderResultMap">
+        select provider_id_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
         registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
         alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
-        from t_finance where t_provider_fk = #{tProviderFk}
+        from t_finance where provider_id_fk = #{fk}
     </select>
+
+    <resultMap id="ProviderResultMap" type="com.gugugou.provider.provider.model.Finance">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="open_bank" property="openBank" jdbcType="VARCHAR"/>
+        <result column="bank_number" property="bankNumber" jdbcType="VARCHAR"/>
+        <result column="branch_bank_name" property="branchBankName" jdbcType="VARCHAR"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="bank_address" property="bankAddress" jdbcType="VARCHAR"/>
+        <result column="registered_address" property="registeredAddress" jdbcType="VARCHAR"/>
+        <result column="bank_detail_address" property="bankDetailAddress" jdbcType="VARCHAR"/>
+        <result column="registered_phone" property="registeredPhone" jdbcType="VARCHAR"/>
+        <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR"/>
+        <result column="invoice_recipients" property="invoiceRecipients" jdbcType="VARCHAR"/>
+        <result column="invoice_recipients_phone" property="invoiceRecipientsPhone" jdbcType="VARCHAR"/>
+        <result column="invoice_recipients_address" property="invoiceRecipientsAddress" jdbcType="VARCHAR"/>
+        <result column="tax_code" property="taxCode" jdbcType="VARCHAR"/>
+        <result column="tax_identification_number" property="taxIdentificationNumber" jdbcType="VARCHAR"/>
+        <result column="alipay_account_name" property="alipayAccountName" jdbcType="VARCHAR"/>
+        <result column="alipay_number" property="alipayNumber" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="VARCHAR"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
 </mapper>
