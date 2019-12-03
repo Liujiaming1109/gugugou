@@ -1,13 +1,16 @@
 package com.gugugou.provider.aptitude.service.Impl;
 
+import com.gugugou.provider.aptitude.DTO.ResponseDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +22,7 @@ import java.util.List;
  * @date 2019/12/2 15:36
  */
 @Service
+@Transactional
 public class BrandServiceImpl implements BrandService {
 
    @Resource
@@ -33,8 +37,10 @@ public class BrandServiceImpl implements BrandService {
     public Integer addAptitude(BrandModel brandModel) {
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+        Integer providerIdFk = brandModel.getProviderIdFk();
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
         for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -43,6 +49,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(trademarkList);
         List<AccessoryUrlModel> registerList = brandModel.getRegisterList();
         for (AccessoryUrlModel accessoryUrlModel : registerList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -51,6 +58,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(registerList);
         List<AccessoryUrlModel> examiningReportList = brandModel.getExaminingReportList();
         for (AccessoryUrlModel accessoryUrlModel : examiningReportList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -59,6 +67,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(examiningReportList);
         List<AccessoryUrlModel> productList = brandModel.getProductList();
         for (AccessoryUrlModel accessoryUrlModel : productList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -67,6 +76,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(productList);
         List<AccessoryUrlModel> foodManufacturerList = brandModel.getFoodManufacturerList();
         for (AccessoryUrlModel accessoryUrlModel : foodManufacturerList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -75,6 +85,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(foodManufacturerList);
         List<AccessoryUrlModel> processManufacturerList = brandModel.getProcessManufacturerList();
         for (AccessoryUrlModel accessoryUrlModel : processManufacturerList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -83,6 +94,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(processManufacturerList);
         List<AccessoryUrlModel> exitAndEntryList = brandModel.getExitAndEntryList();
         for (AccessoryUrlModel accessoryUrlModel : exitAndEntryList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -91,6 +103,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(examiningReportList);
         List<AccessoryUrlModel> saltList = brandModel.getSaltList();
         for (AccessoryUrlModel accessoryUrlModel : saltList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -99,6 +112,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(saltList);
         List<AccessoryUrlModel> importList = brandModel.getImportList();
         for (AccessoryUrlModel accessoryUrlModel : importList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -107,6 +121,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(importList);
         List<AccessoryUrlModel> halalFoodList = brandModel.getHalalFoodList();
         for (AccessoryUrlModel accessoryUrlModel : halalFoodList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -115,6 +130,7 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(halalFoodList);
         List<AccessoryUrlModel> organicFoodList = brandModel.getOrganicFoodList();
         for (AccessoryUrlModel accessoryUrlModel : organicFoodList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
@@ -123,11 +139,37 @@ public class BrandServiceImpl implements BrandService {
         brandDao.addAccessoryList(organicFoodList);
         List<AccessoryUrlModel> invoiceList = brandModel.getInvoiceList();
         for (AccessoryUrlModel accessoryUrlModel : invoiceList) {
+            accessoryUrlModel.setProviderIdFk(providerIdFk);
             accessoryUrlModel.setCreatedTime(new Date());
             accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
             accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ELEVEN);
         }
+        brandDao.addAccessoryList(invoiceList);
         return brandDao.addAptitude(brandModel);
     }
+
+    /**
+     * 带条件分页查询
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public ResponseDTO selectAptitudeList(BrandModel brandModel) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        Integer pageIndex = (brandModel.getPageIndex()-ProviderCentreConsts.INTEGER_ZERO)*(brandModel.getPageSize());
+        brandModel.setPageIndex(pageIndex);
+        List<BrandModel> brandModelList = brandDao.selectAptitudeList(brandModel);
+        if (!brandModelList.isEmpty()) {
+            responseDTO.setData(brandModelList);
+        }else {
+            responseDTO.setData(new ArrayList<>());
+        }
+        Integer count = brandDao.selectAptitudeListCount(brandModel);
+        if (null != count && count > ProviderCentreConsts.INTEGER_ZERO) {
+            responseDTO.setCount(count);
+        }
+        return responseDTO;
+    }
+
 }

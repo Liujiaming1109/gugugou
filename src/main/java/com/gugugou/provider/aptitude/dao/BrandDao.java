@@ -30,4 +30,17 @@ public interface BrandDao {
      */
     Integer addAccessoryList(List<AccessoryUrlModel> accessoryUrlModels);
 
+    /**
+     * 带条件分页查询
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectAptitudeList(BrandModel brandModel);
+
+    /**
+     * 分页数据条数
+     * @param brandModel
+     * @return
+     */
+    Integer selectAptitudeListCount(BrandModel brandModel);
 }

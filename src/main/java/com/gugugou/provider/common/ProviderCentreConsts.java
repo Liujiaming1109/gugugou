@@ -46,4 +46,18 @@ public final class ProviderCentreConsts {
     public static  final  Integer BRAND_ADDRESS_TEN = 10;
     public static  final  Integer BRAND_ADDRESS_ELEVEN = 11;
 
+    /**
+     * 常用整型 数字
+     **/
+    public static final Integer INTEGER_ZERO = 0;
+    public static final Integer INTEGER_ONE = 1;
+    public static final Integer INTEGER_TWO = 2;
+    public static final Integer INTEGER_THREE = 3;
+    public static final Integer INTEGER_FOUR = 4;
+    public static final Integer INTEGER_FIVE = 5;
+    public static final Integer INTEGER_SIX = 6;
+    public static final Integer INTEGER_SEVEN = 7;
+    public static final Integer INTEGER_EIGHT = 8;
+    public static final Integer INTEGER_NINTH = 9;
+
 }

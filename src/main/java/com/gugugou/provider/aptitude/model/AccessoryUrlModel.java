@@ -18,11 +18,11 @@ import java.util.Date;
 @ToString
 public class AccessoryUrlModel implements Serializable {
 
-    private static final long serialVersionUID = 8981536119545879716L;
+    private static final long serialVersionUID = 4900498463196980838L;
     /** 主键id */
     private Integer id ;
     /** 供应商外键id */
-    private Integer tProviderFk ;
+    private Integer providerIdFk ;
     /** 附件路径 */
     private String accessoryUrl ;
     /** 附件名称 */
@@ -43,4 +43,5 @@ public class AccessoryUrlModel implements Serializable {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
+
 }

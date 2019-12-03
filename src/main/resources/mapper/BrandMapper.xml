@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.aptitude.dao.BrandDao">
+    <resultMap id="BaseResultMap" type="com.gugugou.provider.aptitude.model.BrandModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="BIGINT"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="provider_auth_level" property="providerAuthLevel" jdbcType="INTEGER"/>
+        <result column="trademark_status" property="trademarkStatus" jdbcType="INTEGER"/>
+        <result column="trademark_start_date" property="trademarkStartDate" jdbcType="TIMESTAMP"/>
+        <result column="trademark_end_date" property="trademarkEndDate" jdbcType="VARCHAR"/>
+        <result column="brand_introduce" property="brandIntroduce" jdbcType="VARCHAR"/>
+        <result column="trade_type" property="tradeType" jdbcType="INTEGER"/>
+        <result column="buckle_point" property="bucklePoint" jdbcType="VARCHAR"/>
+        <result column="send_order_weight" property="sendOrderWeight" jdbcType="VARCHAR"/>
+        <result column="trademark_register_start_date" property="trademarkRegisterStartDate" jdbcType="TIMESTAMP"/>
+        <result column="trademark_register_end_date" property="trademarkRegisterEndDate" jdbcType="VARCHAR"/>
+        <result column="producer_deal_start_date" property="producerDealStartDate" jdbcType="TIMESTAMP"/>
+        <result column="producer_deal_end_date" property="producerDealEndDate" jdbcType="VARCHAR"/>
+        <result column="health_certificate_start_date" property="healthCertificateStartDate" jdbcType="TIMESTAMP"/>
+        <result column="health_certificate_end_date" property="healthCertificateEndDate" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
     <!--新增品牌资质-->
     <insert id="addAptitude" useGeneratedKeys="true" keyProperty="id">
         insert into t_brand
-        (id, brand_name, type_id, type, provider_id_fk, provider_name, provider_auth_level,
-        aptitude_status, trademark_start_date, trademark_end_date, brand_introduce, trade_type,
+        (id, brand_id, brand_name, type_id, type_name, provider_id_fk, provider_name, provider_auth_level,
+        trademark_status, trademark_start_date, trademark_end_date, brand_introduce, trade_type,
         buckle_point, send_order_weight, trademark_register_start_date, trademark_register_end_date,
         producer_deal_start_date, producer_deal_end_date, health_certificate_start_date, health_certificate_end_date,
         created_by, created_time, updated_by, updated_time, removed)
         values
-        (#{id}, #{brandName}, #{typeId}, #{type}, #{providerIdFk}, #{providerName}, #{providerAuthLevel}, #{aptitudeStatus},
+        (#{id}, #{brandId}, #{brandName}, #{typeId}, #{typeName}, #{providerIdFk}, #{providerName}, #{providerAuthLevel}, #{trademarkStatus},
         #{trademarkStartDate}, #{trademarkEndDate}, #{brandIntroduce}, #{tradeType}, #{bucklePoint}, #{sendOrderWeight},
         #{trademarkRegisterStartDate}, #{trademarkRegisterEndDate}, #{producerDealStartDate}, #{producerDealEndDate},
         #{healthCertificateStartDate}, #{healthCertificateEndDate}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime},
@@ -21,11 +47,76 @@
     <!--批量新增品牌资质的附件-->
     <insert id="addAccessoryList" parameterType="list" useGeneratedKeys="false" >
         insert into t_accessory_url
-        (id, t_provider_fk, accessory_url, accessory_name, accessory_source, accessory_address, created_by, created_time, updated_by, updated_time, removed)
+        (id, provider_id_fk, accessory_url, accessory_name, accessory_source, accessory_address, created_by, created_time, updated_by, updated_time, removed)
         values
         <foreach collection="list" item="item" separator=",">
-            (#{item.id}, #{item.tProviderFk}, #{item.accessoryUrl}, #{item.accessoryName}, #{item.accessorySource}, #{item.accessoryAddress},
+            (#{item.id}, #{item.providerIdFk}, #{item.accessoryUrl}, #{item.accessoryName}, #{item.accessorySource}, #{item.accessoryAddress},
             #{item.createdBy}, #{item.createdTime}, #{item.updatedBy}, #{item.updatedTime}, #{item.removed})
         </foreach>
     </insert>
+<!--条件查询字段-->
+    <sql id="pageConditions">
+        <where>
+            removed = 0
+            <if test="brandId != null" >
+                and brand_id like concat('%', #{brandId}, '%')
+            </if>
+            <if test="brandName != '' and brandName != null">
+                and brand_name like concat('%', #{brandName}, '%')
+            </if>
+            <if test="providerName != '' and providerName != null" >
+                and provider_name like concat('%', #{providerName}, '%')
+            </if>
+            <if test="typeName != '' and typeName != null">
+                and type_name like concat('%', #{typeName}, '%')
+            </if>
+            <if test="trademarkStatus != null">
+                and trademark_status like concat('%', #{trademarkStatus}, '%')
+            </if>
+        </where>
+    </sql>
+<!--基本字段-->
+    <sql id="baseColumnList">
+        id,
+        brand_id,
+        brand_name,
+        type_id,
+        type_name,
+        provider_id_fk,
+        provider_name,
+        provider_auth_level,
+        trademark_status,
+        trademark_start_date,
+        trademark_end_date,
+        brand_introduce,
+        trade_type,
+        buckle_point,
+        send_order_weight,
+        trademark_register_start_date,
+        trademark_register_end_date,
+        producer_deal_start_date,
+        producer_deal_end_date,
+        health_certificate_start_date,
+        health_certificate_end_date,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time,
+        removed
+    </sql>
+    <!--查询品牌列表-->
+    <select id="selectAptitudeList" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from t_brand
+        <include refid="pageConditions"/>
+        order by created_time desc
+        limit #{pageIndex}, #{pageSize}
+    </select>
+
+<!--查询品牌列表数据条数-->
+    <select id="selectAptitudeListCount" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultType="integer">
+        select count(1)
+        from t_brand
+        <include refid="pageConditions"/>
+    </select>
 </mapper>
