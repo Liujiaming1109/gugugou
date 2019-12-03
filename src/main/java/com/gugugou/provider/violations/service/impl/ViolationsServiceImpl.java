@@ -28,7 +28,7 @@ public class ViolationsServiceImpl implements ViolationsService {
 
         violations.setCreatedBy("岳利涛");
         violations.setCreatedTime(new Date());
-        violations.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+        violations.setRemoved(ProviderCentreConsts.REVISION_ZERO);
 
         return violationsDao.addTicket(violations);
     }

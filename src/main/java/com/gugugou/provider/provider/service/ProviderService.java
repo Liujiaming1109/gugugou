@@ -18,6 +18,4 @@ public interface ProviderService {
    //修改财务信息
     Long updateProvider(Models models);
 
-    //查找财务信息
-   /* Models findProvider(Integer tProviderFk);*/
 }

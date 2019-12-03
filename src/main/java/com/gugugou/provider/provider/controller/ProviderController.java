@@ -26,11 +26,6 @@ public class ProviderController {
     @Resource
     private ProviderService providerService;
 
-    /*@PostMapping("addProvider")
-    public Long addProvider(@RequestBody ProviderModel providerModel) {
-        logger.info("新增---providerModel: {}", providerModel);
-        return providerService.addProvider(providerModel);
-    }*/
 
     //新增财务信息
    @PostMapping("addProvider")
@@ -43,13 +38,5 @@ public class ProviderController {
     public Long updateProvider(@RequestBody Models models){
         return providerService.updateProvider(models);
     }
-
-   /* //查询财务信息
-    @PostMapping("findProvider")
-    public Models findprovider(@RequestBody Integer tProviderFk){
-        return providerService.findProvider(tProviderFk);
-    }*/
-
-
 
 }

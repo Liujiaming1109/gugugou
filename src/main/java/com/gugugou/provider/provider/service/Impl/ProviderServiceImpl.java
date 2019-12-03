@@ -21,16 +21,10 @@ public class ProviderServiceImpl implements ProviderService {
     @Resource
     private ProviderDao providerDao;
 
-   /* @Resource
-    private ProviderModel providerModel;*/
 
-    //新增财务信息
 
     @Override
     public Long addProvider(Models models) {
-       /* providerModel.setCreatedBy("");
-        providerModel.setCreatedTime(new Date());
-        providerModel.setRemoved(ProviderCentreConsts.REVISION_ZERO);*/
         return providerDao.addProvider(models);
     }
 
@@ -41,17 +35,4 @@ public class ProviderServiceImpl implements ProviderService {
         return providerDao.updateProvider(models);
     }
 
-    //查询财务信息
-  /*  @Override
-    public Models findProvider(Integer tProviderFk) {
-        return providerDao.findProvider(tProviderFk);
-    }
-*/
-   /* @Override
-    public Long addProvider(ProviderModel providerModel) {
-        providerModel.setCreatedBy("程绍绍");
-        providerModel.setCreatedTime(new Date());
-        providerModel.setRemoved(ProviderCentreConsts.REVISION_ZERO);
-        return providerDao.addProvider(providerModel);
-    }*/
 }
