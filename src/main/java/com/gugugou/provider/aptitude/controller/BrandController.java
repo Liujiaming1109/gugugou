@@ -4,6 +4,7 @@ import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,6 +31,7 @@ public class BrandController {
      * @param brandModel
      * @return
      */
+    @PostMapping("addBrand")
     public Long addBrand(BrandModel brandModel) {
         logger.info("新增品牌资质的入参--brandModel：{}",brandModel);
         return brandService.addBrand(brandModel);

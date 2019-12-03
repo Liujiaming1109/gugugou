@@ -1,6 +1,8 @@
 package com.gugugou.provider.aptitude.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,9 +14,11 @@ import java.util.Date;
  * @Description:
  * @date 2019/12/2 16:37
  */
+@Data
+@ToString
 public class AccessoryUrlModel implements Serializable {
 
-    private static final long serialVersionUID = -2642010022034420197L;
+    private static final long serialVersionUID = 8981536119545879716L;
     /** 主键id */
     private Integer id ;
     /** 供应商外键id */
@@ -24,9 +28,9 @@ public class AccessoryUrlModel implements Serializable {
     /** 附件名称 */
     private String accessoryName ;
     /** 附件来源;0:资质信息,1:品牌资质 */
-    private String accessorySource ;
+    private Integer accessorySource ;
     /** 附件位置 */
-    private String accessoryAddress ;
+    private Integer accessoryAddress ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
