@@ -21,7 +21,7 @@ public interface BrandDao {
      * @param brandModel
      * @return
      */
-    Long addBrand(BrandModel brandModel);
+    Integer addAptitude(BrandModel brandModel);
 
     /**
      * 批量新增附件路径

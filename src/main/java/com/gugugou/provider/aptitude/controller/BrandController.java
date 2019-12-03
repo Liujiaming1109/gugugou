@@ -31,9 +31,9 @@ public class BrandController {
      * @param brandModel
      * @return
      */
-    @PostMapping("addBrand")
-    public Long addBrand(BrandModel brandModel) {
+    @PostMapping("addAptitude")
+    public Integer addAptitude(BrandModel brandModel) {
         logger.info("新增品牌资质的入参--brandModel：{}",brandModel);
-        return brandService.addBrand(brandModel);
+        return brandService.addAptitude(brandModel);
     }
 }

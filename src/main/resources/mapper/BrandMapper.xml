@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.aptitude.dao.BrandDao">
     <!--新增品牌资质-->
-    <insert id="addBrand" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addAptitude" useGeneratedKeys="true" keyProperty="id">
         insert into t_brand
         (id, brand_name, type_id, type, provider_id_fk, provider_name, provider_auth_level,
         aptitude_status, trademark_start_date, trademark_end_date, brand_introduce, trade_type,

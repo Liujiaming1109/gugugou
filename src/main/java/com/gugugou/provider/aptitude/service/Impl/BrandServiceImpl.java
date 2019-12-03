@@ -30,7 +30,7 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
-    public Long addBrand(BrandModel brandModel) {
+    public Integer addAptitude(BrandModel brandModel) {
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
@@ -128,6 +128,6 @@ public class BrandServiceImpl implements BrandService {
             accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
             accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ELEVEN);
         }
-        return brandDao.addBrand(brandModel);
+        return brandDao.addAptitude(brandModel);
     }
 }
