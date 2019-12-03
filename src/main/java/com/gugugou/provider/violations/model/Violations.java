@@ -1,10 +1,12 @@
 package com.gugugou.provider.violations.model;
 
+import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString
@@ -33,4 +35,6 @@ public class Violations implements Serializable {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
+    /**新增附件集合*/
+    private List<AccessoryUrlModel> accessoryList;
 }

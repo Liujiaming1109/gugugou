@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gugugou.provider.violations.dao.ViolationsDao">
-    <insert id="addTicket" useGeneratedKeys="true">
+    
+    <sql id="Base_Colum_List">
+         id, provider_id_fk, provider_name, punish_type, punish_sku_id, punish_amount,
+         punish_status, created_by, created_time, updated_by, updated_time, removed
+    </sql>
+    
+    <insert id="addTicket" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="com.gugugou.provider.violations.model.Violations">
         insert into t_violations
-        (id, provider_id_fk, provider_name, punish_type, punish_sku_id, punish_amount,
-         punish_status, created_by, created_time, updated_by, updated_time, removed)
+            (<include refid="Base_Colum_List"></include>)
         values
-        (#{providerIdFk},#{providerName},#{punishType},#{punishSkuId},#{punishAmount},
-        #{punishStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},
-        #{removed})
+            (#{id},#{providerIdFk},#{providerName},#{punishType},#{punishSkuId},#{punishAmount},
+            #{punishStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},
+            #{removed})
     </insert>
-    <update id="updateTicket" useGeneratedKeys="true">
-        update
+
+    <update id="updateTicket" parameterType="com.gugugou.provider.violations.model.Violations">
+        update t_violations
+            <trim prefix="set" suffixOverrides=",">
+                <if test="providerIdFk!=null">provider_id_fk=#{providerIdFk},</if>
+                <if test="providerName!=null and providerName.trim()!=''">provider_name=#{providerName},</if>
+                <if test="punishType!=null and punishType.trim()!=''">punish_type=#{punishType},</if>
+                <if test="punishSkuId!=null and punishSkuId.trim()!=''">punish_sku_id=#{punishSkuId},</if>
+                <if test="punishAmount!=null">punish_amount=#{punishAmount},</if>
+                <if test="punishStatus!=null">punish_status=#{punishStatus},</if>
+                <if test="updatedBy!=null and updatedBy.trim()!=''">updated_by=#{updatedBy},</if>
+                <if test="updatedTime!=null">updated_time=#{updatedTime}</if>
+            </trim>
+        where
+            id=#{id}
     </update>
-    <select id="getTicketById" resultType="com.gugugou.provider.violations.model.Violations">
-        select * from t_violations where provider_id_fk = #{id};
+    
+    <resultMap id="BASE_COLUMN_MAP" type="com.gugugou.provider.violations.model.Violations">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="providerIdFk" column="provider_id_fk" jdbcType="INTEGER"/>
+        <result property="providerName" column="provider_name" jdbcType="VARCHAR"/>
+        <result property="punishType" column="punish_type" jdbcType="VARCHAR"/>
+        <result property="punishSkuId" column="punish_sku_id" jdbcType="VARCHAR"/>
+        <result property="punishAmount" column="punish_amount" jdbcType="DOUBLE"/>
+        <result property="punishStatus" column="punish_status" jdbcType="INTEGER"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="DATE"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="updated_time" jdbcType="DATE"/>
+        <result property="removed" column="removed" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <select id="getTicketById" parameterType="java.lang.Integer" resultMap="BASE_COLUMN_MAP">
+        select
+            <include refid="Base_Colum_List"></include>
+        from t_violations where id = #{id};
     </select>
-    <select id="selectTicketList" resultType="com.gugugou.provider.violations.model.Violations">
-        select * from t_violations;t_violations
+
+    <select id="selectTicketList" parameterType="com.gugugou.provider.violations.model.Violations" resultMap="BASE_COLUMN_MAP">
+        select
+            <include refid="Base_Colum_List"></include>
+        from t_violations;
     </select>
 </mapper>

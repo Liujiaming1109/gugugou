@@ -16,6 +16,11 @@ public class ViolationsServiceImpl implements ViolationsService {
     @Resource
     public ViolationsDao violationsDao;
 
+    /**
+     * 查询单条处罚单
+     * @param id
+     * @return
+     */
     @Override
     public Violations getTicketById(Integer id) {
 
@@ -23,8 +28,16 @@ public class ViolationsServiceImpl implements ViolationsService {
         return ticket;
     }
 
+    /**
+     * 新增处罚单
+     * @param violations
+     * @return
+     */
     @Override
     public Integer addTicket(Violations violations) {
+        /**
+         * 供应商id和供应商名称从前台获取
+         */
 
         violations.setCreatedBy("岳利涛");
         violations.setCreatedTime(new Date());
@@ -33,9 +46,17 @@ public class ViolationsServiceImpl implements ViolationsService {
         return violationsDao.addTicket(violations);
     }
 
+    /**
+     * 更新处罚单
+     * @param violations
+     * @return
+     */
     @Override
     public Integer updateTicket(Violations violations) {
-        return null;
+
+        violations.setUpdatedBy("李白");
+        violations.setUpdatedTime(new Date());
+        return violationsDao.updateTicket(violations);
     }
 
     @Override
