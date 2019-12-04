@@ -2,10 +2,7 @@ package com.gugugou.provider.provider.controller;
 
 import com.gugugou.provider.provider.model.Information;
 import com.gugugou.provider.provider.service.InformationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -13,11 +10,29 @@ import javax.annotation.Resource;
 @RestController
 public class InformationController {
 
-     @Resource
-     private InformationService informationService;
+    @Resource
+    private InformationService informationService;
 
-     @PostMapping("base/addbase")
-     public int addInformation(@RequestBody Information information){
-         return informationService.addInformation(information);
-     }
+    /**
+     * 添加供应商的基本信息
+     */
+    @PostMapping("base/addbase")
+    public int addInformation(@RequestBody Information information) {
+        return informationService.addInformation(information);
+    }
+
+    /**
+     * 查看供应商的基本信息
+     */
+    @GetMapping("base/findById")
+    public Information findInformation(@RequestParam int id) {
+        Information informationById = informationService.findInformationById(id);
+        return informationById;
+    }
+
+    /**修改供应商的基本信息*/
+    @PostMapping("base/updatebase")
+    public int updateInformation(@RequestBody Information information){
+           return informationService.updateInformation(information);
+    }
 }

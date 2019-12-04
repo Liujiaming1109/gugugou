@@ -3,16 +3,24 @@ package com.gugugou.provider.provider.model;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString
-public class Information {
+public class Information implements Serializable {
 
     /**主键*/
     private int id;
+    /**供应商id*/
+    private int providerIdFk;
+    /**结算周期*/
+    private int settlementInterval;
     /**公司名称*/
     private String companyName;
+    /**公司邮件*/
+    private String companyEmail;
     /**合同id*/
     private String contactId;
     /**合同开始时间*/
@@ -37,16 +45,6 @@ public class Information {
     private String manageMethod;
     /**公司介绍*/
     private String companyIntroduce;
-    /**联系人类别 0:负责人,1:对接人,2:物流联系人,3:退货对接人*/
-    private String contactType;
-    /**联系人姓名*/
-    private String contactName;
-    /**联系人手机*/
-    private String contactPhone;
-    /**联系人微信*/
-    private String contactWechat;
-    /**联系人钉钉*/
-    private String contactDingding;
     /*创建人*/
     private String createdBy;
     /*创建时间*/
@@ -57,6 +55,7 @@ public class Information {
     private Date updatedTime;
     /*逻辑删除*/
     private int removed;
-
+    /**联系人的sku表*/
+    private List<InformationContact> informationContacts;
 
 }

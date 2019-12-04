@@ -2,31 +2,126 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.provider.dao.InformationDao">
 
-
+    <!--添加供应商基本信息-->
     <insert id="addInformation" useGeneratedKeys="true" keyProperty="id">
         insert into t_provider
-         (company_name,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number
+         (provider_id_fk,company_name,company_email,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number,
           business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,created_by, created_time, updated_by, updated_time, removed)
           values
-          (#{companyName},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
+          (#{providerIdFk},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
           #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},
           #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
 
     </insert>
-    
-    <insert id="addInformations" parameterType="java.util.List">
-        insert into t_provider_contact (contact_type,contact_name,contact_phone,contact_wechat,contact_dingding,created_by, created_time, updated_by, updated_time, removed) values
-        <foreach collection="list" separator="," item="information">
-            (#{information.contactType},#{information.contactName},#{information.contactPhone},#{information.contactDingding},{information.createdBy}, #{information.createdTime},
-             #{information.updatedBy}, #{information.updatedTime}, #{information.removed})
-        </foreach>
-
-
+    <!--添加联系人-->
+    <insert id="addInformationContact">
+        insert into t_provider_contact
+        (provider_id_fk,contact_type,contact_name,contact_phone,contact_email,contact_dingding,created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{providerIdFk},#{contactType},#{contactName},#{contactPhone},#{contactEmail}, #{contactDingding},#{createdBy},#{createdTime},#{updatedBy}, #{updatedTime}, #{removed})
     </insert>
+
+    <!--查看基本信息-->
+    <!--<select id="findInformationById" parameterType="int" resultMap="InformationById">
+         SELECT * from t_provider p left JOIN t_provider_contact  c on p.provider_id_fk = c.provider_id_fk where p.provider_id_fk = #{id}
+    </select>-->
+
     
+    <!--修改供应商的基本信息-->
+    <update id="updateInformation" >
+        UPDATE t_provider
+        <set >
+            <if test="companyName !=null" >
+                company_name = #{companyName},
+            </if>
+            <if test="companyEmail !=null" >
+                company_email = #{companyEmail},
+            </if>
+            <if test="manageMethod !=null" >
+                manage_method = #{manageMethod},
+            </if>
+            <if test="contactId !=null" >
+                contact_id = #{contactId},
+            </if>
+            <if test="contactStartDate !=null" >
+                contact_start_date = #{contactStartDate},
+            </if>
+            <if test=" contactEndDate !=null" >
+                contact_end_date = #{contactEndDate},
+            </if>
+            <if test="isContactExtension !=null" >
+                is_contact_extension = #{isContactExtension},
+            </if>
+            <if test="companyAddress !=null" >
+                company_address = #{companyAddress},
+            </if>
+            <if test="permitNumber !=null" >
+                permit_number = #{permitNumber},
+            </if>
+            <if test="businessPeople !=null" >
+                business_people = #{businessPeople},
+            </if>
+            <if test="businessPeopleCardId !=null" >
+                business_people_card_id = #{businessPeopleCardId},
+            </if>
+            <if test="source !=null" >
+                source = #{source},
+            </if>
+            <if test="isTaxpayer !=null" >
+                is_taxpayer = #{isTaxpayer},
+            </if>
+            <if test="companyIntroduce !=null" >
+                company_introduce = #{companyIntroduce},
+            </if>
+            <if test="providerIdFk !=null" >
+                provider_id_fk = #{providerIdFk},
+            </if>
+            <if test="settlementInterval !=null" >
+                settlement_interval = #{settlementInterval},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed},
+            </if>
+        </set>
+        where provider_id_fk = #{providerIdFk}
+    </update>
 
-    <update id="updateInformation">
-
+     <!--修改联系人-->
+    <update id="updateInformationContact" >
+        UPDATE t_provider_contact
+        <set >
+            <if test="contactType !=null" >
+                contact_type = #{contactType},
+            </if>
+            <if test="contactName !=null" >
+                contact_name = #{contactName},
+            </if>
+            <if test="contactPhone !=null" >
+                contact_phone = #{contactPhone},
+            </if>
+            <if test="contactDingding !=null" >
+                contact_dingding= #{contactDingding},
+            </if>
+            <if test=" contactEmail !=null" >
+                contact_email = #{contactEmail},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed},
+            </if>
+        </set>
+        where provider_id_fk = #{providerIdFk}
     </update>
 
     <select id="findInformation" parameterType="Integer" >

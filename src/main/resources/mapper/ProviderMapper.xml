@@ -13,14 +13,11 @@
         #{alipayAccountName},#{alipayNumber},#{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
 
-    <sql id="updateProvider" >
-        UPDATE <include refid="t_finance"/>
+    <update id="updateProvider" >
+        UPDATE t_finance
         <set >
             <if test="id !=null" >
                 id = #{id},
-            </if>
-            <if test="providerIdFk !=null ">
-                rprovider_id_fk = #{providerIdFk},
             </if>
             <if test="openBank !=null" >
                 open_bank = #{openBank},
@@ -80,12 +77,17 @@
                 removed = #{removed},
             </if>
         </set>
+        where provider_id_fk = #{providerIdFk}
+    </update>
+
+    <sql id="findProvider">
+        provider_id_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
+        registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
+        alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
     </sql>
 
     <select id="findProvider" parameterType="int" resultMap="ProviderResultMap">
-        select provider_id_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
-        registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
-        alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
+        select <include refid="findProvider"></include>
         from t_finance where provider_id_fk = #{fk}
     </select>
 
