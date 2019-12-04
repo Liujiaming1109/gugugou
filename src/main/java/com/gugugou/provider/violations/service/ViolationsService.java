@@ -1,5 +1,6 @@
 package com.gugugou.provider.violations.service;
 
+import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.violations.model.Violations;
 
 import java.util.List;

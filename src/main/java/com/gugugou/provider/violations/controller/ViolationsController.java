@@ -2,6 +2,8 @@ package com.gugugou.provider.violations.controller;
 
 import com.gugugou.provider.violations.model.Violations;
 import com.gugugou.provider.violations.service.ViolationsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("violations")
 @RestController
 public class ViolationsController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public ViolationsService violationsService;
@@ -22,6 +26,7 @@ public class ViolationsController {
      */
     @GetMapping("ticket/getTicketById")
     public Violations getTicketById(@RequestParam Integer id){
+        logger.info("查询单条违规处罚单的入参：{}",id);
         Violations violations = violationsService.getTicketById(id);
         return violations;
     }
@@ -33,7 +38,7 @@ public class ViolationsController {
      */
     @PostMapping("ticket/addTicket")
     public Integer addTicket(@RequestBody Violations violations){
-
+        logger.info("新增违规处罚的入参：{}",violations);
         return violationsService.addTicket(violations);
     }
 
@@ -44,7 +49,7 @@ public class ViolationsController {
      */
     @PostMapping("ticket/updateTicket")
     public Integer updateTicket(@RequestBody Violations violations){
-
+        logger.info("修改违规处罚的入参：{}",violations);
         return violationsService.updateTicket(violations);
     }
 }

@@ -35,6 +35,6 @@ public class Violations implements Serializable {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
-    /**新增附件集合*/
+    /**附件集合*/
     private List<AccessoryUrlModel> accessoryList;
 }

@@ -1,5 +1,6 @@
 package com.gugugou.provider.violations.dao;
 
+import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.violations.model.Violations;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ViolationsDao {
     /**
-     * 根据供应商id查询处罚单
+     * 查询单条处罚单
      * @param id
      * @return
      */
@@ -20,6 +21,13 @@ public interface ViolationsDao {
      * @return
      */
     Integer addTicket(Violations violations);
+
+    /**
+     * 新增违规处罚附件集合
+     * @param accessoryList
+     * @return
+     */
+    Integer addAccessoryUrlModelList(List<AccessoryUrlModel> accessoryList);
 
     /**
      * 修改违规处罚单
@@ -34,4 +42,5 @@ public interface ViolationsDao {
      * @return
      */
     List<Violations> selectTicketList(Violations violations);
+
 }
