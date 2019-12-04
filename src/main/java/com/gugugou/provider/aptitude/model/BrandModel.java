@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class BrandModel implements Serializable {
 
-    private static final long serialVersionUID = -3146823917046911251L;
+    private static final long serialVersionUID = -8314702360833500767L;
     /** 当前页面 */
     private Integer pageIndex;
     /** 每页数据 */
@@ -52,9 +52,9 @@ public class BrandModel implements Serializable {
     /** 贸易方式 */
     private Integer tradeType ;
     /** 扣点 */
-    private String bucklePoint ;
+    private Integer bucklePoint ;
     /** 派单权重 */
-    private String sendOrderWeight ;
+    private Integer sendOrderWeight ;
     /** 商标注册证生效日期 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date trademarkRegisterStartDate ;

@@ -36,119 +36,149 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Integer addAptitude(BrandModel brandModel) {
+        List<BrandModel> brandModelList = brandDao.selectProviderPriorityList(brandModel);
+        if (!brandModelList.isEmpty()) {
+            brandModel.setSendOrderWeight(brandModelList.size()+ProviderCentreConsts.INTEGER_ONE);
+        }else {
+            brandModel.setSendOrderWeight(ProviderCentreConsts.INTEGER_ONE);
+        }
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         brandDao.addAptitude(brandModel);
         Integer id = brandModel.getId();
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
-        for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
+        if (!trademarkList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
+            }
+            brandDao.addAccessoryList(trademarkList);
         }
-        brandDao.addAccessoryList(trademarkList);
         List<AccessoryUrlModel> registerList = brandModel.getRegisterList();
-        for (AccessoryUrlModel accessoryUrlModel : registerList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ONE);
+        if (!registerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : registerList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ONE);
+            }
+            brandDao.addAccessoryList(registerList);
         }
-        brandDao.addAccessoryList(registerList);
         List<AccessoryUrlModel> examiningReportList = brandModel.getExaminingReportList();
-        for (AccessoryUrlModel accessoryUrlModel : examiningReportList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_TWO);
+        if (!examiningReportList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : examiningReportList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_TWO);
+            }
+            brandDao.addAccessoryList(examiningReportList);
         }
-        brandDao.addAccessoryList(examiningReportList);
         List<AccessoryUrlModel> productList = brandModel.getProductList();
-        for (AccessoryUrlModel accessoryUrlModel : productList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_THREE);
+        if (!productList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : productList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_THREE);
+            }
+            brandDao.addAccessoryList(productList);
         }
-        brandDao.addAccessoryList(productList);
         List<AccessoryUrlModel> foodManufacturerList = brandModel.getFoodManufacturerList();
-        for (AccessoryUrlModel accessoryUrlModel : foodManufacturerList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FOUR);
+        if (!foodManufacturerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : foodManufacturerList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FOUR);
+            }
+            brandDao.addAccessoryList(foodManufacturerList);
         }
-        brandDao.addAccessoryList(foodManufacturerList);
         List<AccessoryUrlModel> processManufacturerList = brandModel.getProcessManufacturerList();
-        for (AccessoryUrlModel accessoryUrlModel : processManufacturerList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FIVE);
+        if (!processManufacturerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : processManufacturerList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FIVE);
+            }
+            brandDao.addAccessoryList(processManufacturerList);
         }
-        brandDao.addAccessoryList(processManufacturerList);
         List<AccessoryUrlModel> exitAndEntryList = brandModel.getExitAndEntryList();
-        for (AccessoryUrlModel accessoryUrlModel : exitAndEntryList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_SIX);
+        if (!exitAndEntryList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : exitAndEntryList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_SIX);
+            }
+            brandDao.addAccessoryList(examiningReportList);
         }
-        brandDao.addAccessoryList(examiningReportList);
         List<AccessoryUrlModel> saltList = brandModel.getSaltList();
-        for (AccessoryUrlModel accessoryUrlModel : saltList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_SEVEN);
+        if (!saltList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : saltList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_SEVEN);
+            }
+            brandDao.addAccessoryList(saltList);
         }
-        brandDao.addAccessoryList(saltList);
         List<AccessoryUrlModel> importList = brandModel.getImportList();
-        for (AccessoryUrlModel accessoryUrlModel : importList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_EIGHT);
+        if (!importList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : importList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_EIGHT);
+            }
+            brandDao.addAccessoryList(importList);
         }
-        brandDao.addAccessoryList(importList);
         List<AccessoryUrlModel> halalFoodList = brandModel.getHalalFoodList();
-        for (AccessoryUrlModel accessoryUrlModel : halalFoodList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_NINE);
+        if (!halalFoodList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : halalFoodList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_NINE);
+            }
+            brandDao.addAccessoryList(halalFoodList);
         }
-        brandDao.addAccessoryList(halalFoodList);
         List<AccessoryUrlModel> organicFoodList = brandModel.getOrganicFoodList();
-        for (AccessoryUrlModel accessoryUrlModel : organicFoodList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_TEN);
+        if (!organicFoodList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : organicFoodList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_TEN);
+            }
+            brandDao.addAccessoryList(organicFoodList);
         }
-        brandDao.addAccessoryList(organicFoodList);
         List<AccessoryUrlModel> invoiceList = brandModel.getInvoiceList();
-        for (AccessoryUrlModel accessoryUrlModel : invoiceList) {
-            accessoryUrlModel.setBrandIdFk(id);
-            accessoryUrlModel.setCreatedTime(new Date());
-            accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-            accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
-            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ELEVEN);
+        if (!invoiceList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : invoiceList) {
+                accessoryUrlModel.setBrandIdFk(id);
+                accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
+                accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ONE);
+                accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ELEVEN);
+            }
+            brandDao.addAccessoryList(invoiceList);
         }
-        brandDao.addAccessoryList(invoiceList);
-        return id;
+            return id;
     }
 
     /**
@@ -193,4 +223,137 @@ public class BrandServiceImpl implements BrandService {
         return  brandResponseDTO;
     }
 
+    /**
+     * 编辑品牌资质
+     * @param brandModel
+     * @return
+     */
+    @SuppressWarnings("all")
+    @Override
+    public Integer updateAptitude(BrandModel brandModel) {
+        brandModel.setUpdatedTime(new Date());
+        int aptitude = brandDao.updateAptitude(brandModel);
+        List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
+        if (!trademarkList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> registerList = brandModel.getRegisterList();
+        if (!registerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : registerList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> examiningReportList = brandModel.getExaminingReportList();
+        if (!examiningReportList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : examiningReportList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> productList = brandModel.getProductList();
+        if (!productList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : productList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> foodManufacturerList = brandModel.getFoodManufacturerList();
+        if (!foodManufacturerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : foodManufacturerList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> processManufacturerList = brandModel.getProcessManufacturerList();
+        if (!processManufacturerList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : processManufacturerList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> exitAndEntryList = brandModel.getExitAndEntryList();
+        if (!exitAndEntryList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : exitAndEntryList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> saltList = brandModel.getSaltList();
+        if (!saltList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : saltList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> importList = brandModel.getImportList();
+        if (!importList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : importList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> halalFoodList = brandModel.getHalalFoodList();
+        if (!halalFoodList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : halalFoodList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> organicFoodList = brandModel.getOrganicFoodList();
+        if (!organicFoodList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : organicFoodList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        List<AccessoryUrlModel> invoiceList = brandModel.getInvoiceList();
+        if (!invoiceList.isEmpty()) {
+            for (AccessoryUrlModel accessoryUrlModel : invoiceList) {
+                accessoryUrlModel.setUpdatedTime(new Date());
+                brandDao.updateAccessory(accessoryUrlModel);
+            }
+        }
+        return aptitude;
+    }
+
+    /**
+     * 删除品牌资质附件
+     * @param accessoryUrlModel
+     * @return
+     */
+    @Override
+    public Integer deleteAccessory(AccessoryUrlModel accessoryUrlModel) {
+        accessoryUrlModel.setUpdatedTime(new Date());
+        return brandDao.deleteAccessory(accessoryUrlModel);
+    }
+
+    /**
+     * 查询品牌在该类目下的其他供应商（修改优先级用）
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public List<BrandModel> selectProviderPriorityListOne(BrandModel brandModel) {
+        return brandDao.selectProviderPriorityList(brandModel);
+    }
+
+    /**
+     * 修改派单优先级
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public Integer updateProvider(BrandModel brandModel) {
+        List<BrandModel> brandModelList = brandDao.selectProviderPriorityListOne(brandModel);
+//        if (!brandModelList.isEmpty()) {
+//
+//        }else {
+//
+//        }
+        return null;
+    }
 }

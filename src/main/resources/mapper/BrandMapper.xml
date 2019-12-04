@@ -15,8 +15,8 @@
         <result column="trademark_end_date" property="trademarkEndDate" jdbcType="VARCHAR"/>
         <result column="brand_introduce" property="brandIntroduce" jdbcType="VARCHAR"/>
         <result column="trade_type" property="tradeType" jdbcType="INTEGER"/>
-        <result column="buckle_point" property="bucklePoint" jdbcType="VARCHAR"/>
-        <result column="send_order_weight" property="sendOrderWeight" jdbcType="VARCHAR"/>
+        <result column="buckle_point" property="bucklePoint" jdbcType="INTEGER"/>
+        <result column="send_order_weight" property="sendOrderWeight" jdbcType="INTEGER"/>
         <result column="trademark_register_start_date" property="trademarkRegisterStartDate" jdbcType="TIMESTAMP"/>
         <result column="trademark_register_end_date" property="trademarkRegisterEndDate" jdbcType="VARCHAR"/>
         <result column="producer_deal_start_date" property="producerDealStartDate" jdbcType="TIMESTAMP"/>
@@ -224,7 +224,7 @@
                 health_certificate_start_date = #{healthCertificateStartDate},
             </if>
             <if test="healthCertificateEndDate !=null" >
-                health_certificate_end_date = #{},
+                health_certificate_end_date = #{healthCertificateEndDate},
             </if>
             <if test="updatedBy !=null" >
                 updated_by = #{updatedBy},
@@ -236,13 +236,75 @@
                 removed = #{removed}
             </if>
         </set>
-        where id = #{id}
+        where id = #{id};
+    </update>
+
+<!--编辑品牌资质附件-->
+    <update id="updateAccessory" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        update t_accessory_url
+        <set>
+            <if test="accessoryUrl != null">
+                accessory_url = #{accessoryUrl},
+            </if>
+            <if test="accessoryName != null">
+                accessory_name = #{accessoryName},
+            </if>
+            <if test="accessorySource != null">
+                accessory_source = #{accessorySource},
+            </if>
+            <if test="accessoryAddress != null">
+                accessory_address = #{accessoryAddress},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+            where id = #{id};
     </update>
 
 <!--删除品牌资质附件-->
-    <delete id="deleteAccessoryById" parameterType="integer">
+    <delete id="deleteAccessory" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
         update t_accessory_url
         set removed = 1, updated_by = #{updatedBy}, updated_time = #{updatedTime}
         where id = #{id};
     </delete>
+
+<!--查询品牌在该类目下的其他供应商（新增品牌资质用）-->
+    <select id="selectProviderPriorityList" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select
+        id,
+        provider_name,
+        send_order_weight
+        from t_brand
+        where brand_id = #{brandId}
+        and type_id = #{typeId}
+        and removed = 0;
+    </select>
+
+    <!--查询品牌在该类目下的其他供应商（修改优先级用）-->
+    <select id="selectProviderPriorityListOne" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select
+        id,
+        provider_name,
+        send_order_weight
+        from t_brand
+        where brand_id = #{brandId}
+        and type_id = #{typeId}
+        and removed = 0
+        and id != #{id}
+        order by send_order_weight asc;
+    </select>
+
+<!--修改派单优先级-->
+    <update id="updateProvider" parameterType="com.gugugou.provider.aptitude.model.BrandModel">
+        update t_brand
+        set send_order_weight = #{sendOrderWeight}, updated_by = #{updatedBy}, updated_time = #{updatedTime}
+        where id = #{id};
+    </update>
 </mapper>

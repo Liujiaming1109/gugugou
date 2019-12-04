@@ -1,8 +1,11 @@
 package com.gugugou.provider.aptitude.service;
 
 import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ResponseDTO;
+
+import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -34,4 +37,31 @@ public interface BrandService {
      */
     BrandResponseDTO getAptitudeById(Integer id);
 
+    /**
+     * 编辑品牌资质
+     * @param brandModel
+     * @return
+     */
+    Integer updateAptitude(BrandModel brandModel);
+
+    /**
+     * 删除品牌资质附件
+     * @param accessoryUrlModel
+     * @return
+     */
+    Integer deleteAccessory(AccessoryUrlModel accessoryUrlModel);
+
+    /**
+     * 查询品牌在该类目下的其他供应商（修改优先级用）
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectProviderPriorityListOne(BrandModel brandModel);
+
+    /**
+     * 修改派单优先级
+     * @param brandModel
+     * @return
+     */
+    Integer updateProvider(BrandModel brandModel);
 }

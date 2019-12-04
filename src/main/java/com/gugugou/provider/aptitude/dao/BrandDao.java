@@ -18,20 +18,23 @@ public interface BrandDao {
 
     /**
      * 新增品牌资质
+     *
      * @param brandModel
      * @return
      */
-    Integer addAptitude(BrandModel brandModel);
+    int addAptitude(BrandModel brandModel);
 
     /**
      * 批量新增附件路径
+     *
      * @param accessoryUrlModels
      * @return
      */
-    Integer addAccessoryList(List<AccessoryUrlModel> accessoryUrlModels);
+    int addAccessoryList(List<AccessoryUrlModel> accessoryUrlModels);
 
     /**
      * 带条件分页查询
+     *
      * @param brandModel
      * @return
      */
@@ -39,13 +42,15 @@ public interface BrandDao {
 
     /**
      * 分页数据条数
+     *
      * @param brandModel
      * @return
      */
-    Integer selectAptitudeListCount(BrandModel brandModel);
+    int selectAptitudeListCount(BrandModel brandModel);
 
     /**
      * 查询单条品牌资质数据详情
+     *
      * @param id
      * @return
      */
@@ -53,10 +58,53 @@ public interface BrandDao {
 
     /**
      * 根据品牌数据主键id查询附件
+     *
      * @param id
      * @return
      */
     List<AccessoryUrlModel> getAccessoryByBrandIdFk(Integer id);
 
+    /**
+     * 编辑品牌资质
+     *
+     * @param brandModel
+     * @return
+     */
+    int updateAptitude(BrandModel brandModel);
 
+    /**
+     * 编辑品牌资质附件
+     *
+     * @param accessoryUrlModel
+     * @return
+     */
+    int updateAccessory(AccessoryUrlModel accessoryUrlModel);
+
+    /**
+     * 删除品牌资质附件
+     * @param accessoryUrlModel
+     * @return
+     */
+    int deleteAccessory(AccessoryUrlModel accessoryUrlModel);
+
+    /**
+     * 查询品牌在该类目下的其他供应商(新增品牌资质用)
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectProviderPriorityList(BrandModel brandModel);
+
+    /**
+     * 查询品牌在该类目下的其他供应商（修改优先级用）
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectProviderPriorityListOne(BrandModel brandModel);
+
+    /**
+     * 修改派单优先级
+     * @param brandModel
+     * @return
+     */
+    int updateProvider(BrandModel brandModel);
 }
