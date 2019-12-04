@@ -83,6 +83,20 @@
             id=#{id}
     </update>
 
+    <!--  修改违规处罚附件集合  -->
+    <update id="updateTicketAccessoryList" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        update t_accessory_url
+            <trim prefix="set" suffixOverrides=",">
+                <if test="accessoryUrl!=null and accessoryUrl.trim()!=''">accessory_url=#{accessoryUrl},</if>
+                <if test="accessoryName!=null and accessoryName.trim()!=''">accessory_name=#{accessoryName},</if>
+                <if test="accessorySource!=null">accessory_source=#{accessorySource},</if>
+                <if test="accessoryAddress!=null">accessory_address=#{accessoryAddress},</if>
+                <if test="updatedTime!=null">updated_time=#{updatedTime},</if>
+                <if test="removed!=null">removed=#{removed}</if>
+            </trim>
+        where id=#{id};
+    </update>
+
     <!--  根据id查询单条违规处罚详情  -->
     <select id="getTicketById" parameterType="java.lang.Integer" resultMap="BASE_COLUMN_MAP">
         select

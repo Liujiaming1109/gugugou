@@ -55,7 +55,7 @@ public class ViolationsServiceImpl implements ViolationsService {
         violations.setCreatedTime(new Date());
         violations.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         //新增处罚单后返回主键id
-        violationsDao.addTicket(violations);
+        Integer integer = violationsDao.addTicket(violations);
         //获取主表的主键id
         Integer id = violations.getId();
         //获取violations中的附件集合
@@ -71,7 +71,7 @@ public class ViolationsServiceImpl implements ViolationsService {
 //            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
             }
         }
-        return violationsDao.addAccessoryUrlModelList(accessoryList) > 0 ? 1:0;
+        return integer;
     }
 
     /**
@@ -81,15 +81,18 @@ public class ViolationsServiceImpl implements ViolationsService {
      */
     @Override
     public Integer updateTicket(Violations violations) {
-        //这里不清楚附件会不会修改，修改的话，是覆盖还是删除原来的再新增！！！！
-        violations.setUpdatedBy("李白");
         violations.setUpdatedTime(new Date());
+        //更新主表
+        Integer id = violationsDao.updateTicket(violations);
         List<AccessoryUrlModel> accessoryList = violations.getAccessoryList();
-        for (AccessoryUrlModel accessoryUrlModel : accessoryList) {
-            accessoryUrlModel.setUpdatedBy(violations.getUpdatedBy());
-            accessoryUrlModel.setUpdatedTime(violations.getUpdatedTime());
+        if (!accessoryList.isEmpty()&&accessoryList.size()>0){
+            for (AccessoryUrlModel accessoryUrlModel : accessoryList) {
+
+                accessoryUrlModel.setUpdatedTime(violations.getUpdatedTime());
+                violationsDao.updateTicketAccessoryList(accessoryUrlModel);
+            }
         }
-        return violationsDao.updateTicket(violations);
+        return id;
     }
 
     /**

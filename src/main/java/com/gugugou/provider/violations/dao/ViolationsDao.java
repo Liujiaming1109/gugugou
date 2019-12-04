@@ -44,6 +44,13 @@ public interface ViolationsDao {
     Integer updateTicket(Violations violations);
 
     /**
+     * 修改违规处罚单附件集合
+     * @param accessoryList
+     * @return
+     */
+    Integer updateTicketAccessoryList(AccessoryUrlModel accessoryList);
+
+    /**
      * 查询违规处罚单列表 (带条件分页查询)
      * @param violations
      * @return
