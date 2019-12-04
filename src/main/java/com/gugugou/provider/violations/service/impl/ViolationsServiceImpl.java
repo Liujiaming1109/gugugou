@@ -3,6 +3,7 @@ package com.gugugou.provider.violations.service.impl;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.violations.dao.ViolationsDao;
+import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 import com.gugugou.provider.violations.service.ViolationsService;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,18 @@ public class ViolationsServiceImpl implements ViolationsService {
      * @return
      */
     @Override
-    public Violations getTicketById(Integer id) {
-
-        Violations ticket = violationsDao.getTicketById(id);
-        return ticket;
+    public ViolationsResponseDTO getTicketById(Integer id) {
+        ViolationsResponseDTO violationsResponseDTO = new ViolationsResponseDTO();
+        Violations violations = violationsDao.getTicketById(id);
+        if (violations != null){
+            violationsResponseDTO.setViolations(violations);
+            //获取附件列表
+            List<AccessoryUrlModel> accessoryList = violationsDao.getAccessoryListById(violations.getId());
+            if (accessoryList !=null && accessoryList.size() > 0){
+                violationsResponseDTO.setAccessoryList(accessoryList);
+            }
+        }
+        return violationsResponseDTO;
     }
 
     /**

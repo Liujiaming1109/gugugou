@@ -1,5 +1,6 @@
 package com.gugugou.provider.violations.controller;
 
+import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 import com.gugugou.provider.violations.service.ViolationsService;
 import org.slf4j.Logger;
@@ -25,10 +26,10 @@ public class ViolationsController {
      * @return
      */
     @GetMapping("ticket/getTicketById")
-    public Violations getTicketById(@RequestParam Integer id){
+    public ViolationsResponseDTO getTicketById(@RequestParam Integer id){
         logger.info("查询单条违规处罚单的入参：{}",id);
-        Violations violations = violationsService.getTicketById(id);
-        return violations;
+
+        return violationsService.getTicketById(id);
     }
 
     /**

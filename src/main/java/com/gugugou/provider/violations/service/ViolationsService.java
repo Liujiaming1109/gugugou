@@ -1,6 +1,6 @@
 package com.gugugou.provider.violations.service;
 
-import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
+import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface ViolationsService {
      * @param id
      * @return
      */
-    Violations getTicketById(Integer id);
+    ViolationsResponseDTO getTicketById(Integer id);
     /**
      * 新增违规处罚单
      * @param violations

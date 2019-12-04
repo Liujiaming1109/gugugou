@@ -17,6 +17,22 @@
         <result property="removed" column="removed" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="accessoryMap" type="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="brand_id_fk" property="brandIdFk" jdbcType="INTEGER"/>
+        <result column="violations_id_fk" property="violationsIdFk" jdbcType="INTEGER"/>
+        <result column="provider_aptitude_id_fk" property="providerAptitudeIdFk" jdbcType="INTEGER"/>
+        <result column="accessory_url" property="accessoryUrl" jdbcType="VARCHAR"/>
+        <result column="accessory_name" property="accessoryName" jdbcType="VARCHAR"/>
+        <result column="accessory_source" property="accessorySource" jdbcType="INTEGER"/>
+        <result column="accessory_address" property="accessoryAddress" jdbcType="INTEGER"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
+
     <!--  实体类公共字段  -->
     <sql id="Base_Colum_List">
          id, provider_id_fk, provider_name, punish_type, punish_sku_id, punish_amount,
@@ -67,11 +83,22 @@
             id=#{id}
     </update>
 
-    <!--  查询单条违规处罚  -->
+    <!--  根据id查询单条违规处罚详情  -->
     <select id="getTicketById" parameterType="java.lang.Integer" resultMap="BASE_COLUMN_MAP">
         select
             <include refid="Base_Colum_List"></include>
         from t_violations where id = #{id};
+    </select>
+
+    <!--  根据处罚单id查询附件集合  -->
+    <select id="getAccessoryListById" parameterType="java.lang.Integer" resultMap="accessoryMap">
+        select
+            id, brand_id_fk, violations_id_fk, provider_aptitude_id_fk, accessory_url,
+            accessory_name, accessory_source, accessory_address, created_by, created_time,
+            updated_by, updated_time, removed
+        from t_accessory_url
+        where
+            violations_id_fk= #{id}
     </select>
 
     <!--  查询违规处罚列表  -->
@@ -80,5 +107,4 @@
             <include refid="Base_Colum_List"></include>
         from t_violations;
     </select>
-
 </mapper>
