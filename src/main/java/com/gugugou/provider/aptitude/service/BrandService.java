@@ -1,9 +1,8 @@
 package com.gugugou.provider.aptitude.service;
 
-import com.gugugou.provider.aptitude.DTO.ResponseDTO;
+import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.ResponseDTO;
 import com.gugugou.provider.aptitude.model.BrandModel;
-
-import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -27,4 +26,12 @@ public interface BrandService {
      * @return
      */
     ResponseDTO selectAptitudeList(BrandModel brandModel);
+
+    /**
+     * 查询单条品牌资质数据详情
+     * @param id
+     * @return
+     */
+    BrandResponseDTO getAptitudeById(Integer id);
+
 }

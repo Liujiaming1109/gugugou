@@ -1,6 +1,7 @@
 package com.gugugou.provider.aptitude.service.Impl;
 
-import com.gugugou.provider.aptitude.DTO.ResponseDTO;
+import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.ResponseDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
@@ -37,7 +38,8 @@ public class BrandServiceImpl implements BrandService {
     public Integer addAptitude(BrandModel brandModel) {
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-        Integer id = brandDao.addAptitude(brandModel);
+        brandDao.addAptitude(brandModel);
+        Integer id = brandModel.getId();
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
         for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
             accessoryUrlModel.setBrandIdFk(id);
@@ -170,6 +172,25 @@ public class BrandServiceImpl implements BrandService {
             responseDTO.setCount(count);
         }
         return responseDTO;
+    }
+
+    /**
+     * 查询单条品牌资质数据明细
+     * @param id
+     * @return
+     */
+    @Override
+    public BrandResponseDTO getAptitudeById(Integer id) {
+        BrandResponseDTO brandResponseDTO = new BrandResponseDTO();
+        BrandModel aptitudeById = brandDao.getAptitudeById(id);
+        if (aptitudeById != null && !("").equals(aptitudeById)) {
+            brandResponseDTO.setBrandModel(aptitudeById);
+        }
+        List<AccessoryUrlModel> accessoryByBrandIdFk = brandDao.getAccessoryByBrandIdFk(id);
+        if (!accessoryByBrandIdFk.isEmpty()) {
+            brandResponseDTO.setAccessoryUrlModelList(accessoryByBrandIdFk);
+        }
+        return  brandResponseDTO;
     }
 
 }

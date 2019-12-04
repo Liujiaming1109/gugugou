@@ -29,8 +29,23 @@
         <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
         <result column="removed" property="removed" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="FkResultMap" type="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="brand_id_fk" property="brandIdFk" jdbcType="INTEGER"/>
+        <result column="violations_id_fk" property="violationsIdFk" jdbcType="INTEGER"/>
+        <result column="provider_aptitude_id_fk" property="providerAptitudeIdFk" jdbcType="INTEGER"/>
+        <result column="accessory_url" property="accessoryUrl" jdbcType="VARCHAR"/>
+        <result column="accessory_name" property="accessoryName" jdbcType="VARCHAR"/>
+        <result column="accessory_source" property="accessorySource" jdbcType="INTEGER"/>
+        <result column="accessory_address" property="accessoryAddress" jdbcType="INTEGER"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
     <!--新增品牌资质-->
-    <insert id="addAptitude" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addAptitude" parameterType="com.gugugou.provider.aptitude.model.BrandModel" useGeneratedKeys="true" keyProperty="id">
         insert into t_brand
         (id, brand_id, brand_name, type_id, type_name, provider_id_fk, provider_name, provider_auth_level,
         trademark_status, trademark_start_date, trademark_end_date, brand_introduce, trade_type,
@@ -119,5 +134,31 @@
         select count(1)
         from t_brand
         <include refid="pageConditions"/>
+    </select>
+
+<!--查询单条品牌数据详情-->
+    <select id="getAptitudeById" parameterType="integer" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from t_brand
+        where id = #{id}
+    </select>
+<!--根据品牌数据主键id查询附件-->
+    <select id="getAccessoryByBrandIdFk" parameterType="integer" resultMap="FkResultMap">
+        select
+        id,
+        brand_id_fk,
+        violations_id_fk,
+        provider_aptitude_id_fk,
+        accessory_url,
+        accessory_name,
+        accessory_source,
+        accessory_address,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time,
+        removed
+        from t_accessory_url
+        where brand_id_fk = #{brandIdFk} and removed = 0;
     </select>
 </mapper>

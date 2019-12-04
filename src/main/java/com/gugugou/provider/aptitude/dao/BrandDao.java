@@ -43,4 +43,18 @@ public interface BrandDao {
      * @return
      */
     Integer selectAptitudeListCount(BrandModel brandModel);
+
+    /**
+     * 查询单条品牌资质数据详情
+     * @param id
+     * @return
+     */
+    BrandModel getAptitudeById(Integer id);
+
+    /**
+     * 根据品牌数据主键id查询附件
+     * @param id
+     * @return
+     */
+    List<AccessoryUrlModel> getAccessoryByBrandIdFk(Integer id);
 }
