@@ -1,9 +1,9 @@
 package com.gugugou.provider.aptitude.controller;
 
 import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
-import com.gugugou.provider.aptitude.dto.ResponseDTO;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
+import com.gugugou.provider.common.ResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

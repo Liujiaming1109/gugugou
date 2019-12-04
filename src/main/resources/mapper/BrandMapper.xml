@@ -239,5 +239,10 @@
         where id = #{id}
     </update>
 
-<!--删除品牌-->
+<!--删除品牌资质附件-->
+    <delete id="deleteAccessoryById" parameterType="integer">
+        update t_accessory_url
+        set removed = 1, updated_by = #{updatedBy}, updated_time = #{updatedTime}
+        where id = #{id};
+    </delete>
 </mapper>

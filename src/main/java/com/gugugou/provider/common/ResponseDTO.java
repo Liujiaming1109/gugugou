@@ -1,4 +1,4 @@
-package com.gugugou.provider.aptitude.dto;
+package com.gugugou.provider.common;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class ResponseDTO implements Serializable {
 
-    private static final long serialVersionUID = -6768326715373714855L;
+    private static final long serialVersionUID = -2253382736414846371L;
     /** 分页数据 */
     private Object data;
     /** 分页数据条数 */

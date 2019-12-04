@@ -57,4 +57,6 @@ public interface BrandDao {
      * @return
      */
     List<AccessoryUrlModel> getAccessoryByBrandIdFk(Integer id);
+
+
 }

@@ -1,8 +1,8 @@
 package com.gugugou.provider.aptitude.service;
 
 import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
-import com.gugugou.provider.aptitude.dto.ResponseDTO;
 import com.gugugou.provider.aptitude.model.BrandModel;
+import com.gugugou.provider.common.ResponseDTO;
 
 /**
  * @author: chengShaoShao

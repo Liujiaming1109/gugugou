@@ -1,12 +1,12 @@
 package com.gugugou.provider.aptitude.service.Impl;
 
 import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
-import com.gugugou.provider.aptitude.dto.ResponseDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
 import com.gugugou.provider.common.ProviderCentreConsts;
+import com.gugugou.provider.common.ResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
