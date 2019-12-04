@@ -44,10 +44,16 @@ public interface ViolationsDao {
     Integer updateTicket(Violations violations);
 
     /**
-     * 查询违规处罚单列表
+     * 查询违规处罚单列表 (带条件分页查询)
      * @param violations
      * @return
      */
     List<Violations> selectTicketList(Violations violations);
 
+    /**
+     * 查询违规处罚表的记录数(分页使用)
+     * @param violations
+     * @return
+     */
+    Integer selectTicketCount(Violations violations);
 }

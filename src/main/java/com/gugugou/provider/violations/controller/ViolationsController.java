@@ -1,5 +1,6 @@
 package com.gugugou.provider.violations.controller;
 
+import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 import com.gugugou.provider.violations.service.ViolationsService;
@@ -27,8 +28,8 @@ public class ViolationsController {
      */
     @GetMapping("ticket/getTicketById")
     public ViolationsResponseDTO getTicketById(@RequestParam Integer id){
-        logger.info("查询单条违规处罚单的入参：{}",id);
 
+        logger.info("查询单条违规处罚单的入参：{}",id);
         return violationsService.getTicketById(id);
     }
 
@@ -39,6 +40,7 @@ public class ViolationsController {
      */
     @PostMapping("ticket/addTicket")
     public Integer addTicket(@RequestBody Violations violations){
+
         logger.info("新增违规处罚的入参：{}",violations);
         return violationsService.addTicket(violations);
     }
@@ -50,7 +52,20 @@ public class ViolationsController {
      */
     @PostMapping("ticket/updateTicket")
     public Integer updateTicket(@RequestBody Violations violations){
+
         logger.info("修改违规处罚的入参：{}",violations);
         return violationsService.updateTicket(violations);
+    }
+
+    /**
+     * 分页查询违规处罚列表
+     * @param violations
+     * @return
+     */
+    @PostMapping("ticket/selectTicketList")
+    public ResponseDTO selectTicketList(@RequestBody Violations violations){
+
+        logger.info("分页查询违规处罚的入参：{}",violations);
+        return violationsService.selectTicketList(violations);
     }
 }

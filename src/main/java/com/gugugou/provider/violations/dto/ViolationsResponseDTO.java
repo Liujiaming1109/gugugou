@@ -11,6 +11,7 @@ import java.util.List;
  * @date 2019/12/4 11:03
  */
 public class ViolationsResponseDTO implements Serializable {
+
     private Violations violations;
     private List<AccessoryUrlModel> accessoryList;
 

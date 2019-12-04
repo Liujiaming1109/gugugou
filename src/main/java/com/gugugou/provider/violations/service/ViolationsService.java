@@ -1,5 +1,6 @@
 package com.gugugou.provider.violations.service;
 
+import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 
@@ -31,5 +32,5 @@ public interface ViolationsService {
      * @param violations
      * @return
      */
-    List<Violations> selectTicketList(Violations violations);
+    ResponseDTO selectTicketList(Violations violations);
 }

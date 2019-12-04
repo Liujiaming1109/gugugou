@@ -2,6 +2,7 @@ package com.gugugou.provider.violations.service.impl;
 
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
+import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.violations.dao.ViolationsDao;
 import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
@@ -9,6 +10,7 @@ import com.gugugou.provider.violations.service.ViolationsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -90,8 +92,29 @@ public class ViolationsServiceImpl implements ViolationsService {
         return violationsDao.updateTicket(violations);
     }
 
+    /**
+     * 分页查询违规处罚列表
+     * @param violations
+     * @return
+     */
     @Override
-    public List<Violations> selectTicketList(Violations violations) {
-        return null;
+    public ResponseDTO selectTicketList(Violations violations) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        //获取pageIndex
+            Integer pageIndex = (violations.getPageIndex()-ProviderCentreConsts.INTEGER_ONE) * violations.getPageSize();
+        violations.setPageIndex(pageIndex);
+        List<Violations> violationsList = violationsDao.selectTicketList(violations);
+        if (!violationsList.isEmpty()){
+            responseDTO.setData(violationsList);
+        }else{
+            //返回一个空数组
+            responseDTO.setData(new ArrayList<>());
+        }
+        //获取违规处罚表的记录数
+        Integer count = violationsDao.selectTicketCount(violations);
+        if (count != null && count > ProviderCentreConsts.INTEGER_ZERO){
+            responseDTO.setCount(count);
+        }
+        return responseDTO;
     }
 }

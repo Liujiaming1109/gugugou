@@ -11,6 +11,12 @@ import java.util.List;
 @Data
 @ToString
 public class Violations implements Serializable {
+
+    /** 当前页面 */
+    private Integer pageIndex;
+    /** 每页数据 */
+    private Integer pageSize;
+
     /** 主键id */
     private Integer id ;
     /** 供应商外键id */
