@@ -159,7 +159,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public ResponseDTO selectAptitudeList(BrandModel brandModel) {
         ResponseDTO responseDTO = new ResponseDTO();
-        Integer pageIndex = (brandModel.getPageIndex()-ProviderCentreConsts.INTEGER_ZERO)*(brandModel.getPageSize());
+        Integer pageIndex = (brandModel.getPageIndex()-ProviderCentreConsts.INTEGER_ONE)*(brandModel.getPageSize());
         brandModel.setPageIndex(pageIndex);
         List<BrandModel> brandModelList = brandDao.selectAptitudeList(brandModel);
         if (!brandModelList.isEmpty()) {

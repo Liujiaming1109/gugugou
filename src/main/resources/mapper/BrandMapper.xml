@@ -161,4 +161,83 @@
         from t_accessory_url
         where brand_id_fk = #{brandIdFk} and removed = 0;
     </select>
+
+<!--编辑品牌资质-->
+    <update id="updateAptitude" parameterType="com.gugugou.provider.aptitude.model.BrandModel">
+        update t_brand
+        <set >
+            <if test="brandId !=null" >
+                brand_id = #{brandId},
+            </if>
+            <if test="brandName !=null ">
+                brand_name = #{brandName},
+            </if>
+            <if test="typeId !=null" >
+                type_id = #{typeId},
+            </if>
+            <if test="typeName !=null" >
+                type_name = #{typeName},
+            </if>
+            <if test="providerIdFk !=null" >
+                provider_id_fk = #{providerIdFk},
+            </if>
+            <if test="providerName !=null" >
+                provider_name = #{providerName},
+            </if>
+            <if test="providerAuthLevel !=null" >
+                provider_auth_level = #{providerAuthLevel},
+            </if>
+            <if test="trademarkStatus !=null" >
+                trademark_status = #{trademarkStatus},
+            </if>
+            <if test="trademarkStartDate !=null" >
+                trademark_start_date = #{trademarkStartDate},
+            </if>
+            <if test="trademarkEndDate !=null" >
+                trademark_end_date = #{trademarkEndDate},
+            </if>
+            <if test="brandIntroduce !=null" >
+                brand_introduce = #{brandIntroduce},
+            </if>
+            <if test="tradeType !=null" >
+                trade_type = #{tradeType},
+            </if>
+            <if test="bucklePoint !=null" >
+                buckle_point = #{bucklePoint},
+            </if>
+            <if test="sendOrderWeight !=null" >
+                send_order_weight = #{sendOrderWeight},
+            </if>
+            <if test="trademarkRegisterStartDate !=null" >
+                trademark_register_start_date = #{trademarkRegisterStartDate},
+            </if>
+            <if test="trademarkRegisterEndDate !=null" >
+                trademark_register_end_date = #{trademarkRegisterEndDate},
+            </if>
+            <if test="producerDealStartDate !=null" >
+                producer_deal_start_date = #{producerDealStartDate},
+            </if>
+            <if test="producerDealEndDate !=null" >
+                producer_deal_end_date = #{producerDealEndDate},
+            </if>
+            <if test="healthCertificateStartDate !=null" >
+                health_certificate_start_date = #{healthCertificateStartDate},
+            </if>
+            <if test="healthCertificateEndDate !=null" >
+                health_certificate_end_date = #{},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+<!--删除品牌-->
 </mapper>
