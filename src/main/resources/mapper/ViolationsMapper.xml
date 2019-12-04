@@ -8,7 +8,7 @@
         <result property="providerName" column="provider_name" jdbcType="VARCHAR"/>
         <result property="punishType" column="punish_type" jdbcType="VARCHAR"/>
         <result property="punishSkuId" column="punish_sku_id" jdbcType="VARCHAR"/>
-        <result property="punishAmount" column="punish_amount" jdbcType="DOUBLE"/>
+        <result property="punishAmount" column="punish_amount" jdbcType="DECIMAL"/>
         <result property="punishStatus" column="punish_status" jdbcType="INTEGER"/>
         <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
         <result property="createdTime" column="created_time" jdbcType="DATE"/>

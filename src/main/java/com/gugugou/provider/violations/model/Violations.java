@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Violations implements Serializable {
     /** 处罚商品id */
     private String punishSkuId ;
     /** 处罚金额 */
-    private Double punishAmount ;
+    private BigDecimal punishAmount ;
     /** 处罚状态;0:已结算,1:待结算(默认) */
     private Integer punishStatus ;
     /** 创建人 */

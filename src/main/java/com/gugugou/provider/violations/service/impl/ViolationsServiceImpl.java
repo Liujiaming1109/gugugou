@@ -71,6 +71,7 @@ public class ViolationsServiceImpl implements ViolationsService {
 //            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
             }
         }
+        violationsDao.addAccessoryUrlModelList(accessoryList);
         return integer;
     }
 
