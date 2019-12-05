@@ -105,7 +105,7 @@ public class ViolationsServiceImpl implements ViolationsService {
     public ResponseDTO selectTicketList(Violations violations) {
         ResponseDTO responseDTO = new ResponseDTO();
         //获取pageIndex
-            Integer pageIndex = (violations.getPageIndex()-ProviderCentreConsts.INTEGER_ONE) * violations.getPageSize();
+        Integer pageIndex = (violations.getPageIndex()-ProviderCentreConsts.INTEGER_ONE) * violations.getPageSize();
         violations.setPageIndex(pageIndex);
         List<Violations> violationsList = violationsDao.selectTicketList(violations);
         if (!violationsList.isEmpty()){

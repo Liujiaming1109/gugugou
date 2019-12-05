@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gugugou.provider.settlement.dao.InvoiceDao">
+
+    <resultMap id="invoiceMap" type="com.gugugou.provider.settlement.model.Invoice">
+        <id property="id" column="id" jdbcType="INTEGER"></id>
+        <result property="providerIdFk" column="provider_id_fk" jdbcType="INTEGER"/>
+        <result property="invoiceTitle" column="invoice_title" jdbcType="VARCHAR"/>
+        <result property="invoiceType" column="invoice_type" jdbcType="INTEGER"/>
+        <result property="invoiceContent" column="invoice_content" jdbcType="VARCHAR"/>
+        <result property="invoicePrice" column="invoice_price" jdbcType="DECIMAL"/>
+        <result property="invoiceStatus" column="invoice_status" jdbcType="INTEGER"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="DATE"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="updated_time" jdbcType="DATE"/>
+    </resultMap>
+
+    <!--  Invoice实体类数据库对应字段  -->
+    <sql id="Base_Column_List">
+        id, provider_id_fk, invoice_title, invoice_type, invoice_content,
+        invoice_price, invoice_status, created_by, created_time, updated_by,
+        updated_time, removed
+    </sql>
+
+    <!--  分页查询条件  -->
+    <sql id="queryConditions">
+        <where>
+            1=1
+            <if test="providerIdFk != null">and provider_id_fk= #{providerIdFk}</if>
+            <if test="invoiceTitle!=null and invoiceTitle.trim()!=''">and invoice_title=#{invoiceTitle}</if>
+            <if test="invoiceType!=null">and invoice_type=#{invoiceType}</if>
+            <if test="invoiceContent!=null and invoiceContent.trim()!=''">and invoice_content=#{invoiceContent}</if>
+            <if test="invoicePrice!=null">and invoice_price=#{invoicePrice}</if>
+            <if test="invoiceStatus!=null">and invoice_status=#{invoiceStatus}</if>
+            <if test="createdBy!=null and createdBy.trim()!=''">and created_by=#{createdBy}</if>
+            <if test="createdTime!=null">and created_time=#{createdTime}</if>
+            <if test="updatedBy!=null and updatedBy.trim()!=''">and updated_by=#{updatedBy}</if>
+            <if test="updatedTime!=null">and updated_time=#{updatedTime}</if>
+        </where>
+    </sql>
+    
+    <!--  根据id查询商家开票信息  -->
+    <select id="getInvoiceById" parameterType="integer" resultMap="invoiceMap">
+        select
+            <include refid="Base_Column_List"></include>
+        from t_invoice
+        where id=#{id}
+    </select>
+
+    <!--  分页查询商家开户信息列表  -->
+    <select id="selectInvoiceList" parameterType="com.gugugou.provider.settlement.model.Invoice" resultMap="invoiceMap">
+        select
+            <include refid="Base_Column_List"></include>
+        from t_invoice
+            <include refid="queryConditions"></include>
+        order by id asc
+        limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <!--  查询商家开票表中的记录  -->
+    <select id="selectInvoiceCount" resultType="java.lang.Integer">
+        select count(1)
+        from t_invoice
+            <include refid="queryConditions"></include>
+    </select>
+
+</mapper>
