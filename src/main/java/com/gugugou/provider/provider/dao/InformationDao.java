@@ -4,6 +4,7 @@ import com.gugugou.provider.provider.model.Information;
 import com.gugugou.provider.provider.model.InformationContact;
 import org.apache.ibatis.annotations.Mapper;
 
+
 @Mapper
 public interface InformationDao {
 
@@ -17,5 +18,7 @@ public interface InformationDao {
     int updateInformation(Information information);
     /**修改供应商的联系人*/
     int updateInformationContact(InformationContact informationContact);
+    /**修改供应商经营状态*/
+    int updateInformationStatus(Information information);
 
 }

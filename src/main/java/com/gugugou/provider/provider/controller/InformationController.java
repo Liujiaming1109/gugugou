@@ -35,4 +35,10 @@ public class InformationController {
     public int updateInformation(@RequestBody Information information){
            return informationService.updateInformation(information);
     }
+
+    /**修改供应商的经营状态和原因*/
+    @PostMapping("base/updateManageStutas")
+    public int updateInformationStatus(@RequestBody Information information){
+            return informationService.updateInformationStatus(information);
+    }
 }

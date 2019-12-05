@@ -17,6 +17,8 @@ public class Information implements Serializable {
     private int providerIdFk;
     /**结算周期*/
     private int settlementInterval;
+    /**结算周期的联系*/
+    private int settlementIntervalRelation;
     /**公司名称*/
     private String companyName;
     /**公司邮件*/
@@ -43,6 +45,10 @@ public class Information implements Serializable {
     private String isTaxpayer;
     /**经营方式*/
     private String manageMethod;
+    /**公司的经营状态*/
+    private Integer manageStatus;
+    /**改变经营状态的原因*/
+    private String changeReason;
     /**公司介绍*/
     private String companyIntroduce;
     /*创建人*/

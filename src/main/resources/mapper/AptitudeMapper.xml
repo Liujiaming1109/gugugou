@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.provider.dao.AptitudeDao">
+
+    <!--添加资质信息-->
+    <insert id="addProviderAptitude">
+        insert into t_provider_aptitude
+        (id,provider_id_fk,aptitude_status,business_start_date,business_end_date,organization_start_date,organization_end_date,
+        taxpayer_start_date,taxpayer_end_date,bank_start_date,bank_end_date,representative_start_date,representative_end_date,
+        created_by,created_time,updated_by,updated_time,removed)
+        values
+        (#{id},#{providerIdFk},#{aptitudeStatus},#{businessStartDate},#{businessEndDate},#{organizationStartDate},#{organizationEndDate},
+        #{taxpayerStartDate},#{taxpayerEndDate},#{bankStartDate},#{bankEndDate},#{representativeStartDate},#{representativeEndDate},
+        #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
+    </insert>
+    <!--添加资质的附件-->
+    <insert id="addProviderAptitudeUrl">
+        insert into t_accessory_url
+        (id, brand_id_fk, violations_id_fk, provider_aptitude_id_fk, accessory_url, accessory_name,
+        accessory_source, accessory_address, created_by, created_time, updated_by, updated_time, removed)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.brandIdFk}, #{item.violationsIdFk}, #{item.providerAptitudeIdFk}, #{item.accessoryUrl}, #{item.accessoryName},
+            #{item.accessorySource}, #{item.accessoryAddress}, #{item.createdBy}, #{item.createdTime}, #{item.updatedBy}, #{item.updatedTime}, #{item.removed})
+        </foreach>
+    </insert>
+
+    <!--编辑供应商资质-->
+    <update id="updateAptitude" parameterType="com.gugugou.provider.provider.model.Aptitude">
+        update t_brand
+        <set >
+            <if test="brandId !=null" >
+                aptitude_status = #{brandId},
+            </if>
+            <if test="brandName !=null ">
+                business_start_date = #{brandName},
+            </if>
+            <if test="typeId !=null" >
+                business_end_date = #{typeId},
+            </if>
+            <if test="typeName !=null" >
+                organization_start_date = #{typeName},
+            </if>
+            <if test="providerIdFk !=null" >
+                organization_end_date = #{providerIdFk},
+            </if>
+            <if test="providerName !=null" >
+                taxpayer_start_date = #{providerName},
+            </if>
+            <if test="providerAuthLevel !=null" >
+                taxpayer_end_date = #{providerAuthLevel},
+            </if>
+            <if test="trademarkStatus !=null" >
+                bank_start_date = #{trademarkStatus},
+            </if>
+            <if test="trademarkStartDate !=null" >
+                bank_end_date = #{trademarkStartDate},
+            </if>
+            <if test="trademarkEndDate !=null" >
+                representative_start_date = #{trademarkEndDate},
+            </if>
+            <if test="brandIntroduce !=null" >
+                representative_end_date = #{brandIntroduce},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+        where provider_id_fk = #{providerIdFk};
+    </update>
+
+    <!--编辑供应商资质附件-->
+    <update id="updateAptitudeUrl" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        update t_accessory_url
+        <set>
+            <if test="providerAptitudeIdFk != null">
+                provider_aptitude_id_fk = #{providerAptitudeIdFk},
+            </if>
+            <if test="accessoryUrl != null">
+                accessory_url = #{accessoryUrl},
+            </if>
+            <if test="accessoryName != null">
+                accessory_name = #{accessoryName},
+            </if>
+            <if test="accessorySource != null">
+                accessory_source = #{ accessorySource},
+            </if>
+            <if test="accessoryAddress != null">
+                accessory_address = #{accessoryAddress},
+            </if>
+            <if test="updatedBy !=null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime !=null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+
+
+</mapper>

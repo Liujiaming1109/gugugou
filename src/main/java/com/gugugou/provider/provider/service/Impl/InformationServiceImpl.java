@@ -42,4 +42,9 @@ public class InformationServiceImpl implements InformationService {
         }
         return count;
     }
+    /**修改供应商的经营状态*/
+    @Override
+    public int updateInformationStatus(Information information) {
+        return informationDao.updateInformationStatus(information);
+    }
 }

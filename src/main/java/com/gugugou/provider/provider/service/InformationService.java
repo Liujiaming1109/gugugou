@@ -10,4 +10,7 @@ public interface InformationService {
     Information findInformationById(int id);
     /**修改供应商的基本信息*/
     int updateInformation(Information information);
+    /**修改供应商的供应状态*/
+    int updateInformationStatus(Information information);
+
 }

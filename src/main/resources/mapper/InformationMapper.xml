@@ -5,11 +5,11 @@
     <!--添加供应商基本信息-->
     <insert id="addInformation" useGeneratedKeys="true" keyProperty="id">
         insert into t_provider
-         (provider_id_fk,company_name,company_email,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number,
-          business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,created_by, created_time, updated_by, updated_time, removed)
+         (provider_id_fk,settlement_interval,settlement_interval_relation,company_name,company_email,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number,
+          business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,manage_status,change_reason,created_by, created_time, updated_by, updated_time, removed)
           values
-          (#{providerIdFk},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
-          #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},
+          (#{providerIdFk},#{settlementInterval},#{settlementIntervalRelation},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
+          #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},#{manageStatus},#{changeReason},
           #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
 
     </insert>
@@ -22,15 +22,48 @@
     </insert>
 
     <!--查看基本信息-->
-    <!--<select id="findInformationById" parameterType="int" resultMap="InformationById">
+    <select id="findInformationById" parameterType="int" resultMap="InformationById">
          SELECT * from t_provider p left JOIN t_provider_contact  c on p.provider_id_fk = c.provider_id_fk where p.provider_id_fk = #{id}
-    </select>-->
+    </select>
 
-    
+    <resultMap id="InformationById" type="com.gugugou.provider.provider.model.Information">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
+        <result column="manage_method" property="manageMethod" jdbcType="INTEGER"/>
+        <result column="contact_id" property="contactId" jdbcType="VARCHAR"/>
+        <result column="contact_start_date" property="contactStartDate" jdbcType="VARCHAR"/>
+        <result column="contact_end_date" property="contactEndDate" jdbcType="VARCHAR"/>
+        <result column="is_contact_extension" property="isContactExtension" jdbcType="INTEGER"/>
+        <result column="company_address" property="companyAddress" jdbcType="VARCHAR"/>
+        <result column="permit_number" property="permitNumber" jdbcType="VARCHAR"/>
+        <result column="business_people" property="businessPeople" jdbcType="VARCHAR"/>
+        <result column="business_people_card_id" property="businessPeopleCardId" jdbcType="VARCHAR"/>
+        <result column="source" property="source" jdbcType="INTEGER"/>
+        <result column="is_taxpayer" property="isTaxpayer" jdbcType="INTEGER"/>
+        <result column="company_introduce" property="companyIntroduce" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="DATE"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="DATE"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="settlement_interval" property="settlementInterval" jdbcType="INTEGER"/>
+        <result column="settlement_interval_relation" property="settlementIntervalRelation" jdbcType="INTEGER"/>
+        <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
+        <result column="change_reason" property="changeReason" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <!--修改供应商的基本信息-->
     <update id="updateInformation" >
         UPDATE t_provider
         <set >
+            <if test="settlementInterval !=null" >
+                settlement_interval = #{settlementInterval},
+            </if>
+            <if test="settlementIntervalRelation !=null" >
+                settlement_interval_relation = #{settlementIntervalRelation},
+            </if>
             <if test="companyName !=null" >
                 company_name = #{companyName},
             </if>
@@ -79,6 +112,12 @@
             <if test="settlementInterval !=null" >
                 settlement_interval = #{settlementInterval},
             </if>
+            <if test="manageStatus !=null" >
+                manage_status = #{manageStatus},
+            </if>
+            <if test="changeReason !=null" >
+                change_reason = #{changeReason},
+            </if>
             <if test="updatedBy !=null" >
                 updated_by = #{updatedBy},
             </if>
@@ -122,6 +161,11 @@
             </if>
         </set>
         where provider_id_fk = #{providerIdFk}
+    </update>
+
+    <!--修改供应商的经营状态及原因-->
+    <update id="updateInformationStatus">
+        update t_provider set manage_status = #{manageStatus},change_reason=#{changeReason} where provider_id_fk = #{providerIdFk}
     </update>
 
     <select id="findInformation" parameterType="Integer" >
