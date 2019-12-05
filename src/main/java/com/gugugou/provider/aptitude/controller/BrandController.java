@@ -90,7 +90,40 @@ public class BrandController {
      */
     @PostMapping("selectProviderPriorityListOne")
     public List<BrandModel> selectProviderPriorityListOne(@RequestBody BrandModel brandModel) {
-        logger.info("查询品牌在该类目下的其他供应商入参--brandModel：{}", brandModel);
+        logger.info("查询品牌在该类目下的其他供应商入参优先级--brandModel：{}", brandModel);
         return brandService.selectProviderPriorityListOne(brandModel);
+    }
+
+    /**
+     * 查询品牌在该类目下的其他供应商（扣点降序）
+     * @param brandModel
+     * @return
+     */
+    @PostMapping("selectProviderBucklePointList")
+    public List<BrandModel> selectProviderBucklePointList(@RequestBody BrandModel brandModel) {
+        logger.info("查询品牌在该类目下的其他供应商扣点--brandModel：{}", brandModel);
+        return brandService.selectProviderBucklePointList(brandModel);
+    }
+
+    /**
+     * 关闭派单权重
+     * @param brandModel
+     * @return
+     */
+    @PostMapping("closeProvider")
+    public Integer closeProvider(BrandModel brandModel) {
+        logger.info("关闭派单权重的入参--brandModel：{}", brandModel);
+        return brandService.closeProvider(brandModel);
+    }
+
+    /**
+     * 修改派单优先级
+     * @param brandModel
+     * @return
+     */
+    @PostMapping("updateProvider")
+    public Integer updateProvider(BrandModel brandModel) {
+        logger.info("修改派单优先级的入参--brandModel：{}", brandModel);
+        return brandService.updateProvider(brandModel);
     }
 }

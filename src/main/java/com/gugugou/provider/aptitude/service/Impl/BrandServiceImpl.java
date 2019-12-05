@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -348,12 +349,49 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Integer updateProvider(BrandModel brandModel) {
+        Integer sendOrderWeightExist = brandModel.getSendOrderWeight();
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityListOne(brandModel);
-//        if (!brandModelList.isEmpty()) {
-//
-//        }else {
-//
-//        }
-        return null;
+        if (!brandModelList.isEmpty()) {
+            List<BrandModel> subList = brandModelList.subList(sendOrderWeightExist - ProviderCentreConsts.INTEGER_ONE, brandModelList.size());
+            for (BrandModel brandModels:subList) {
+                brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() + ProviderCentreConsts.INTEGER_ONE);
+                brandModels.setUpdatedTime(new Date());
+                brandDao.updateProvider(brandModel);
+            }
+        }
+                return brandDao.updateProvider(brandModel);
+    }
+
+    /**
+     * 关闭派单权重
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public Integer closeProvider(BrandModel brandModel) {
+        brandModel.setSendOrderWeight(ProviderCentreConsts.INTEGER_ZERO);
+        brandModel.setUpdatedTime(new Date());
+        return brandDao.updateProvider(brandModel);
+    }
+
+    /**
+     * 查询品牌在该类目下的其他供应商（扣点降序）
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public List<BrandModel> selectProviderBucklePointList(BrandModel brandModel) {
+        return brandDao.selectProviderBucklePointList(brandModel);
+    }
+
+    /**
+     * 修改扣点
+     * @param brandModel
+     * @return
+     */
+    @Override
+    public Integer updateBucklePoint(BrandModel brandModel) {
+        brandModel.setUpdatedTime(new Date());
+        return brandDao.updateBucklePoint(brandModel);
     }
 }

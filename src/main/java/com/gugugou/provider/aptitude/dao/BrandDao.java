@@ -107,4 +107,18 @@ public interface BrandDao {
      * @return
      */
     int updateProvider(BrandModel brandModel);
+
+    /**
+     * 查询品牌在该类目下的其他供应商（扣点降序）
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectProviderBucklePointList(BrandModel brandModel);
+
+    /**
+     * 修改扣点
+     * @param brandModel
+     * @return
+     */
+    int updateBucklePoint(BrandModel brandModel);
 }

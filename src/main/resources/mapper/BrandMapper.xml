@@ -159,7 +159,7 @@
         updated_time,
         removed
         from t_accessory_url
-        where brand_id_fk = #{brandIdFk} and removed = 0;
+        where brand_id_fk = #{brandIdFk} and accessory_source = 1 and removed = 0;
     </select>
 
 <!--编辑品牌资质-->
@@ -297,14 +297,37 @@
         where brand_id = #{brandId}
         and type_id = #{typeId}
         and removed = 0
+        and send_order_weight != 0
         and id != #{id}
         order by send_order_weight asc;
+    </select>
+
+    <!--查询品牌在该类目下的其他供应商（扣点降序）-->
+    <select id="selectProviderBucklePointList" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select
+        id,
+        provider_name,
+        buckle_point
+        from t_brand
+        where brand_id = #{brandId}
+        and type_id = #{typeId}
+        and removed = 0
+        and send_order_weight != 0
+        and id != #{id}
+        order by buckle_point desc;
     </select>
 
 <!--修改派单优先级-->
     <update id="updateProvider" parameterType="com.gugugou.provider.aptitude.model.BrandModel">
         update t_brand
         set send_order_weight = #{sendOrderWeight}, updated_by = #{updatedBy}, updated_time = #{updatedTime}
+        where id = #{id};
+    </update>
+
+    <!--修改扣点-->
+    <update id="updateBucklePoint" parameterType="com.gugugou.provider.aptitude.model.BrandModel">
+        update t_brand
+        set buckle_point = #{bucklePoint}, updated_by = #{updatedBy}, updated_time = #{updatedTime}
         where id = #{id};
     </update>
 </mapper>
