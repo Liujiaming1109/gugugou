@@ -87,14 +87,15 @@
     <update id="updateTicketAccessoryList" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
         update t_accessory_url
             <trim prefix="set" suffixOverrides=",">
-                <if test="accessoryUrl!=null and accessoryUrl.trim()!=''">accessory_url=#{accessoryUrl},</if>
-                <if test="accessoryName!=null and accessoryName.trim()!=''">accessory_name=#{accessoryName},</if>
-                <if test="accessorySource!=null">accessory_source=#{accessorySource},</if>
-                <if test="accessoryAddress!=null">accessory_address=#{accessoryAddress},</if>
-                <if test="updatedTime!=null">updated_time=#{updatedTime},</if>
-                <if test="removed!=null">removed=#{removed}</if>
+                <if test="accessoryUrl!=null and accessoryUrl.trim()!=''">accessory_url = #{accessoryUrl},</if>
+                <if test="accessoryName!=null and accessoryName.trim()!=''">accessory_name = #{accessoryName},</if>
+                <if test="accessorySource!=null">accessory_source = #{accessorySource},</if>
+                <if test="accessoryAddress!=null">accessory_address = #{accessoryAddress},</if>
+                <if test="updatedBy!=null and updatedBy.trim()!=''">updated_by = #{updatedBy},</if>
+                <if test="updatedTime!=null">updated_time = #{updatedTime},</if>
+                <if test="removed!=null">removed = #{removed}</if>
             </trim>
-        where id=#{id};
+        where id= #{id};
     </update>
 
     <!--  根据id查询单条违规处罚详情  -->
@@ -118,13 +119,13 @@
     <!--  查询违规处罚列表的查询条件  -->
     <sql id="queryConditions">
         <where>
-            1=1
+            removed=0
             <if test="providerIdFk != null">and provider_id_fk= #{providerIdFk}</if>
-            <if test="providerName!=null and providerName.trim()!=''">and provider_name=#{providerName}</if>
-            <if test="punishType!=null and punishType.trim()!=''">and punish_type=#{punishType}</if>
-            <if test="createdTime!=null">and created_time=#{createdTime}</if>
-            <if test="punishAmount!=null">and punish_amount=#{punishAmount}</if>
-            <if test="punishStatus!=null">and punish_status=#{punishStatus}</if>
+            <if test="providerName!=null and providerName.trim()!=''">and provider_name= #{providerName}</if>
+            <if test="punishType!=null and punishType.trim()!=''">and punish_type= #{punishType}</if>
+            <if test="createdTime!=null">and created_time= #{createdTime}</if>
+            <if test="punishAmount!=null">and punish_amount= #{punishAmount}</if>
+            <if test="punishStatus!=null">and punish_status= #{punishStatus}</if>
         </where>
     </sql>
 

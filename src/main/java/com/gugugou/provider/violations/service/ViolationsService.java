@@ -12,7 +12,7 @@ public interface ViolationsService {
      * @param id
      * @return
      */
-    ViolationsResponseDTO getTicketById(Integer id);
+    Violations getTicketById(Integer id);
     /**
      * 新增违规处罚单
      * @param violations

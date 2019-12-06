@@ -26,18 +26,17 @@ public class ViolationsServiceImpl implements ViolationsService {
      * @return
      */
     @Override
-    public ViolationsResponseDTO getTicketById(Integer id) {
+    public Violations getTicketById(Integer id) {
         ViolationsResponseDTO violationsResponseDTO = new ViolationsResponseDTO();
         Violations violations = violationsDao.getTicketById(id);
         if (violations != null){
-            violationsResponseDTO.setViolations(violations);
             //获取附件列表
             List<AccessoryUrlModel> accessoryList = violationsDao.getAccessoryListById(violations.getId());
             if (accessoryList !=null && accessoryList.size() > 0){
-                violationsResponseDTO.setAccessoryList(accessoryList);
+                violations.setAccessoryList(accessoryList);
             }
         }
-        return violationsResponseDTO;
+        return violations;
     }
 
     /**
@@ -66,6 +65,7 @@ public class ViolationsServiceImpl implements ViolationsService {
             for (AccessoryUrlModel accessoryUrlModel : accessoryList) {
                 accessoryUrlModel.setViolationsIdFk(id);
                 accessoryUrlModel.setCreatedTime(new Date());
+                accessoryUrlModel.setCreatedBy(violations.getCreatedBy());
                 accessoryUrlModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                 accessoryUrlModel.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_TWO);
 //            accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
@@ -83,13 +83,15 @@ public class ViolationsServiceImpl implements ViolationsService {
     @Override
     public Integer updateTicket(Violations violations) {
         violations.setUpdatedTime(new Date());
+        violations.setUpdatedBy("张无忌");
         //更新主表
         Integer id = violationsDao.updateTicket(violations);
         List<AccessoryUrlModel> accessoryList = violations.getAccessoryList();
         if (!accessoryList.isEmpty()&&accessoryList.size()>0){
             for (AccessoryUrlModel accessoryUrlModel : accessoryList) {
-
+                accessoryUrlModel.setUpdatedBy(violations.getUpdatedBy());
                 accessoryUrlModel.setUpdatedTime(violations.getUpdatedTime());
+//                System.out.println(accessoryUrlModel);
                 violationsDao.updateTicketAccessoryList(accessoryUrlModel);
             }
         }
@@ -109,6 +111,10 @@ public class ViolationsServiceImpl implements ViolationsService {
         violations.setPageIndex(pageIndex);
         List<Violations> violationsList = violationsDao.selectTicketList(violations);
         if (!violationsList.isEmpty()){
+            for (Violations violations1 : violationsList) {
+                violations1.setPageIndex(violations.getPageIndex());
+                violations1.setPageSize(violations.getPageSize());
+            }
             responseDTO.setData(violationsList);
         }else{
             //返回一个空数组

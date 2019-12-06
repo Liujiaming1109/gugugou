@@ -27,7 +27,7 @@ public class ViolationsController {
      * @return
      */
     @GetMapping("ticket/getTicketById")
-    public ViolationsResponseDTO getTicketById(@RequestParam Integer id){
+    public Violations getTicketById(@RequestParam Integer id){
 
         logger.info("查询单条违规处罚单的入参：{}",id);
         return violationsService.getTicketById(id);
