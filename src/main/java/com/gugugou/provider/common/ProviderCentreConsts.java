@@ -60,12 +60,19 @@ public final class ProviderCentreConsts {
     public static final Integer INTEGER_EIGHT = 8;
     public static final Integer INTEGER_NINTH = 9;
 
+
     /**
-     * 供应商授权状态
-     * 0：正常，1：即将过期，2：过期
+     * 附件在供应商资质的具体位置
+     * （0：企业执照，1：税务登记，2：组织结构代码，
+     * 3：一般纳税人资格证明，4：银行开户许可证，
+     * 5：法定代表人身份证正反面，
      */
-    public static final Integer TRADEMARK_STATUS_ZERO = 0;
-    public static final Integer TRADEMARK_STATUS_ONE = 1;
-    public static final Integer TRADEMARK_STATUS_TWO = 2;
+    public static  final  Integer PROVIDER_ADDRESS_ZERO = 0;
+    public static  final  Integer PROVIDER_ADDRESS_ONE = 1;
+    public static  final  Integer PROVIDER_ADDRESS_TWO = 2;
+    public static  final  Integer PROVIDER_ADDRESS_THREE = 3;
+    public static  final  Integer PROVIDER_ADDRESS_FOUR = 4;
+    public static  final  Integer PROVIDER_ADDRESS_FIVE = 5;
+
 
 }

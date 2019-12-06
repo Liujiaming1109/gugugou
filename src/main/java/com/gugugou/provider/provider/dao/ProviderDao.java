@@ -3,6 +3,7 @@ package com.gugugou.provider.provider.dao;
 
 import com.gugugou.provider.provider.model.Finance;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author: chengShaoShao
@@ -22,4 +23,7 @@ public interface ProviderDao {
 
    //查找财务信息
     Finance findProvider(int fk);
+
+    //查找财务信息根据参数id
+    Finance selectBaseInfoByinformationId(int id);
 }

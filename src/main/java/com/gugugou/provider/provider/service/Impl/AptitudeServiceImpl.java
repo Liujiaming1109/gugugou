@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AptitudeServiceImpl implements AptitudeService {
@@ -96,39 +98,59 @@ public class AptitudeServiceImpl implements AptitudeService {
             if(!taxRegistration.isEmpty()){
                 for (AccessoryUrlModel accessoryUrlModel: taxRegistration) {
                     accessoryUrlModel.setUpdatedTime(new Date());
-                    aptitudeDao.updateProviderAptitudeUrl(taxRegistration);
+                    aptitudeDao.updateProviderAptitudeUrl(accessoryUrlModel);
                 }
             }
             List<AccessoryUrlModel> businessAccessory = aptitude.getBusinessAccessory();
             if(!businessAccessory.isEmpty()){
                 for (AccessoryUrlModel business :businessAccessory) {
                     business.setUpdatedTime(new Date());
-                    aptitudeDao.updateProviderAptitudeUrl(businessAccessory);
+                    aptitudeDao.updateProviderAptitudeUrl(business);
                 }
             }
             List<AccessoryUrlModel> taxPayerAccessory = aptitude.getTaxPayerAccessory();
             if(!taxPayerAccessory.isEmpty()){
                 for (AccessoryUrlModel payer :taxPayerAccessory) {
                     payer.setUpdatedTime(new Date());
-                    aptitudeDao.updateProviderAptitudeUrl(taxPayerAccessory);
+                    aptitudeDao.updateProviderAptitudeUrl(payer);
                 }
             }
             List<AccessoryUrlModel> bankAccessory = aptitude.getBankAccessory();
             if(!bankAccessory.isEmpty()){
                 for (AccessoryUrlModel banks :bankAccessory) {
                     banks.setUpdatedTime(new Date());
-                    aptitudeDao.updateProviderAptitudeUrl(bankAccessory);
+                    aptitudeDao.updateProviderAptitudeUrl(banks);
                 }
             }
             List<AccessoryUrlModel> representativeAccessory = aptitude.getRepresentativeAccessory();
             if(!representativeAccessory.isEmpty()){
                 for (AccessoryUrlModel represent :representativeAccessory) {
                     represent.setUpdatedTime(new Date());
-                    aptitudeDao.updateProviderAptitudeUrl(representativeAccessory);
+                    aptitudeDao.updateProviderAptitudeUrl(represent);
                 }
             }
 
             return aptitude1;
         }
+
+    /**查看供应商资质信息*/
+    @Override
+    public Map findAptitudeById(int providerIdFk) {
+        /**查看资质信息*/
+        Aptitude aptitudeById = aptitudeDao.selectAptitude(providerIdFk);
+        /**资质表id*/
+        int id = aptitudeById.getId();
+        /**查看资质信的附件*/
+        List<AccessoryUrlModel> accessoryUrlModel = aptitudeDao.findAptitudeByIdUrl(id);
+
+        Map<String,Object>  returnMap  = new HashMap<>();
+        returnMap.put("aptitudeById",aptitudeById);
+        returnMap.put("accessoryUrlModel",accessoryUrlModel);
+
+        return returnMap;
     }
+
+
+
+}
 

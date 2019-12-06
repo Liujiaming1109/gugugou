@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.dao;
 
+import com.gugugou.provider.provider.model.Aptitude;
 import com.gugugou.provider.provider.model.Information;
 import com.gugugou.provider.provider.model.InformationContact;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,5 +21,6 @@ public interface InformationDao {
     int updateInformationContact(InformationContact informationContact);
     /**修改供应商经营状态*/
     int updateInformationStatus(Information information);
-
+    /**修改平台负责人*/
+    int updateContactName(InformationContact informationContact);
 }

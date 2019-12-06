@@ -15,6 +15,10 @@ public interface AptitudeDao {
     /**修改供应商的资质信息*/
     Integer updateProviderAptitude(Aptitude aptitude);
     /**修改供应商的附件*/
-    Integer updateProviderAptitudeUrl(List<AccessoryUrlModel> accessoryUrlModels);
+    Integer updateProviderAptitudeUrl(AccessoryUrlModel accessoryUrlModels);
+    /**查看供应商资质*/
+    Aptitude selectAptitude(int providerIdFk);
+   /**查看供应商资质的附件*/
+   List<AccessoryUrlModel> findAptitudeByIdUrl(int providerIdFk);
 }
 

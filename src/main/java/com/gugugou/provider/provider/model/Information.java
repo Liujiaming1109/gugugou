@@ -29,6 +29,8 @@ public class Information implements Serializable {
     private String contactStartDate;
     /**合同结束时间*/
     private String contactEndDate;
+    /**合同状态*/
+    private int  contractStatus;
     /**是否续约 0:续约,1:不续约*/
     private String isContactExtension;
     /**公司地址*/
@@ -51,6 +53,10 @@ public class Information implements Serializable {
     private String changeReason;
     /**公司介绍*/
     private String companyIntroduce;
+    /**平台负责人*/
+    private String platformPrincipal;
+    /**平台负责人邮件*/
+    private String principalEmail;
     /*创建人*/
     private String createdBy;
     /*创建时间*/

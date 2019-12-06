@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.provider.dao.ProviderDao">
-
+    <!--添加供应商的财务信息-->
     <insert id="addProvider" useGeneratedKeys="true" keyProperty="id">
         insert into t_finance
         (id,provider_id_fk,open_bank,bank_number,branch_bank_name,account_name,bank_address,registered_address,bank_detail_address,
@@ -12,7 +12,7 @@
         #{registeredPhone},#{invoiceTitle},#{invoiceRecipients},#{invoiceRecipientsPhone},#{invoiceRecipientsAddress},#{taxCode},#{taxIdentificationNumber},
         #{alipayAccountName},#{alipayNumber},#{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
-
+     <!--修改供应商的财务信息-->
     <update id="updateProvider" >
         UPDATE t_finance
         <set >
@@ -85,12 +85,17 @@
         registered_phone,invoice_title,invoice_recipients_phone,invoice_recipients_address,tax_code,tax_identification_number,
         alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
     </sql>
-
+    <!--查找供应商的财务的信息根据fk-->
     <select id="findProvider" parameterType="int" resultMap="ProviderResultMap">
         select <include refid="findProvider"></include>
         from t_finance where provider_id_fk = #{fk}
     </select>
-
+    <!--查找供应商的财务的信息根据id-->
+    <select id="selectBaseInfoByinformationId" resultMap="ProviderResultMap" parameterType="int">
+        select <include refid="findProvider"></include>
+        from t_finance where provider_id_fk = #{id}
+    </select>
+    <!--查询映射-->
     <resultMap id="ProviderResultMap" type="com.gugugou.provider.provider.model.Finance">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>

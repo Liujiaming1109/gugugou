@@ -5,11 +5,12 @@
     <!--添加供应商基本信息-->
     <insert id="addInformation" useGeneratedKeys="true" keyProperty="id">
         insert into t_provider
-         (provider_id_fk,settlement_interval,settlement_interval_relation,company_name,company_email,contact_id,contact_start_date,contact_end_date,is_contact_extension,company_address,permit_number,
-          business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,manage_status,change_reason,created_by, created_time, updated_by, updated_time, removed)
+         (provider_id_fk,settlement_interval,settlement_interval_relation,company_name,company_email,contact_id,contact_start_date,contact_end_date,contract_status,is_contact_extension,company_address,permit_number,
+          business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,manage_status,change_reason,platform_principal,principal_email,
+          created_by, created_time, updated_by, updated_time, removed)
           values
-          (#{providerIdFk},#{settlementInterval},#{settlementIntervalRelation},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{isContactExtension},#{companyAddress},
-          #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},#{manageStatus},#{changeReason},
+          (#{providerIdFk},#{settlementInterval},#{settlementIntervalRelation},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{contractStatus},#{isContactExtension},#{companyAddress},
+          #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},#{manageStatus},#{changeReason},#{platformPrincipal},#{principalEmail}
           #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
 
     </insert>
@@ -168,8 +169,10 @@
         update t_provider set manage_status = #{manageStatus},change_reason=#{changeReason} where provider_id_fk = #{providerIdFk}
     </update>
 
-    <select id="findInformation" parameterType="Integer" >
+    <!--修改采购负责人-->
+    <update id="updateContactName">
+          update t_provider set platform_principal = #{platformPrincipal},principal_email=#{principalEmail} where provider_id_fk = #{providerIdFk}
+    </update>
 
-    </select>
     
 </mapper>

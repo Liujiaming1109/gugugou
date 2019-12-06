@@ -26,41 +26,41 @@
     </insert>
 
     <!--编辑供应商资质-->
-    <update id="updateAptitude" parameterType="com.gugugou.provider.provider.model.Aptitude">
-        update t_brand
+    <update id="updateProviderAptitude" parameterType="com.gugugou.provider.provider.model.Aptitude">
+        update t_provider_aptitude
         <set >
-            <if test="brandId !=null" >
-                aptitude_status = #{brandId},
+            <if test="aptitudeStatus !=null" >
+                aptitude_status = #{aptitudeStatus},
             </if>
-            <if test="brandName !=null ">
-                business_start_date = #{brandName},
+            <if test="businessStartDate !=null ">
+                business_start_date = #{businessStartDate},
             </if>
-            <if test="typeId !=null" >
-                business_end_date = #{typeId},
+            <if test="businessEndDate !=null" >
+                business_end_date = #{businessEndDate},
             </if>
-            <if test="typeName !=null" >
-                organization_start_date = #{typeName},
+            <if test="organizationStartDate !=null" >
+                organization_start_date = #{organizationStartDate},
             </if>
-            <if test="providerIdFk !=null" >
-                organization_end_date = #{providerIdFk},
+            <if test="organizationEndDate !=null" >
+                organization_end_date = #{organizationEndDate},
             </if>
-            <if test="providerName !=null" >
-                taxpayer_start_date = #{providerName},
+            <if test="taxpayerStartDate !=null" >
+                taxpayer_start_date = #{taxpayerStartDate},
             </if>
-            <if test="providerAuthLevel !=null" >
-                taxpayer_end_date = #{providerAuthLevel},
+            <if test="taxpayerEndDate !=null" >
+                taxpayer_end_date = #{taxpayerEndDate},
             </if>
-            <if test="trademarkStatus !=null" >
-                bank_start_date = #{trademarkStatus},
+            <if test="bankStartDate !=null" >
+                bank_start_date = #{bankStartDate},
             </if>
-            <if test="trademarkStartDate !=null" >
-                bank_end_date = #{trademarkStartDate},
+            <if test="bankEndDate !=null" >
+                bank_end_date = #{bankEndDate},
             </if>
-            <if test="trademarkEndDate !=null" >
-                representative_start_date = #{trademarkEndDate},
+            <if test="representativeStartDate !=null" >
+                representative_start_date = #{representativeStartDate},
             </if>
-            <if test="brandIntroduce !=null" >
-                representative_end_date = #{brandIntroduce},
+            <if test="representativeEndDate !=null" >
+                representative_end_date = #{representativeEndDate},
             </if>
             <if test="updatedBy !=null" >
                 updated_by = #{updatedBy},
@@ -76,13 +76,13 @@
     </update>
 
     <!--编辑供应商资质附件-->
-    <update id="updateAptitudeUrl" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+    <update id="updateProviderAptitudeUrl" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
         update t_accessory_url
         <set>
-            <if test="providerAptitudeIdFk != null">
+           <if test="providerAptitudeIdFk != null">
                 provider_aptitude_id_fk = #{providerAptitudeIdFk},
             </if>
-            <if test="accessoryUrl != null">
+           <if test="accessoryUrl != null">
                 accessory_url = #{accessoryUrl},
             </if>
             <if test="accessoryName != null">
@@ -107,6 +107,62 @@
         where id = #{id};
     </update>
 
+
+    <!--查询资质信息根据id-->
+    <select id="selectAptitude" parameterType="int" resultMap="findAptitudeById">
+        SELECT * from t_provider_aptitude p left JOIN t_accessory_url a
+        on p.provider_id_fk = a.provider_aptitude_id_fk where p.provider_id_fk = #{providerIdFk}
+    </select>
+
+   <!--查看资质信息的映射-->
+    <resultMap id="findAptitudeById" type="com.gugugou.provider.provider.model.Aptitude">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="aptitude_status" property="aptitudeStatus" jdbcType="INTEGER"/>
+        <result column="business_start_date" property="businessStartDate" jdbcType="DATE"/>
+        <result column="business_end_date" property="businessEndDate" jdbcType="VARCHAR"/>
+        <result column="organization_start_date" property="organizationStartDate" jdbcType="DATE"/>
+        <result column="organization_end_date" property="organizationEndDate" jdbcType="VARCHAR"/>
+        <result column="taxpayer_start_date" property="taxpayerStartDate" jdbcType="DATE"/>
+        <result column="taxpayer_end_date" property="taxpayerEndDate" jdbcType="VARCHAR"/>
+        <result column="bank_start_date" property="bankStartDate" jdbcType="DATE"/>
+        <result column="bank_end_date" property="bankEndDate" jdbcType="VARCHAR"/>
+        <result column="representative_start_date" property="representativeStartDate" jdbcType="DATE"/>
+        <result column="representative_end_date" property="representativeEndDate" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="DATE"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="DATE"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查找供应商资质相对应的附件-->
+    <select id="findAptitudeByIdUrl" parameterType="int" resultMap="findAptitudeUrl">
+         select
+         a.provider_aptitude_id_fk,
+         a.accessory_url,
+         a.accessory_name,
+         a.accessory_source,
+         a.accessory_address,
+         a.updated_by,
+         a.updated_time
+         from t_accessory_url a
+         where provider_aptitude_id_fk = #{id}
+    </select>
+
+    <resultMap id="findAptitudeUrl" type="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="provider_aptitude_id_fk" property="providerAptitudeIdFk" jdbcType="INTEGER"/>
+        <result column="accessory_url" property="accessoryUrl" jdbcType="VARCHAR"/>
+        <result column="accessory_name" property="accessoryName" jdbcType="VARCHAR"/>
+        <result column="accessory_source" property="accessorySource" jdbcType="VARCHAR"/>
+        <result column="accessory_address" property="accessoryAddress" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="DATE"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="DATE"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
 
 
 </mapper>

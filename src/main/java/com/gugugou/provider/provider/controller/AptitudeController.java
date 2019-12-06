@@ -2,16 +2,17 @@ package com.gugugou.provider.provider.controller;
 
 import com.gugugou.provider.provider.model.Aptitude;
 import com.gugugou.provider.provider.service.AptitudeService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @RequestMapping("provider")
 @RestController
 public class AptitudeController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private AptitudeService aptitudeService;
@@ -27,4 +28,11 @@ public class AptitudeController {
     public Integer updateProviderAptitude(@RequestBody Aptitude aptitude){
           return aptitudeService.updateProviderAptitude(aptitude);
     }
+
+    /**查看供应商的基本信息*/
+    @GetMapping("findAptitudeById")
+    public Map findAptitudeById(@RequestParam int providerIdFk){
+            return aptitudeService.findAptitudeById(providerIdFk);
+    }
+
 }
