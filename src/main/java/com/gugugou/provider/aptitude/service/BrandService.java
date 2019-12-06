@@ -28,7 +28,7 @@ public interface BrandService {
      * @param brandModel
      * @return
      */
-    ResponseDTO selectAptitudeList(BrandModel brandModel);
+    ResponseDTO selectAptitudeListByPage(BrandModel brandModel);
 
     /**
      * 查询单条品牌资质数据详情

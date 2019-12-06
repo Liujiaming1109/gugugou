@@ -120,13 +120,20 @@
         updated_time,
         removed
     </sql>
-    <!--查询品牌列表-->
-    <select id="selectAptitudeList" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+    <!--分页查询品牌列表-->
+    <select id="selectAptitudeListByPage" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
         select <include refid="baseColumnList"/>
         from t_brand
         <include refid="pageConditions"/>
         order by created_time desc
         limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <!--查询品牌数据-->
+    <select id="selectAptitudeList" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from t_brand
+        where removed = 0;
     </select>
 
 <!--查询品牌列表数据条数-->

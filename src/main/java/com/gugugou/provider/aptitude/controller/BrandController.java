@@ -45,9 +45,9 @@ public class BrandController {
      * @return
      */
     @PostMapping("selectAptitudeList")
-    public ResponseDTO selectAptitudeList(@RequestBody BrandModel brandModel) {
+    public ResponseDTO selectAptitudeListByPage(@RequestBody BrandModel brandModel) {
         logger.info("查询品牌列表的入参--brandModel：{}", brandModel);
-        return brandService.selectAptitudeList(brandModel);
+        return brandService.selectAptitudeListByPage(brandModel);
     }
 
     /**

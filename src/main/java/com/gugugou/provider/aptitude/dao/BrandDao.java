@@ -38,7 +38,13 @@ public interface BrandDao {
      * @param brandModel
      * @return
      */
-    List<BrandModel> selectAptitudeList(BrandModel brandModel);
+    List<BrandModel> selectAptitudeListByPage(BrandModel brandModel);
+
+    /**
+     * 查询品牌所有数据
+     * @return
+     */
+    List<BrandModel> selectAptitudeList();
 
     /**
      * 分页数据条数

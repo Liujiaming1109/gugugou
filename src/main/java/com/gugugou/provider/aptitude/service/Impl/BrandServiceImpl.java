@@ -43,6 +43,7 @@ public class BrandServiceImpl implements BrandService {
         }else {
             brandModel.setSendOrderWeight(ProviderCentreConsts.INTEGER_ONE);
         }
+        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         brandDao.addAptitude(brandModel);
@@ -188,11 +189,11 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
-    public ResponseDTO selectAptitudeList(BrandModel brandModel) {
+    public ResponseDTO selectAptitudeListByPage(BrandModel brandModel) {
         ResponseDTO responseDTO = new ResponseDTO();
         Integer pageIndex = (brandModel.getPageIndex()-ProviderCentreConsts.INTEGER_ONE)*(brandModel.getPageSize());
         brandModel.setPageIndex(pageIndex);
-        List<BrandModel> brandModelList = brandDao.selectAptitudeList(brandModel);
+        List<BrandModel> brandModelList = brandDao.selectAptitudeListByPage(brandModel);
         if (!brandModelList.isEmpty()) {
             responseDTO.setData(brandModelList);
         }else {

@@ -60,4 +60,12 @@ public final class ProviderCentreConsts {
     public static final Integer INTEGER_EIGHT = 8;
     public static final Integer INTEGER_NINTH = 9;
 
+    /**
+     * 供应商授权状态
+     * 0：正常，1：即将过期，2：过期
+     */
+    public static final Integer TRADEMARK_STATUS_ZERO = 0;
+    public static final Integer TRADEMARK_STATUS_ONE = 1;
+    public static final Integer TRADEMARK_STATUS_TWO = 2;
+
 }
