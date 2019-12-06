@@ -76,33 +76,5 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                     return new CronTrigger(cron).nextExecutionTime(triggerContext);
                 }
         );
-        /**
-         * 设置资质到期提醒
-         */
-        scheduledTaskRegistrar.addTriggerTask(
-                () -> {
-                    List<BrandModel> brandModelList = brandDao.selectAptitudeList();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    long timeMillis = System.currentTimeMillis();
-                    long cron1 = DaysToMillis.daysToMillis(30L);
-                    long cron2 = DaysToMillis.daysToMillis(15L);
-                    brandModelList.parallelStream().forEach(brandModel -> {
-                        String trademarkEndDate = brandModel.getTrademarkEndDate();
-                        try {
-                            Date date = format.parse(trademarkEndDate);
-                            long dateTime = date.getTime();
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                },
-                triggerContext -> {
-                    //2.1 从数据库获取执行周期
-                    String cron = "0 0 10 * * ?";
-                    //2.3 返回执行周期(Date)
-                    return new CronTrigger(cron).nextExecutionTime(triggerContext);
-                }
-        );
     }
 }
