@@ -4,6 +4,7 @@ import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: chengShaoShao
@@ -32,7 +34,8 @@ public class BrandScheduleTask implements SchedulingConfigurer {
 
     @Resource
     private BrandDao brandDao;
-
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 执行定时任务.
@@ -50,9 +53,14 @@ public class BrandScheduleTask implements SchedulingConfigurer {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             long timeMillis = System.currentTimeMillis();
             long cron = DaysToMillis.daysToMillis(30L);
+            long cron1 = DaysToMillis.daysToMillis(15L);
+            long cron2 = DaysToMillis.daysToMillis(7L);
+            Long cron3 = DaysToMillis.daysToMillis(3L);
             brandModelList.parallelStream().forEach(brandModel -> {
                     String trademarkEndDate = brandModel.getTrademarkEndDate();
-                    try {
+                    Integer id = brandModel.getId();
+                    Integer count;
+                try {
                         Date date = format.parse(trademarkEndDate);
                         long dateTime = date.getTime();
                         boolean flag = dateTime - timeMillis < cron ? true : false;
@@ -64,6 +72,11 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                             brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_TWO);
                             brandDao.updateAptitude(brandModel);
                         }
+                        long TDOA = dateTime - timeMillis;
+                        if (TDOA >= cron1 && TDOA <= cron) {
+                            count = 1;
+                            stringRedisTemplate.opsForValue().set( id + "phoneSecurityCode", String.valueOf(count), 5L, TimeUnit.MINUTES);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -72,7 +85,7 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                 //2.设置执行周期(Trigger)
                 triggerContext -> {
                     //2.3 返回执行周期(Date)
-                    String cron = "0 0 0 * * ?";
+                    String cron = "0 0 0,10 * * ?";
                     return new CronTrigger(cron).nextExecutionTime(triggerContext);
                 }
         );

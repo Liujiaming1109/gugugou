@@ -111,7 +111,7 @@ public class BrandController {
      * @return
      */
     @PostMapping("closeProvider")
-    public Integer closeProvider(BrandModel brandModel) {
+    public Integer closeProvider(@RequestBody BrandModel brandModel) {
         logger.info("关闭派单权重的入参--brandModel：{}", brandModel);
         return brandService.closeProvider(brandModel);
     }
@@ -122,8 +122,19 @@ public class BrandController {
      * @return
      */
     @PostMapping("updateProvider")
-    public Integer updateProvider(BrandModel brandModel) {
+    public Integer updateProvider(@RequestBody BrandModel brandModel) {
         logger.info("修改派单优先级的入参--brandModel：{}", brandModel);
         return brandService.updateProvider(brandModel);
+    }
+
+    /**
+     * 修改扣点
+     * @param brandModel
+     * @return
+     */
+    @PostMapping("updateBucklePoint")
+    public Integer updateBucklePoint(BrandModel brandModel) {
+        logger.info("修改扣点的入参--brandModel：{}", brandModel);
+        return brandService.updateBucklePoint(brandModel);
     }
 }
