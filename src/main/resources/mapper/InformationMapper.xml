@@ -174,5 +174,194 @@
           update t_provider set platform_principal = #{platformPrincipal},principal_email=#{principalEmail} where provider_id_fk = #{providerIdFk}
     </update>
 
+    <!--查找所有供应商-->
+    <select id="findAllProviders" parameterType="com.gugugou.provider.provider.model.QueryField" resultMap="findAllProvidersMap">
+        SELECT
+        t_provider.provider_id_fk,
+        t_provider.company_name,
+        t_provider.company_email,
+        CASE
+        manage_status
+        WHEN 0 THEN '新进商家'
+        WHEN 1 THEN '储备商家'
+        WHEN 2 THEN '正常商家'
+        WHEN 3 THEN '监督整改'
+        WHEN 4 THEN '黑名单'
+        ELSE '暂停合作'
+        END AS manage_status,
+        CASE
+        manage_method
+        WHEN 0 THEN '经销'
+        ELSE '代销'
+        END AS manage_method,
+        t_provider.platform_principal,
+        concat_ws(
+        ',',
+        CASE
+        settlement_interval
+        WHEN 0 THEN
+        '日'
+        WHEN 1 THEN
+        '周'
+        WHEN 2 THEN
+        '半月'
+        WHEN 3 THEN
+        '月' ELSE '年'
+        END,
+        NULL
+        ) AS settlement_interval,
+        CASE
+        provider_auth_level
+        WHEN 0 THEN '品牌商'
+        WHEN 1 THEN '一级经销商'
+        WHEN 2 THEN '二级经销商'
+        WHEN 3 THEN '三级经销商'
+        ELSE '代销'
+        END AS provider_auth_level,
+        GROUP_CONCAT( t_brand.brand_name ) AS brand_name,
+        GROUP_CONCAT( t_brand.type_name ) AS type_name,
+        DATEDIFF(t_provider.contact_end_date,curdate())  mm,
+        CASE
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) > 30 THEN '正常'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) = 30 THEN '即将过期'
+        WHEN 30 > DATEDIFF(t_provider.contact_end_date,curdate()) > 15 THEN '即将过期'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) &lt;= 15 THEN '即将过期'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) &lt; 0 THEN '过期'
+        ELSE '过期'
+        END AS contract_status,
+        t_provider.contact_end_date,
+        CASE
+        is_contact_extension
+        WHEN 0 THEN
+        '续约' ELSE '不续约'
+        END AS is_contact_extension
+        FROM
+        t_provider
+        LEFT JOIN t_finance ON t_provider.provider_id_fk = t_finance.provider_id_fk
+        LEFT JOIN t_brand ON t_provider.provider_id_fk = t_brand.provider_id_fk
+       where 1=1
+            <if test="companyName !=null and companyName != ''" >
+               and company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="manageStatus !=null and manageStatus != ''" >
+               AND manage_status = #{manageStatus,jdbcType=INTEGER}
+            </if>
+            <if test="manageMethod !=null and manageMethod != ''" >
+               AND manage_method = #{manageMethod,jdbcType=INTEGER}
+            </if>
+            <if test="contractStatus !=null and manageStatus != ''" >
+               AND contract_status = #{contractStatus,jdbcType=INTEGER}
+            </if>
+            <if test="brandName !=null and brandName != ''" >
+               AND brand_name = #{brandName,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+        t_provider.provider_id_fk limit ${pageIndex}, ${pageSize}
+
+    </select>
+
+    <select id="findAllProvidersCount" resultType="java.lang.Integer" parameterType="com.gugugou.provider.provider.model.QueryField">
+        select count(*) as count from (
+        SELECT
+        t_provider.provider_id_fk,
+        t_provider.company_name,
+        t_provider.company_email,
+        CASE
+        manage_status
+        WHEN 0 THEN '新进商家'
+        WHEN 1 THEN '储备商家'
+        WHEN 2 THEN '正常商家'
+        WHEN 3 THEN '监督整改'
+        WHEN 4 THEN '黑名单'
+        ELSE '暂停合作'
+        END AS manage_status,
+        CASE
+        manage_method
+        WHEN 0 THEN '经销'
+        ELSE '代销'
+        END AS manage_method,
+        t_provider.platform_principal,
+        concat_ws(
+        ',',
+        CASE
+        settlement_interval
+        WHEN 0 THEN
+        '日'
+        WHEN 1 THEN
+        '周'
+        WHEN 2 THEN
+        '半月'
+        WHEN 3 THEN
+        '月' ELSE '年'
+        END,
+        NULL
+        ) AS settlement_interval,
+        CASE
+        provider_auth_level
+        WHEN 0 THEN '品牌商'
+        WHEN 1 THEN '一级经销商'
+        WHEN 2 THEN '二级经销商'
+        WHEN 3 THEN '三级经销商'
+        ELSE '代销'
+        END AS provider_auth_level,
+        GROUP_CONCAT( t_brand.brand_name ) AS brand_name,
+        GROUP_CONCAT( t_brand.type_name ) AS type_name,
+        DATEDIFF(t_provider.contact_end_date,curdate())  mm,
+        CASE
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) > 30 THEN '正常'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) = 30 THEN '即将过期'
+        WHEN 30 > DATEDIFF(t_provider.contact_end_date,curdate()) > 15 THEN '即将过期'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) &lt;= 15 THEN '即将过期'
+        WHEN DATEDIFF(t_provider.contact_end_date,curdate()) &lt; 0 THEN '过期'
+        ELSE '过期'
+        END AS contract_status,
+        t_provider.contact_end_date,
+        CASE
+        is_contact_extension
+        WHEN 0 THEN
+        '续约' ELSE '不续约'
+        END AS is_contact_extension
+        FROM
+        t_provider
+        LEFT JOIN t_finance ON t_provider.provider_id_fk = t_finance.provider_id_fk
+        LEFT JOIN t_brand ON t_provider.provider_id_fk = t_brand.provider_id_fk
+        where 1=1
+        <if test="companyName !=null and companyName != ''" >
+            and company_name like concat('%',#{companyName},'%')
+        </if>
+        <if test="manageStatus !=null and manageStatus != ''" >
+            AND manage_status like concat('%',#{manageStatus},'%')
+        </if>
+        <if test="manageMethod !=null and manageMethod != ''" >
+            AND manage_method like concat('%',#{manageMethod},'%')
+        </if>
+        <if test="contractStatus !=null and manageStatus != ''" >
+            AND contract_status like concat('%',#{contractStatus},'%')
+        </if>
+        <if test="brandName !=null and brandName != ''" >
+            AND brand_name like concat('%',#{brandName},'%')
+        </if>
+        GROUP BY
+        t_provider.provider_id_fk
+        ) as t
+    </select>
+
+    <resultMap id="findAllProvidersMap" type="com.gugugou.provider.provider.model.QueryField">
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
+        <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
+        <result column="platform_principal" property="platformPrincipal" jdbcType="VARCHAR"/>
+        <result column="settlement_interval" property="settlementInterval" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="contract_status" property="contractStatus" jdbcType="VARCHAR"/>
+        <result column="contact_end_date" property="contactEndDate" jdbcType="DATE"/>
+        <result column="is_contact_extension" property="isContactExtension" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findProviderMaxId" resultType="int">
+        select max(id) from t_provider
+    </select>
     
 </mapper>

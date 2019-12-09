@@ -13,6 +13,11 @@ public class Information implements Serializable {
 
     /**主键*/
     private int id;
+    /** 当前页面 */
+    private Integer pageIndex;
+    /** 每页数据 */
+    private Integer pageSize;
+
     /**供应商id*/
     private int providerIdFk;
     /**结算周期*/

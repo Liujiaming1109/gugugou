@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.service.Impl;
 
+import com.gugugou.provider.provider.dao.InformationDao;
 import com.gugugou.provider.provider.dao.ProviderDao;
 
 import com.gugugou.provider.provider.model.Finance;
@@ -20,11 +21,15 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Resource
     private ProviderDao providerDao;
+    @Resource
+    private InformationDao informationDao;
 
 
    //添加财务信息
     @Override
     public int addProvider(Finance models) {
+        int providerMaxId = informationDao.findProviderMaxId();
+        models.setProviderIdFk(providerMaxId);
         return providerDao.addProvider(models);
     }
 

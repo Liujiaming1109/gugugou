@@ -3,7 +3,7 @@
 <mapper namespace="com.gugugou.provider.provider.dao.AptitudeDao">
 
     <!--添加资质信息-->
-    <insert id="addProviderAptitude">
+    <insert id="addProviderAptitude" useGeneratedKeys="true" keyProperty="id">
         insert into t_provider_aptitude
         (id,provider_id_fk,aptitude_status,business_start_date,business_end_date,organization_start_date,organization_end_date,
         taxpayer_start_date,taxpayer_end_date,bank_start_date,bank_end_date,representative_start_date,representative_end_date,
@@ -76,12 +76,9 @@
     </update>
 
     <!--编辑供应商资质附件-->
-    <update id="updateProviderAptitudeUrl" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
+   <!-- <update id="updateProviderAptitudeUrl" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
         update t_accessory_url
         <set>
-           <if test="providerAptitudeIdFk != null">
-                provider_aptitude_id_fk = #{providerAptitudeIdFk},
-            </if>
            <if test="accessoryUrl != null">
                 accessory_url = #{accessoryUrl},
             </if>
@@ -89,7 +86,7 @@
                 accessory_name = #{accessoryName},
             </if>
             <if test="accessorySource != null">
-                accessory_source = #{ accessorySource},
+                accessory_source = #{accessorySource},
             </if>
             <if test="accessoryAddress != null">
                 accessory_address = #{accessoryAddress},
@@ -104,14 +101,13 @@
                 removed = #{removed}
             </if>
         </set>
-        where id = #{id};
-    </update>
+        where provider_aptitude_id_fk = #{providerAptitudeIdFk};
+    </update>-->
 
 
     <!--查询资质信息根据id-->
     <select id="selectAptitude" parameterType="int" resultMap="findAptitudeById">
-        SELECT * from t_provider_aptitude p left JOIN t_accessory_url a
-        on p.provider_id_fk = a.provider_aptitude_id_fk where p.provider_id_fk = #{providerIdFk}
+        SELECT * from t_provider_aptitude p where p.provider_id_fk = #{providerIdFk}
     </select>
 
    <!--查看资质信息的映射-->
@@ -137,7 +133,7 @@
     </resultMap>
 
     <!--查找供应商资质相对应的附件-->
-    <select id="findAptitudeByIdUrl" parameterType="int" resultMap="findAptitudeUrl">
+    <select id="selectAccessoryUrlModelList" parameterType="com.gugugou.provider.aptitude.model.AccessoryUrlModel" resultMap="findAptitudeUrl">
          select
          a.provider_aptitude_id_fk,
          a.accessory_url,
@@ -147,7 +143,7 @@
          a.updated_by,
          a.updated_time
          from t_accessory_url a
-         where provider_aptitude_id_fk = #{id}
+         where a.provider_aptitude_id_fk = #{providerAptitudeIdFk} and a.accessory_name = #{accessoryName}
     </select>
 
     <resultMap id="findAptitudeUrl" type="com.gugugou.provider.aptitude.model.AccessoryUrlModel">

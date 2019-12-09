@@ -40,18 +40,22 @@ public class Aptitude implements Serializable {
     /** 法定代表人到期日期*/
     private Date representativeEndDate;
     /** 创建人*/
-    private int createdBy;
+    private String createdBy;
     /** 创建时间*/
     private Date createdTime;
     /** 更新人*/
-    private int updatedBy;
+    private String updatedBy;
     /** 更新时间*/
     private Date updatedTime;
     /** 逻辑删除*/
     private int removed;
 
-    /**税务登记附件*/
+    /**企业资质执照附件*/
     private List<AccessoryUrlModel> taxRegistration;
+
+    /**税务登记附件*/
+    private List<AccessoryUrlModel> enterpriseAptitude;
+
     /**组织机构附件*/
     private List<AccessoryUrlModel> businessAccessory;
     /**一般纳税人资格说明附件*/

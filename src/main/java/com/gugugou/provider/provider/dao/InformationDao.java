@@ -3,7 +3,10 @@ package com.gugugou.provider.provider.dao;
 import com.gugugou.provider.provider.model.Aptitude;
 import com.gugugou.provider.provider.model.Information;
 import com.gugugou.provider.provider.model.InformationContact;
+import com.gugugou.provider.provider.model.QueryField;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 
 @Mapper
@@ -23,4 +26,11 @@ public interface InformationDao {
     int updateInformationStatus(Information information);
     /**修改平台负责人*/
     int updateContactName(InformationContact informationContact);
+    /**查找所有的供应商*/
+    List<QueryField> findAllProviders(QueryField queryField);
+    /**根据条件查找供应商的总数*/
+    Integer findAllProvidersCount(QueryField queryField);
+
+    /**查找添加完成生成的id*/
+    int findProviderMaxId();
 }

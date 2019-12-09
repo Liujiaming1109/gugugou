@@ -1,13 +1,13 @@
 package com.gugugou.provider.provider.controller;
 
-import com.gugugou.provider.provider.model.Information;
-import com.gugugou.provider.provider.model.InformationContact;
+import com.gugugou.provider.provider.model.*;
 import com.gugugou.provider.provider.service.InformationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("provider")
@@ -30,8 +30,8 @@ public class InformationController {
      */
     @GetMapping("base/findById")
     public Information findInformation(@RequestParam int id) {
-        Information informationById = informationService.findInformationById(id);
-        return informationById;
+        Information information = informationService.findInformationById(id);
+        return information;
     }
 
     /**修改供应商的基本信息*/
@@ -63,5 +63,14 @@ public class InformationController {
 
        return informationService.updateContactName(informationContact);
     }
+
+    /**查看供应商列表*/
+   @PostMapping("findAllProviders")
+    public Map findAllProviders(@RequestBody QueryField queryField){
+          return  informationService.findAllProviders(queryField);
+   }
+
+
+
 
 }
