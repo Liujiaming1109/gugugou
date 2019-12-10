@@ -1,5 +1,6 @@
 package com.gugugou.provider.aptitude.dao;
 
+import com.gugugou.provider.aptitude.DTO.SelectListDTO;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -127,4 +128,10 @@ public interface BrandDao {
      * @return
      */
     int updateBucklePoint(BrandModel brandModel);
+
+    /**
+     * 查询资质到期时间和采购负责人邮箱
+     * @return
+     */
+    List<SelectListDTO> selectList();
 }

@@ -337,4 +337,18 @@
         set buckle_point = #{bucklePoint}, updated_by = #{updatedBy}, updated_time = #{updatedTime}
         where id = #{id};
     </update>
+
+<!--查询资质到期时间和采购负责人邮箱-->
+    <select id="selectList" resultType="com.gugugou.provider.aptitude.DTO.SelectListDTO">
+        select
+        tp.principal_email principalEmail,
+        tb.id id,
+        tb.trademark_end_date trademarkEndDate
+        from
+        t_provider as tp
+        join t_brand as tb
+        on tp.id = tb.provider_id_fk
+        and tp.removed = 0
+        and tb.removed = 0;
+    </select>
 </mapper>

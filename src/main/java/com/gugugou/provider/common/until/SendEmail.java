@@ -1,87 +1,71 @@
 package com.gugugou.provider.common.until;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.Authenticator;
-import javax.mail.Message.RecipientType;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import org.springframework.stereotype.Component;
+
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 /**
- * 发送邮件的作业
+ * 发邮件工具类
  */
-@Service
-@Transactional
-public class SendEmail {
+@Component
+public final class SendEmail {
+    private static final String USER = "747366751@qq.com"; // 发件人称号，同邮箱地址
+    private static final String PASSWORD = "wkwzrlcyplzzbeeb"; // 如果是qq邮箱可以使户端授权码，或者登录密码
 
-    private String username;
-    private String password;
-    private String smtpServer;
-
-    public void execute() {
-        System.out.println("要发邮件了。。。");
+    /**
+     * @param to    收件人邮箱
+     * @param text  邮件正文
+     * @param title 标题
+     */
+    /* 发送验证信息的邮件 */
+    public boolean sendMail(String to, String text, String title) {
         try {
-            if(true){
-                final Properties mailProps = new Properties();
-                mailProps.put("mail.smtp.host", this.getSmtpServer());
-                mailProps.put("mail.smtp.auth", "true");
-                mailProps.put("mail.username", this.getUsername());
-                mailProps.put("mail.password", this.getPassword());
+            final Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.host", "smtp.qq.com");
 
-                Authenticator authenticator = new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        // 用户名、密码
-                        String userName = mailProps.getProperty("mail.username");
-                        String password = mailProps.getProperty("mail.password");
-                        return new PasswordAuthentication(userName, password);
-                    }
-                };
-                // 使用环境属性和授权信息，创建邮件会话
-                Session mailSession = Session.getInstance(mailProps, authenticator);
-                for(int i=0;i<100;i++){
-                    // 创建邮件消息
-                    MimeMessage message = new MimeMessage(mailSession);
-                    // 设置发件人
-                    InternetAddress from = new InternetAddress(mailProps.getProperty("mail.username"));
-                    message.setFrom(from);
-                    // 设置收件人
-                    InternetAddress to = new InternetAddress("xxxxx@163.com");
-                    message.setRecipient(RecipientType.TO, to);
-                    // 设置邮件标题
-                    message.setSubject("我就是来测试一下邮件啊！！");
-                    // 设置邮件的内容体
-                    message.setContent("我又要发邮件给你了 哈哈！！！ 骚扰骚扰", "text/html;charset=UTF-8");
-                    // 发送邮件
-                    Transport.send(message);
+            // 发件人的账号
+            props.put("mail.user", USER);
+            //发件人的密码
+            props.put("mail.password", PASSWORD);
+
+            // 构建授权信息，用于进行SMTP进行身份验证
+            Authenticator authenticator = new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    // 用户名、密码
+                    String userName = props.getProperty("mail.user");
+                    String password = props.getProperty("mail.password");
+                    return new PasswordAuthentication(userName, password);
                 }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            };
+            // 使用环境属性和授权信息，创建邮件会话
+            Session mailSession = Session.getInstance(props, authenticator);
+            // 创建邮件消息
+            MimeMessage message = new MimeMessage(mailSession);
+            // 设置发件人
+            String username = props.getProperty("mail.user");
+            InternetAddress form = new InternetAddress(username);
+            message.setFrom(form);
+
+            // 设置收件人
+            InternetAddress toAddress = new InternetAddress(to);
+            message.setRecipient(Message.RecipientType.TO, toAddress);
+
+            // 设置邮件标题
+            message.setSubject(title);
+
+            // 设置邮件的内容体
+            message.setContent(text, "text/html;charset=UTF-8");
+            // 发送邮件
+            Transport.send(message);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
     }
-
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getSmtpServer() {
-        return smtpServer;
-    }
-    public void setSmtpServer(String smtpServer) {
-        this.smtpServer = smtpServer;
-    }
-
 }

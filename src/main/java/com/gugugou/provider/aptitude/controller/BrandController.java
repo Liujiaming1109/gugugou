@@ -5,6 +5,7 @@ import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
 import com.gugugou.provider.common.ResponseDTO;
+import com.gugugou.provider.common.until.SendEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,8 @@ public class BrandController {
 
     @Resource
     private BrandService brandService;
+    @Resource
+    private SendEmail sendEmail;
 
     /**
      * 新增品牌资质
@@ -136,5 +139,10 @@ public class BrandController {
     public Integer updateBucklePoint(BrandModel brandModel) {
         logger.info("修改扣点的入参--brandModel：{}", brandModel);
         return brandService.updateBucklePoint(brandModel);
+    }
+
+    @GetMapping("sendEmail")
+    public void sendEmail(@RequestParam String email) {
+        sendEmail.sendMail(email,"你好，我就测试一下","测试");
     }
 }
