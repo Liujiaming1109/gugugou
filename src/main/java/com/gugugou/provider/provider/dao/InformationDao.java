@@ -30,7 +30,7 @@ public interface InformationDao {
     List<QueryField> findAllProviders(QueryField queryField);
     /**根据条件查找供应商的总数*/
     Integer findAllProvidersCount(QueryField queryField);
+    /**查找所有供应商*/
+    List<Information> findAllProvider();
 
-    /**查找添加完成生成的id*/
-    int findProviderMaxId();
 }

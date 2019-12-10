@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.controller;
 
+import com.gugugou.provider.common.until.SendMailUtil;
 import com.gugugou.provider.provider.model.*;
 import com.gugugou.provider.provider.service.InformationService;
 import org.slf4j.Logger;
@@ -65,11 +66,23 @@ public class InformationController {
     }
 
     /**查看供应商列表*/
-   @PostMapping("findAllProviders")
+    @PostMapping("findAllProviders")
     public Map findAllProviders(@RequestBody QueryField queryField){
-          return  informationService.findAllProviders(queryField);
-   }
-
+        return  informationService.findAllProviders(queryField);
+    }
+//
+    /**发送邮件*/
+    @PostMapping("senfEmail")
+    public void senfEmail(String[] tos){
+        if(tos.length<0){
+            return;
+        }
+        String name ="刘佳明";
+        String content = "尊敬的"+name+":您好";
+        /*tos[0] = "13657231191@163.com";*/
+        SendMailUtil.send(content,tos);
+        return ;
+    }
 
 
 

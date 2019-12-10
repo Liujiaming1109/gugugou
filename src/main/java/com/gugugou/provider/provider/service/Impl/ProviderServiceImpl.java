@@ -28,8 +28,6 @@ public class ProviderServiceImpl implements ProviderService {
    //添加财务信息
     @Override
     public int addProvider(Finance models) {
-        int providerMaxId = informationDao.findProviderMaxId();
-        models.setProviderIdFk(providerMaxId);
         return providerDao.addProvider(models);
     }
 

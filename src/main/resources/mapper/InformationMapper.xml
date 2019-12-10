@@ -323,9 +323,9 @@
         END AS is_contact_extension
         FROM
         t_provider
-        LEFT JOIN t_finance ON t_provider.provider_id_fk = t_finance.provider_id_fk
-        LEFT JOIN t_brand ON t_provider.provider_id_fk = t_brand.provider_id_fk
-        where 1=1
+        LEFT JOIN t_finance ON t_provider.id = t_finance.provider_id_fk
+        LEFT JOIN t_brand ON t_provider.id = t_brand.provider_id_fk
+        where 1=1 and removed = 0
         <if test="companyName !=null and companyName != ''" >
             and company_name like concat('%',#{companyName},'%')
         </if>
@@ -359,9 +359,37 @@
         <result column="contact_end_date" property="contactEndDate" jdbcType="DATE"/>
         <result column="is_contact_extension" property="isContactExtension" jdbcType="VARCHAR"/>
     </resultMap>
-
-    <select id="findProviderMaxId" resultType="int">
-        select max(id) from t_provider
+     <!--查找所有供应商-->
+    <select id="findAllProvider" resultMap="InformationById">
+        SELECT
+	id,
+	company_name,
+	company_email,
+	manage_method,
+	contact_id,
+	contact_start_date,
+	contact_end_date,
+	contract_status,
+	is_contact_extension,
+	platform_principal,
+	principal_email,
+	company_address,
+	permit_number,
+	business_people,
+	business_people_card_id,
+	source,
+	is_taxpayer,
+	settlement_interval,
+	company_introduce,
+	manage_status,
+	change_reason,
+	created_by,
+	created_by,
+	updated_by,
+	updated_time,
+	removed
+FROM
+	t_provider
     </select>
     
 </mapper>

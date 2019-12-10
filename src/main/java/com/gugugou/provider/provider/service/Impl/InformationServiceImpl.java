@@ -36,15 +36,9 @@ public class InformationServiceImpl implements InformationService {
     /**添加供应商的基本信息*/
     @Override
     public int addInformation(Information information) {
-        int count = informationDao.addInformation(information);
+        informationDao.addInformation(information);
         /**获取供应商主键id*/
         int id = information.getId();
-        /**添加资质表外键providerIdFk*/
-     /*   aptitude.setProviderIdFk(id);
-        aptitudeService.addProviderAptitude(aptitude);*/
-        /**添加财务表外键providerIdFk*/
-      /*  finance.setProviderIdFk(id);
-        providerService.addProvider(finance);*/
        /**添加供应商的基本信息*/
        informationDao.addInformation(information);
         List<InformationContact> informationContacts = information.getInformationContacts();
@@ -52,7 +46,7 @@ public class InformationServiceImpl implements InformationService {
             informationDao.addInformationContact(contacts);
         }
 
-        return count;
+        return id;
     }
     /**返现供应商的基本信息*/
     @Override

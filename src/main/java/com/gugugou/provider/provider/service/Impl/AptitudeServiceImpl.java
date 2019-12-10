@@ -30,15 +30,12 @@ public class AptitudeServiceImpl implements AptitudeService {
     public Integer addProviderAptitude(Aptitude aptitude) {
         aptitude.setCreatedTime(new Date());
         aptitude.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-        /**查找供应商的id*/
-        int id = informationDao.findProviderMaxId();
-        /**设置资质表外键id*/
-        aptitude.setProviderIdFk(id);
+
         aptitudeDao.addProviderAptitude(aptitude);
         List<AccessoryUrlModel> taxRegistration = aptitude.getTaxRegistration();
         if (!taxRegistration.isEmpty()) {
             for (AccessoryUrlModel tax : taxRegistration) {
-                tax.setProviderAptitudeIdFk(id);
+
                 tax.setCreatedTime(new Date());
                 tax.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                 tax.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -51,7 +48,6 @@ public class AptitudeServiceImpl implements AptitudeService {
         List<AccessoryUrlModel> enterpriseAptitude = aptitude.getEnterpriseAptitude();
         if(!enterpriseAptitude.isEmpty()){
             for (AccessoryUrlModel enterprise :enterpriseAptitude) {
-                enterprise.setProviderAptitudeIdFk(id);
                 enterprise.setCreatedTime(new Date());
                 enterprise.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                 enterprise.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -63,7 +59,6 @@ public class AptitudeServiceImpl implements AptitudeService {
         List<AccessoryUrlModel> businessAccessory = aptitude.getBusinessAccessory();
          if(!businessAccessory.isEmpty()){
              for (AccessoryUrlModel  business : businessAccessory) {
-                 business.setProviderAptitudeIdFk(id);
                  business.setCreatedTime(new Date());
                  business.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  business.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -74,7 +69,6 @@ public class AptitudeServiceImpl implements AptitudeService {
         List<AccessoryUrlModel> taxPayerAccessory = aptitude.getTaxPayerAccessory();
          if(!taxPayerAccessory.isEmpty()){
              for (AccessoryUrlModel payer: taxPayerAccessory) {
-                 payer.setProviderAptitudeIdFk(id);
                  payer.setCreatedTime(new Date());
                  payer.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  payer.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -85,7 +79,6 @@ public class AptitudeServiceImpl implements AptitudeService {
         List<AccessoryUrlModel> bankAccessory = aptitude.getBankAccessory();
          if(!bankAccessory.isEmpty()){
              for (AccessoryUrlModel bank: bankAccessory) {
-                 bank.setProviderAptitudeIdFk(id);
                  bank.setCreatedTime(new Date());
                  bank.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  bank.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -96,7 +89,7 @@ public class AptitudeServiceImpl implements AptitudeService {
         List<AccessoryUrlModel> representativeAccessory = aptitude.getRepresentativeAccessory();
          if(!representativeAccessory.isEmpty()){
              for (AccessoryUrlModel represent : representativeAccessory) {
-                 represent.setProviderAptitudeIdFk(id);
+
                  represent.setCreatedTime(new Date());
                  represent.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  represent.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
@@ -105,7 +98,7 @@ public class AptitudeServiceImpl implements AptitudeService {
              aptitudeDao.addProviderAptitudeUrl(representativeAccessory);
          }
 
-        return id;
+        return 1;
     }
 
 
