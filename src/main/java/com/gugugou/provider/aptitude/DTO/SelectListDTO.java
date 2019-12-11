@@ -1,9 +1,7 @@
 package com.gugugou.provider.aptitude.DTO;
 
-import com.gugugou.provider.aptitude.model.BrandModel;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -14,11 +12,11 @@ import java.util.List;
  */
 public class SelectListDTO implements Serializable {
 
-    private static final long serialVersionUID = -1636770920197946786L;
+    private static final long serialVersionUID = 3955556250125813134L;
     /**资质表主键id**/
     private Integer id;
     /**资质授权到期时间**/
-    private List<BrandModel> brandModelList;
+    private String trademarkEndDate;
     /**负责人邮箱**/
     private String principalEmail;
 
@@ -30,12 +28,12 @@ public class SelectListDTO implements Serializable {
         this.id = id;
     }
 
-    public List<BrandModel> getBrandModelList() {
-        return brandModelList;
+    public String getTrademarkEndDate() {
+        return trademarkEndDate;
     }
 
-    public void setBrandModelList(List<BrandModel> brandModelList) {
-        this.brandModelList = brandModelList;
+    public void setTrademarkEndDate(String trademarkEndDate) {
+        this.trademarkEndDate = trademarkEndDate;
     }
 
     public String getPrincipalEmail() {
