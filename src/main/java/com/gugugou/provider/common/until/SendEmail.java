@@ -12,8 +12,8 @@ import java.util.Properties;
  */
 @Component
 public final class SendEmail {
-    private static final String USER = "747366751@qq.com"; // 发件人称号，同邮箱地址
-    private static final String PASSWORD = "wkwzrlcyplzzbeeb"; // 如果是qq邮箱可以使户端授权码，或者登录密码
+    private static final String USER = "519112530@qq.com"; // 发件人称号，同邮箱地址
+    private static final String PASSWORD = "kfccqfiqaguucadj"; // 如果是qq邮箱可以使户端授权码，或者登录密码
 
     /**
      * @param to    收件人邮箱

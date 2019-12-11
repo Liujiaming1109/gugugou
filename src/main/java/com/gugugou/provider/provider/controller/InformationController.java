@@ -1,6 +1,6 @@
 package com.gugugou.provider.provider.controller;
 
-import com.gugugou.provider.common.until.SendMailUtil;
+import com.gugugou.provider.common.until.SendEmail;
 import com.gugugou.provider.provider.model.*;
 import com.gugugou.provider.provider.service.InformationService;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("provider")
@@ -17,6 +16,8 @@ public class InformationController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private InformationService informationService;
+    @Resource
+    private SendEmail sendEmail;
 
     /**
      * 添加供应商的基本信息
@@ -70,18 +71,11 @@ public class InformationController {
     public Map findAllProviders(@RequestBody QueryField queryField){
         return  informationService.findAllProviders(queryField);
     }
-//
+
     /**发送邮件*/
-    @PostMapping("senfEmail")
-    public void senfEmail(String[] tos){
-        if(tos.length<0){
-            return;
-        }
-        String name ="刘佳明";
-        String content = "尊敬的"+name+":您好";
-        /*tos[0] = "13657231191@163.com";*/
-        SendMailUtil.send(content,tos);
-        return ;
+    @GetMapping("sendEmails")
+    public void sendEmail(@RequestParam String email) {
+        sendEmail.sendMail(email,"你好,合同即将到期,请及时续约","合同即将到期");
     }
 
 

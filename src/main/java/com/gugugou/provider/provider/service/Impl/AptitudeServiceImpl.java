@@ -30,16 +30,14 @@ public class AptitudeServiceImpl implements AptitudeService {
     public Integer addProviderAptitude(Aptitude aptitude) {
         aptitude.setCreatedTime(new Date());
         aptitude.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
-
         aptitudeDao.addProviderAptitude(aptitude);
         List<AccessoryUrlModel> taxRegistration = aptitude.getTaxRegistration();
         if (!taxRegistration.isEmpty()) {
             for (AccessoryUrlModel tax : taxRegistration) {
-
                 tax.setCreatedTime(new Date());
                 tax.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                 tax.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                tax.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ZERO);
+                tax.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ZERO);
             }
             aptitudeDao.addProviderAptitudeUrl(taxRegistration);
         }
@@ -51,7 +49,7 @@ public class AptitudeServiceImpl implements AptitudeService {
                 enterprise.setCreatedTime(new Date());
                 enterprise.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                 enterprise.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                enterprise.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_ONE);
+                enterprise.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ONE);
             }
             aptitudeDao.addProviderAptitudeUrl(enterpriseAptitude);
         }
@@ -62,7 +60,7 @@ public class AptitudeServiceImpl implements AptitudeService {
                  business.setCreatedTime(new Date());
                  business.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  business.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                 business.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_TWO);
+                 business.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_TWO);
              }
              aptitudeDao.addProviderAptitudeUrl(businessAccessory);
          }
@@ -72,7 +70,7 @@ public class AptitudeServiceImpl implements AptitudeService {
                  payer.setCreatedTime(new Date());
                  payer.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  payer.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                 payer.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_THREE);
+                 payer.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_THREE);
              }
              aptitudeDao.addProviderAptitudeUrl(taxPayerAccessory);
          }
@@ -82,7 +80,7 @@ public class AptitudeServiceImpl implements AptitudeService {
                  bank.setCreatedTime(new Date());
                  bank.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  bank.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                 bank.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FOUR);
+                 bank.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FOUR);
              }
              aptitudeDao.addProviderAptitudeUrl(bankAccessory);
          }
@@ -93,7 +91,7 @@ public class AptitudeServiceImpl implements AptitudeService {
                  represent.setCreatedTime(new Date());
                  represent.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
                  represent.setAccessorySource(ProviderCentreConsts.ACCESSORY_RESOURCE_ZERO);
-                 represent.setAccessoryAddress(ProviderCentreConsts.BRAND_ADDRESS_FIVE);
+                 represent.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FIVE);
              }
              aptitudeDao.addProviderAptitudeUrl(representativeAccessory);
          }
@@ -169,25 +167,33 @@ public class AptitudeServiceImpl implements AptitudeService {
         Aptitude aptitude = aptitudeDao.selectAptitude(providerIdFk);
         /**附件表*/
         AccessoryUrlModel accessoryUrlModel = new AccessoryUrlModel();
-        /**资质表id*/
+
         int id = aptitude.getProviderIdFk();
         accessoryUrlModel.setProviderAptitudeIdFk(id);
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ONE);
-        /**查看资质信的附件*/
+        /**查看企业营业执照的附件*/
+        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ZERO);
         List<AccessoryUrlModel> accessoryUrlModels = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setTaxRegistration(accessoryUrlModels);
-
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_TWO);
+        /**查看税务登记的附件*/
+        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ONE);
+        List<AccessoryUrlModel> enterpriseAptitude = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
+        aptitude.setTaxRegistration(enterpriseAptitude);
         /**查看组织资质信的附件*/
+        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_TWO);
         List<AccessoryUrlModel> businessAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setBusinessAccessory(businessAccessory);
-
+        /**一般纳税人资格说明附件*/
         accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_THREE);
-        /**查看组织资质信的附件*/
         List<AccessoryUrlModel> taxPayerAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setTaxPayerAccessory(taxPayerAccessory);
-
-
+        /**银行开户附件*/
+        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FOUR);
+        List<AccessoryUrlModel> bankAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
+        aptitude.setTaxPayerAccessory(bankAccessory);
+        /**法定代表人身份附件*/
+        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FIVE);
+        List<AccessoryUrlModel> representativeAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
+        aptitude.setTaxPayerAccessory(representativeAccessory);
 
         Map<String,Object>  returnMap  = new HashMap<>();
         returnMap.put("aptitude",aptitude);
