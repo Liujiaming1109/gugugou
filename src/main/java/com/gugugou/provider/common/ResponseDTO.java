@@ -11,11 +11,11 @@ import java.io.Serializable;
  */
 public class ResponseDTO implements Serializable {
 
-    private static final long serialVersionUID = -2253382736414846371L;
+    private static final long serialVersionUID = 4239637436041458239L;
     /** 分页数据 */
     private Object data;
     /** 分页数据条数 */
-    private Integer count;
+    private long count;
 
     public Object getData() {
         return data;
@@ -25,11 +25,11 @@ public class ResponseDTO implements Serializable {
         this.data = data;
     }
 
-    public Integer getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(long count) {
         this.count = count;
     }
 }

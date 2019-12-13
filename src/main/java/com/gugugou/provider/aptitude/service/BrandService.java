@@ -21,7 +21,7 @@ public interface BrandService {
      * @param brandModel
      * @return
      */
-    Integer addAptitude(BrandModel brandModel);
+    Long addAptitude(BrandModel brandModel);
 
     /**
      * 带条件分页查询
@@ -35,7 +35,7 @@ public interface BrandService {
      * @param id
      * @return
      */
-    BrandResponseDTO getAptitudeById(Integer id);
+    BrandResponseDTO getAptitudeById(Long id);
 
     /**
      * 编辑品牌资质

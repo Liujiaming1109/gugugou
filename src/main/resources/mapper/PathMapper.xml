@@ -1,7 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.commodity.dao.PathDao">
-    <insert id="addPath" parameterType="com.gugugou.provider.commodity.model.PathModel">
-
+    <resultMap id="BaseResultMap" type="com.gugugou.provider.commodity.model.PathModel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="path_name" property="pathName" jdbcType="VARCHAR"/>
+        <result column="path_status" property="pathStatus" jdbcType="INTEGER"/>
+        <result column="mini_program_status" property="miniProgramStatus" jdbcType="INTEGER"/>
+        <result column="path_validity" property="pathValidity" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--添加路径-->
+    <insert id="addPath" parameterType="com.gugugou.provider.commodity.model.PathModel" useGeneratedKeys="true" keyProperty="id">
+        insert  into t_path
+        (id, path_name, path_status, mini_program_status, path_validity, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id}, #{pathName}, #{pathStatus}, #{miniProgramStatus}, #{pathValidity}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
+    <!--基本字段-->
+    <sql id="baseColumnList">
+        id,
+        path_name,
+        path_status,
+        mini_program_status,
+        path_validity,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time,
+        removed
+    </sql>
+    <!--分页查询路径列表-->
+    <select id="selectPathListByPage" parameterType="com.gugugou.provider.commodity.model.PathModel" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from t_path
+        where removed = 0
+        order by created_time desc
+        limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <!--查询路径列表数据条数-->
+    <select id="selectPathListCount" resultType="Long">
+        select count(1)
+        from t_path
+        where removed = 0;
+    </select>
+
+    <!--查询单条路径数据详情-->
+    <select id="getPathById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from t_path
+        where id = #{id}
+    </select>
+
+<!--编辑路径/关闭路径-->
+    <update id="updatePath" parameterType="com.gugugou.provider.commodity.model.PathModel">
+        update t_path
+        <set>
+            <if test="pathName != null">
+                path_name = #{pathName},
+            </if>
+            <if test="pathStatus != null">
+                path_status = #{pathStatus},
+            </if>
+            <if test="miniProgramStatus != null">
+                mini_program_status = #{miniProgramStatus},
+            </if>
+            <if test="pathValidity != null">
+                path_validity = #{pathValidity},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
 </mapper>

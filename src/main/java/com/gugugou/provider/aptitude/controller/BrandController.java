@@ -37,7 +37,7 @@ public class BrandController {
      * @return
      */
     @PostMapping("addAptitude")
-    public Integer addAptitude(@RequestBody BrandModel brandModel) {
+    public Long addAptitude(@RequestBody BrandModel brandModel) {
         logger.info("新增品牌资质的入参--brandModel：{}",brandModel);
         return brandService.addAptitude(brandModel);
     }
@@ -59,7 +59,7 @@ public class BrandController {
      * @return
      */
     @GetMapping("getAptitudeById")
-    public BrandResponseDTO getAptitudeById(@RequestParam Integer id) {
+    public BrandResponseDTO getAptitudeById(@RequestParam Long id) {
         logger.info("查询单条品牌资质数据明细的入参--id：{}", id);
         return brandService.getAptitudeById(id);
     }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gugugou.provider.aptitude.dao.BrandDao">
     <resultMap id="BaseResultMap" type="com.gugugou.provider.aptitude.model.BrandModel">
-        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
         <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
         <result column="type_id" property="typeId" jdbcType="BIGINT"/>
@@ -30,10 +30,10 @@
         <result column="removed" property="removed" jdbcType="INTEGER"/>
     </resultMap>
     <resultMap id="FkResultMap" type="com.gugugou.provider.aptitude.model.AccessoryUrlModel">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="brand_id_fk" property="brandIdFk" jdbcType="INTEGER"/>
-        <result column="violations_id_fk" property="violationsIdFk" jdbcType="INTEGER"/>
-        <result column="provider_aptitude_id_fk" property="providerAptitudeIdFk" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="brand_id_fk" property="brandIdFk" jdbcType="BIGINT"/>
+        <result column="violations_id_fk" property="violationsIdFk" jdbcType="BIGINT"/>
+        <result column="provider_aptitude_id_fk" property="providerAptitudeIdFk" jdbcType="BIGINT"/>
         <result column="accessory_url" property="accessoryUrl" jdbcType="VARCHAR"/>
         <result column="accessory_name" property="accessoryName" jdbcType="VARCHAR"/>
         <result column="accessory_source" property="accessorySource" jdbcType="INTEGER"/>
@@ -137,20 +137,20 @@
     </select>
 
 <!--查询品牌列表数据条数-->
-    <select id="selectAptitudeListCount" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultType="integer">
+    <select id="selectAptitudeListCount" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultType="Long">
         select count(1)
         from t_brand
         <include refid="pageConditions"/>
     </select>
 
 <!--查询单条品牌数据详情-->
-    <select id="getAptitudeById" parameterType="integer" resultMap="BaseResultMap">
+    <select id="getAptitudeById" parameterType="Long" resultMap="BaseResultMap">
         select <include refid="baseColumnList"/>
         from t_brand
         where id = #{id}
     </select>
 <!--根据品牌数据主键id查询附件-->
-    <select id="getAccessoryByBrandIdFk" parameterType="integer" resultMap="FkResultMap">
+    <select id="getAccessoryByBrandIdFk" parameterType="Long" resultMap="FkResultMap">
         select
         id,
         brand_id_fk,

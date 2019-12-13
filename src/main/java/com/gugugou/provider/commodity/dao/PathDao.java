@@ -1,6 +1,10 @@
 package com.gugugou.provider.commodity.dao;
 
+import com.gugugou.provider.commodity.DTO.RequestDTO;
+import com.gugugou.provider.commodity.model.PathModel;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -10,7 +14,39 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019/12/11 13:39
  */
 @Mapper
-public class PathDao {
+public interface PathDao {
 
+    /**
+     * 添加路径
+     * @param pathModel
+     * @return
+     */
+    Long addPath(PathModel pathModel);
 
+    /**
+     * 分页查询路径列表
+     * @param requestDTO
+     * @return
+     */
+    List<PathModel> selectPathListByPage(RequestDTO requestDTO);
+
+    /**
+     * 查询路径列表数据条数
+     * @return
+     */
+    Long selectPathListCount();
+
+    /**
+     * 查询单条路径数据详情
+     * @param id
+     * @return
+     */
+    PathModel getPathById(Long id);
+
+    /**
+     * 编辑路径/关闭路径
+     * @param pathModel
+     * @return
+     */
+    int updatePath(PathModel pathModel);
 }

@@ -23,7 +23,7 @@ public interface BrandDao {
      * @param brandModel
      * @return
      */
-    int addAptitude(BrandModel brandModel);
+    Long addAptitude(BrandModel brandModel);
 
     /**
      * 批量新增附件路径
@@ -53,7 +53,7 @@ public interface BrandDao {
      * @param brandModel
      * @return
      */
-    int selectAptitudeListCount(BrandModel brandModel);
+    Long selectAptitudeListCount(BrandModel brandModel);
 
     /**
      * 查询单条品牌资质数据详情
@@ -61,7 +61,7 @@ public interface BrandDao {
      * @param id
      * @return
      */
-    BrandModel getAptitudeById(Integer id);
+    BrandModel getAptitudeById(Long id);
 
     /**
      * 根据品牌数据主键id查询附件
@@ -69,7 +69,7 @@ public interface BrandDao {
      * @param id
      * @return
      */
-    List<AccessoryUrlModel> getAccessoryByBrandIdFk(Integer id);
+    List<AccessoryUrlModel> getAccessoryByBrandIdFk(Long id);
 
     /**
      * 编辑品牌资质

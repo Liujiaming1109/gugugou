@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
-    public Integer addAptitude(BrandModel brandModel) {
+    public Long addAptitude(BrandModel brandModel) {
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityList(brandModel);
         if (!brandModelList.isEmpty()) {
             brandModel.setSendOrderWeight(brandModelList.size()+ProviderCentreConsts.INTEGER_ONE);
@@ -47,7 +46,7 @@ public class BrandServiceImpl implements BrandService {
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         brandDao.addAptitude(brandModel);
-        Integer id = brandModel.getId();
+        Long id = brandModel.getId();
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
         if (!trademarkList.isEmpty()) {
             for (AccessoryUrlModel accessoryUrlModel : trademarkList) {
@@ -189,6 +188,7 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
+    @SuppressWarnings("all")
     public ResponseDTO selectAptitudeListByPage(BrandModel brandModel) {
         ResponseDTO responseDTO = new ResponseDTO();
         Integer pageIndex = (brandModel.getPageIndex()-ProviderCentreConsts.INTEGER_ONE)*(brandModel.getPageSize());
@@ -199,7 +199,7 @@ public class BrandServiceImpl implements BrandService {
         }else {
             responseDTO.setData(new ArrayList<>());
         }
-        Integer count = brandDao.selectAptitudeListCount(brandModel);
+        Long count = brandDao.selectAptitudeListCount(brandModel);
         if (null != count && count > ProviderCentreConsts.INTEGER_ZERO) {
             responseDTO.setCount(count);
         }
@@ -212,7 +212,7 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
-    public BrandResponseDTO getAptitudeById(Integer id) {
+    public BrandResponseDTO getAptitudeById(Long id) {
         BrandResponseDTO brandResponseDTO = new BrandResponseDTO();
         BrandModel aptitudeById = brandDao.getAptitudeById(id);
         if (aptitudeById != null && !("").equals(aptitudeById)) {

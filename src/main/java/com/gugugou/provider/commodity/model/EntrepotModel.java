@@ -1,6 +1,7 @@
 package com.gugugou.provider.commodity.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gugugou.provider.commodity.DTO.RequestDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,26 +10,30 @@ import java.util.Date;
 
 /**
  * @author: chengShaoShao
- * @Title: PathModel
+ * @Title: Entrepot
  * @ProjectName: provider
  * @Description:
- * @date 2019/12/11 12:00
+ * @date 2019/12/12 13:51
  */
 @Data
 @ToString
-public class PathModel implements Serializable {
+public class EntrepotModel extends RequestDTO {
 
-    private static final long serialVersionUID = -6298258534487295631L;
+    private static final long serialVersionUID = 6817033657063187748L;
     /** 主键id */
     private Long id ;
-    /** 路径名称 */
-    private String pathName ;
-    /** 路径状态 */
-    private Integer pathStatus ;
-    /** 小程序状态 */
-    private Integer miniProgramStatus ;
-    /** 路径有效期 */
-    private String pathValidity ;
+    /** 供应商外键id */
+    private Long providerIdFk ;
+    /** 供应商名称 */
+    private String providerName ;
+    /** 仓库名称 */
+    private String entrepotName ;
+    /** 收货地址 */
+    private String address ;
+    /** 仓库经纬度 */
+    private String entrepotLatitude ;
+    /** 物理库存 */
+    private Integer physicalInventory ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
@@ -39,6 +44,6 @@ public class PathModel implements Serializable {
     /** 更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updatedTime ;
-    /** 逻辑删除(0：正常，1:删除) */
+    /** 逻辑删除 */
     private Integer removed ;
 }

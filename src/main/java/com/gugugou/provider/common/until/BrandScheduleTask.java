@@ -66,7 +66,7 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                     if (!selectListDTOList.isEmpty()) {
                         selectListDTOList.parallelStream().forEach(selectListDTO -> {
                             String principalEmail = selectListDTO.getPrincipalEmail();
-                            Integer id = selectListDTO.getId();
+                            Long id = selectListDTO.getId();
                             String trademarkEndDate = selectListDTO.getTrademarkEndDate();
                             Date date = null;
                             Integer count;

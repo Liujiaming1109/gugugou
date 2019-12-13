@@ -12,19 +12,19 @@ import java.io.Serializable;
  */
 public class SelectListDTO implements Serializable {
 
-    private static final long serialVersionUID = 3955556250125813134L;
+    private static final long serialVersionUID = 3212650768767086165L;
     /**资质表主键id**/
-    private Integer id;
+    private Long id;
     /**资质授权到期时间**/
     private String trademarkEndDate;
     /**负责人邮箱**/
     private String principalEmail;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

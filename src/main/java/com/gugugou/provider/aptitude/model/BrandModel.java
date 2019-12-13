@@ -19,14 +19,14 @@ import java.util.List;
 @ToString
 public class BrandModel implements Serializable {
 
-    private static final long serialVersionUID = -8314702360833500767L;
+    private static final long serialVersionUID = 4627214355439548702L;
     /** 当前页面 */
     private Integer pageIndex;
     /** 每页数据 */
     private Integer pageSize;
 
     /** 主键id */
-    private Integer id ;
+    private Long id ;
     /** 品牌id */
     private Long brandId ;
     /** 品牌名称 */
