@@ -19,15 +19,15 @@ public class Violations implements Serializable {
     private Integer pageSize;
 
     /** 主键id */
-    private Integer id ;
+    private Long id ;
     /** 供应商外键id */
-    private Integer providerIdFk ;
+    private Long providerIdFk ;
     /** 供应商名称 */
     private String providerName ;
     /** 处罚类型 */
     private String punishType ;
     /** 处罚商品id */
-    private String punishSkuId ;
+    private Long punishSkuId ;
     /** 处罚金额 */
     private BigDecimal punishAmount ;
     /** 处罚状态;0:已结算,1:待结算(默认) */

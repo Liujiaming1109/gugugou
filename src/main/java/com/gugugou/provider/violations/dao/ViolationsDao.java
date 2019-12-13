@@ -13,14 +13,14 @@ public interface ViolationsDao {
      * @param id
      * @return
      */
-    Violations getTicketById(Integer id);
+    Violations getTicketById(Long id);
 
     /**
      * 根据处罚单id查询附件集合
      * @param id
      * @return
      */
-    List<AccessoryUrlModel> getAccessoryListById(Integer id);
+    List<AccessoryUrlModel> getAccessoryListById(Long id);
 
     /**
      * 新增违规处罚单

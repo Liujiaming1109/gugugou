@@ -26,7 +26,7 @@ public class ViolationsServiceImpl implements ViolationsService {
      * @return
      */
     @Override
-    public Violations getTicketById(Integer id) {
+    public Violations getTicketById(Long id) {
         ViolationsResponseDTO violationsResponseDTO = new ViolationsResponseDTO();
         Violations violations = violationsDao.getTicketById(id);
         if (violations != null){
@@ -56,7 +56,7 @@ public class ViolationsServiceImpl implements ViolationsService {
         //新增处罚单后返回主键id
         Integer integer = violationsDao.addTicket(violations);
         //获取主表的主键id
-        Integer id = violations.getId();
+        Long id = violations.getId();
         //获取violations中的附件集合
         List<AccessoryUrlModel> accessoryList = violations.getAccessoryList();
         System.out.println(accessoryList);
