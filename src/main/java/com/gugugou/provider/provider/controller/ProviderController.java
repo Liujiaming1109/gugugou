@@ -41,7 +41,7 @@ public class ProviderController {
 
     //查找财务信息
     @GetMapping("finance/getFinanceById")
-    public Finance findProvider(@RequestParam int fk){
+    public Finance findProvider(@RequestParam Long fk){
        return  providerService.findProvider(fk);
     }
 

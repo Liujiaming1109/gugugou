@@ -19,6 +19,6 @@ public interface ProviderService {
     int updateProvider(Finance models);
 
     //查找财务信息
-    Finance findProvider(int fk);
+    Finance findProvider(Long fk);
 
 }

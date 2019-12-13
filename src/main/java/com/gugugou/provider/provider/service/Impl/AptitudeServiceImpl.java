@@ -162,14 +162,14 @@ public class AptitudeServiceImpl implements AptitudeService {
 
     /**查看供应商资质信息*/
     @Override
-    public Map findAptitudeById(int providerIdFk) {
+    public Map findAptitudeById(Long providerIdFk) {
         /**查看资质信息*/
         Aptitude aptitude = aptitudeDao.selectAptitude(providerIdFk);
         /**附件表*/
         AccessoryUrlModel accessoryUrlModel = new AccessoryUrlModel();
 
-        int id = aptitude.getProviderIdFk();
-        accessoryUrlModel.setProviderAptitudeIdFk(id);
+        Long providerIdFk1 = aptitude.getProviderIdFk();
+        accessoryUrlModel.setProviderAptitudeIdFk(providerIdFk1);
         /**查看企业营业执照的附件*/
         accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ZERO);
         List<AccessoryUrlModel> accessoryUrlModels = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);

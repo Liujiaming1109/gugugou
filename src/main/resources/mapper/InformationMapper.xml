@@ -23,7 +23,7 @@
     </insert>
 
     <!--查看基本信息-->
-    <select id="findInformationById" parameterType="int" resultMap="InformationById">
+    <select id="findInformationById" parameterType="Long" resultMap="InformationById">
          SELECT * from t_provider p left JOIN t_provider_contact  c on p.provider_id_fk = c.provider_id_fk where p.provider_id_fk = #{id}
     </select>
 

@@ -40,7 +40,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     //查找财务信息
     @Override
-    public Finance findProvider(int fk) {
+    public Finance findProvider(Long fk) {
         return providerDao.findProvider(fk);
     }
 

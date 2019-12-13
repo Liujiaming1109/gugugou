@@ -17,7 +17,7 @@ public interface AptitudeDao {
    /**修改供应商的附件*/
     /*Integer updateProviderAptitudeUrl(AccessoryUrlModel accessoryUrlModels);*/
     /**查看供应商资质*/
-    Aptitude selectAptitude(int providerIdFk);
+    Aptitude selectAptitude(Long providerIdFk);
    /**查看供应商资质的附件*/
    List<AccessoryUrlModel> selectAccessoryUrlModelList(AccessoryUrlModel accessoryUrlModel);
 

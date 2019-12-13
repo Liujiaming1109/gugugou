@@ -8,15 +8,15 @@ import java.util.Map;
 public interface InformationService {
 
     /**添加供应商的基本信息*/
-    int addInformation(Information information);
+    Long addInformation(Information information);
     /**查看供应商基本信息*/
-    Information findInformationById(int id);
-    int updateInformation(Information information);
+    Information findInformationById(Long id);
     /**修改供应商的基本信息*/
+    int updateInformation(Information information);
     /**修改供应商的供应状态*/
     int updateInformationStatus(Information information);
     /**查看详情*/
-    Map selectDetalById(int id);
+    Map selectDetalById(Long id);
     /**修改采销负责人*/
     int updateContactName(InformationContact informationContact);
     /**查看供应商列表*/

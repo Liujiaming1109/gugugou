@@ -28,11 +28,12 @@ public class SaticScheduleTask {
     @Resource
     private InformationController informationController;
 
-    //添加定时任务
-    //每天十点定时跑一次
-    @Scheduled(cron = "0 0 10 * * ?")
     //或直接指定时间间隔，例如：5秒
     //@Scheduled(fixedRate=5000)
+    //添加定时任务
+    //每天十点定时跑一次
+    /**在合同到期前30天发送*/
+    @Scheduled(cron = "0 0 10 * * ?")
     private void configureTasks() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         logger.info("执行时间:configureTasks:{}",format.format(new Date()));
@@ -41,94 +42,44 @@ public class SaticScheduleTask {
         long cron = DaysToMillis.daysToMillis(30L);
         long cron1 = DaysToMillis.daysToMillis(15L);
         long cron2 = DaysToMillis.daysToMillis(7L);
-        long cron3 = DaysToMillis.daysToMillis(0L);
+        long cron3 = DaysToMillis.daysToMillis(3L);
+        long cron4 = DaysToMillis.daysToMillis(0L);
         for (Information information: informations) {
-
                 String contactEndDate = information.getContactEndDate();
-                try {
-                    Date date =  format.parse(contactEndDate);
-                    long dateTime = date.getTime();
-                    long Tdate  = dateTime - timeMillis;
-                     /**15-30天发送邮件,每天在10点发一个邮件*/
-                    if(Tdate < cron && Tdate > cron1){
-                        String principalEmail = information.getPrincipalEmail();
-                        informationController.sendEmail(principalEmail);
+                if(!contactEndDate.isEmpty()){
+                    try {
+                        Date date =  format.parse(contactEndDate);
+                        long dateTime = date.getTime();
+                        long Tdate  = dateTime - timeMillis;
+                        /**合同前30天发送邮件*/
+                        if(Tdate == cron){
+                            String principalEmail = information.getPrincipalEmail();
+                            informationController.sendEmail(principalEmail);
+                        }
+                        /**合同到期前15天发送邮件*/
+                        if( Tdate == cron1){
+                            String principalEmail = information.getPrincipalEmail();
+                            informationController.sendEmail(principalEmail);
+                        }
+                        /**合同前7天发送邮件*/
+                        if(Tdate == cron2){
+                            String principalEmail = information.getPrincipalEmail();
+                            informationController.sendEmail(principalEmail);
+                        }
+                        /**合同前3天发送邮件*/
+                        if(Tdate == cron3){
+                            String principalEmail = information.getPrincipalEmail();
+                            informationController.sendEmail(principalEmail);
+                        }
+                        /**合同过期当天发送邮件*/
+                        if(Tdate == cron4){
+                            String principalEmail = information.getPrincipalEmail();
+                            informationController.sendEmail(principalEmail);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-        }
-
-    }
-
-
-    @Scheduled(cron = "0 0 10,16 * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
-    private void configureTasks1() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.info("执行时间:configureTasks1:{}",format.format(new Date()));
-        List<Information> informations = informationDao.findAllProvider();
-
-        long timeMillis = System.currentTimeMillis();
-        long cron = DaysToMillis.daysToMillis(30L);
-        long cron1 = DaysToMillis.daysToMillis(15L);
-        long cron2 = DaysToMillis.daysToMillis(7L);
-        long cron3 = DaysToMillis.daysToMillis(0L);
-        for (Information information: informations) {
-
-            String contactEndDate = information.getContactEndDate();
-            try {
-                Date date =  format.parse(contactEndDate);
-                long dateTime = date.getTime();
-                long Tdate  = dateTime - timeMillis;
-
-                /**7-15天发送邮件,每天在10点和16点发一个邮件*/
-                if(Tdate > cron2 && Tdate <= cron1){
-                    String principalEmail = information.getPrincipalEmail();
-                    informationController.sendEmail(principalEmail);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
-
-    @Scheduled(cron = "0 0 0/2 * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
-    private void configureTasks2() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.info("执行时间:configureTasks2:{}",format.format(new Date()));
-        List<Information> informations = informationDao.findAllProvider();
-        long timeMillis = System.currentTimeMillis();
-        long cron = DaysToMillis.daysToMillis(30L);
-        long cron1 = DaysToMillis.daysToMillis(15L);
-        long cron2 = DaysToMillis.daysToMillis(7L);
-        long cron3 = DaysToMillis.daysToMillis(0L);
-        for (Information information: informations) {
-
-            String contactEndDate = information.getContactEndDate();
-            try {
-                Date date =  format.parse(contactEndDate);
-                long dateTime = date.getTime();
-                long Tdate  = dateTime - timeMillis;
-
-                /**0-7天发送邮件,每2小时发一次*/
-                if(Tdate <= cron2 && Tdate >= cron3){
-                    String principalEmail = information.getPrincipalEmail();
-                    informationController.sendEmail(principalEmail);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-
+                  }
+             }
     }
 }

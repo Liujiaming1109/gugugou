@@ -22,8 +22,8 @@ public interface ProviderDao {
     int updateProvider(Finance models);
 
    //查找财务信息
-    Finance findProvider(int fk);
+    Finance findProvider(Long fk);
 
     //查找财务信息根据参数id
-    Finance selectBaseInfoByinformationId(int id);
+    Finance selectBaseInfoByinformationId(Long id);
 }

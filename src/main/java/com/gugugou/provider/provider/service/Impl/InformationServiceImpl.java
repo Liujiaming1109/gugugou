@@ -1,7 +1,6 @@
 package com.gugugou.provider.provider.service.Impl;
 
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
-import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.provider.dao.AptitudeDao;
 import com.gugugou.provider.provider.dao.InformationDao;
@@ -35,11 +34,11 @@ public class InformationServiceImpl implements InformationService {
 
     /**添加供应商的基本信息*/
     @Override
-    public int addInformation(Information information) {
+    public Long addInformation(Information information) {
         informationDao.addInformation(information);
         /**获取供应商主键id*/
-        int id = information.getId();
-       /**添加供应商的基本信息*/
+        Long id = information.getId();
+        /**添加供应商的基本信息*/
        informationDao.addInformation(information);
         List<InformationContact> informationContacts = information.getInformationContacts();
         for (InformationContact contacts : informationContacts) {
@@ -50,7 +49,7 @@ public class InformationServiceImpl implements InformationService {
     }
     /**返现供应商的基本信息*/
     @Override
-    public Information findInformationById(int id) {
+    public Information findInformationById(Long id) {
 
         return informationDao.findInformationById(id);
     }
@@ -70,8 +69,9 @@ public class InformationServiceImpl implements InformationService {
         return informationDao.updateInformationStatus(information);
     }
 
+    /**供应商列表查看详情*/
     @Override
-    public Map selectDetalById(int id) {
+    public Map selectDetalById(Long id) {
         //第一步  查询供应商基本信息表
         Information informationById = informationDao.findInformationById(id);
 

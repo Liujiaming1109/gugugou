@@ -12,9 +12,9 @@ public class Finance implements Serializable {
 
     private static final long serialVersionUID = -2319434748464563724L;
     /**主键id*/
-    private Integer id;
+    private Long id;
     /**供应商外键id*/
-    private Integer providerIdFk;
+    private Long providerIdFk;
     /**开户银行*/
     private String openBank;
     /**开户账号*/

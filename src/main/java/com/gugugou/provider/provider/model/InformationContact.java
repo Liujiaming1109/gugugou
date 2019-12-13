@@ -12,9 +12,9 @@ import java.util.Date;
 public class InformationContact implements Serializable {
 
     /**主键id*/
-    private int id;
+    private Long id;
     /**供应商id*/
-    private int providerIdFk;
+    private Long providerIdFk;
     /**联系人类别 0:负责人,1:对接人,2:物流联系人,3:退货对接人*/
     private String contactType;
     /**联系人姓名*/

@@ -17,7 +17,7 @@ public class QueryField implements Serializable {
 
     /**供应商id*/
     @JsonProperty("provider_id_fk")
-    private int providerIdFk;
+    private Long providerIdFk;
     /**供应商名称*/
     private String companyName;
     /**公司邮件*/

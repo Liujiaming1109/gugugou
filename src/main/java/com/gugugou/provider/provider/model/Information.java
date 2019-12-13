@@ -12,14 +12,14 @@ import java.util.List;
 public class Information implements Serializable {
 
     /**主键*/
-    private int id;
+    private Long id;
     /** 当前页面 */
     private Integer pageIndex;
     /** 每页数据 */
     private Integer pageSize;
 
     /**供应商id*/
-    private int providerIdFk;
+    private Long providerIdFk;
     /**结算周期*/
     private int settlementInterval;
     /**结算周期的联系*/

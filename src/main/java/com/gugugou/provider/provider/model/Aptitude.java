@@ -14,9 +14,9 @@ public class Aptitude implements Serializable {
 
 
     /** 主键id*/
-    private int id;
+    private Long id;
     /** 供应商外键id*/
-    private int providerIdFk;
+    private Long providerIdFk;
     /** 资质状态*/
     private int aptitudeStatus;
     /** 营业执照生效日期*/

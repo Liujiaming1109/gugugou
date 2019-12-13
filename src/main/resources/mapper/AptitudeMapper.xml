@@ -106,7 +106,7 @@
 
 
     <!--查询资质信息根据id-->
-    <select id="selectAptitude" parameterType="int" resultMap="findAptitudeById">
+    <select id="selectAptitude" parameterType="Long" resultMap="findAptitudeById">
         SELECT * from t_provider_aptitude p where p.provider_id_fk = #{providerIdFk}
     </select>
 

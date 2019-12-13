@@ -86,12 +86,12 @@
         alipay_account_name,alipay_number,created_by, created_time, updated_by, updated_time, removed
     </sql>
     <!--查找供应商的财务的信息根据fk-->
-    <select id="findProvider" parameterType="int" resultMap="ProviderResultMap">
+    <select id="findProvider" parameterType="Long" resultMap="ProviderResultMap">
         select <include refid="findProvider"></include>
         from t_finance where provider_id_fk = #{fk}
     </select>
     <!--查找供应商的财务的信息根据id-->
-    <select id="selectBaseInfoByinformationId" resultMap="ProviderResultMap" parameterType="int">
+    <select id="selectBaseInfoByinformationId" resultMap="ProviderResultMap" parameterType="Long">
         select <include refid="findProvider"></include>
         from t_finance where provider_id_fk = #{id}
     </select>

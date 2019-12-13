@@ -4,7 +4,6 @@ import com.gugugou.provider.provider.model.Aptitude;
 import com.gugugou.provider.provider.service.AptitudeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,7 +31,7 @@ public class AptitudeController {
 
     /**查看供应商的资质信息*/
     @GetMapping("findAptitudeById")
-    public Map findAptitudeById(@RequestParam int providerIdFk){
+    public Map findAptitudeById(@RequestParam Long providerIdFk){
             return aptitudeService.findAptitudeById(providerIdFk);
     }
 

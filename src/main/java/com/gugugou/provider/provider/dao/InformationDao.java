@@ -13,11 +13,11 @@ import java.util.List;
 public interface InformationDao {
 
     /**添加供应商的基本信息*/
-    int addInformation(Information information);
+    Long addInformation(Information information);
     /**添加供应商的联系人*/
     int addInformationContact(InformationContact contacts);
     /**查看供应商的基本信息*/
-    Information findInformationById(int id);
+    Information findInformationById(Long id);
     /**修改供应商的基本信息*/
     int updateInformation(Information information);
     /**修改供应商的联系人*/

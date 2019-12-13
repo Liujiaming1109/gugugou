@@ -23,7 +23,7 @@ public class InformationController {
      * 添加供应商的基本信息
      */
     @PostMapping("base/addbase")
-    public int addInformation(@RequestBody Information information) {
+    public Long addInformation(@RequestBody Information information) {
         return informationService.addInformation(information);
     }
 
@@ -31,7 +31,7 @@ public class InformationController {
      * 查看供应商的基本信息
      */
     @GetMapping("base/findById")
-    public Information findInformation(@RequestParam int id) {
+    public Information findInformation(@RequestParam Long id) {
         Information information = informationService.findInformationById(id);
         return information;
     }
@@ -54,7 +54,7 @@ public class InformationController {
      */
 
     @GetMapping("selectDetalById")
-    public Map selectDetalById(@RequestParam int id){
+    public Map selectDetalById(@RequestParam Long id){
         logger.info("selectDetalById入参:{}",id);
         return informationService.selectDetalById(id);
     }
