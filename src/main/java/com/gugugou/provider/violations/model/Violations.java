@@ -32,6 +32,8 @@ public class Violations implements Serializable {
     private BigDecimal punishAmount ;
     /** 处罚状态;0:已结算,1:待结算(默认) */
     private Integer punishStatus ;
+    /** 违规时间 */
+    private Date violationsTime ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */

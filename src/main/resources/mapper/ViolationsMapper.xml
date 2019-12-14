@@ -10,6 +10,7 @@
         <result property="punishSkuId" column="punish_sku_id" jdbcType="BIGINT"/>
         <result property="punishAmount" column="punish_amount" jdbcType="DECIMAL"/>
         <result property="punishStatus" column="punish_status" jdbcType="INTEGER"/>
+        <result property="violationsTime" column="violations_time" jdbcType="DATE"/>
         <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
         <result property="createdTime" column="created_time" jdbcType="DATE"/>
         <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
@@ -36,7 +37,7 @@
     <!--  Violations实体类公共字段  -->
     <sql id="Base_Colum_List">
          id, provider_id_fk, provider_name, punish_type, punish_sku_id, punish_amount,
-         punish_status, created_by, created_time, updated_by, updated_time, removed
+         punish_status, violations_time, created_by, created_time, updated_by, updated_time, removed
     </sql>
 
     <!--  新增违规处罚  -->
@@ -46,7 +47,7 @@
             (<include refid="Base_Colum_List"></include>)
         values
             (#{id},#{providerIdFk},#{providerName},#{punishType},#{punishSkuId},#{punishAmount},
-            #{punishStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},
+            #{punishStatus},#{violationsTime},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},
             #{removed})
     </insert>
 
@@ -126,6 +127,7 @@
             <if test="createdTime!=null">and created_time= #{createdTime}</if>
             <if test="punishAmount!=null">and punish_amount= #{punishAmount}</if>
             <if test="punishStatus!=null">and punish_status= #{punishStatus}</if>
+            <if test="violationsTime!=null">and violations_time= #{violationsTime}</if>
         </where>
     </sql>
 

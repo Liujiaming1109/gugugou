@@ -1,7 +1,6 @@
 package com.gugugou.provider.violations.service;
 
 import com.gugugou.provider.common.ResponseDTO;
-import com.gugugou.provider.violations.dto.ViolationsResponseDTO;
 import com.gugugou.provider.violations.model.Violations;
 
 import java.util.List;
