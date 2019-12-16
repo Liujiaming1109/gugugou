@@ -9,31 +9,33 @@ import java.util.Date;
 
 /**
  * @author: yuelitao
- * @date 2019/12/4 16:47
+ * @date 2019/12/11 19:18
  */
 @Data
 @ToString
-public class Invoice implements Serializable {
-
-    /** 当前页面 */
-    private Integer pageIndex;
-    /** 每页数据 */
-    private Integer pageSize;
-
+public class Settlement implements Serializable {
     /** 主键id */
     private Long id ;
     /** 供应商id */
     private Long providerIdFk ;
-    /** 发票抬头 */
-    private String invoiceTitle ;
-    /** 发票类型;0:增值税专用发票，1：增值税普通发票 */
-    private Integer invoiceType ;
-    /** 开票内容 */
-    private String invoiceContent ;
-    /** 开票金额 */
-    private BigDecimal invoicePrice ;
-    /** 开票状态 */
-    private Integer invoiceStatus ;
+    /** 供应商名称 */
+    private String providerName ;
+    /** 商品id */
+    private Long skuId ;
+    /** 商品名称 */
+    private String skuName ;
+    /** 规格型号 */
+    private String specifications ;
+    /** 单位 */
+    private String unit ;
+    /** 实际数量 */
+    private Integer actualNumber ;
+    /** 商品原价 */
+    private BigDecimal skuOriginalPrice ;
+    /** 结算金额 */
+    private BigDecimal settlementAmount ;
+    /** 汇总 */
+    private BigDecimal summary ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
