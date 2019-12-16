@@ -27,7 +27,7 @@ public class InvoiceController {
      * @return
      */
     @GetMapping("invoice/getInvoiceByProviderId")
-    public Invoice getInvoiceByProviderId(@RequestParam Integer id){
+    public Invoice getInvoiceByProviderId(@RequestParam Long id){
 
         logger.info("查询商家开票信息的入参：{}",id);
         return invoiceService.getInvoiceById(id);

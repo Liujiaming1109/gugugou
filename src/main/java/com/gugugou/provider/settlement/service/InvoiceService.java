@@ -14,7 +14,7 @@ public interface InvoiceService {
      * @param id
      * @return
      */
-    Invoice getInvoiceById(Integer id);
+    Invoice getInvoiceById(Long id);
 
     /**
      * 查询商家开票信息列表

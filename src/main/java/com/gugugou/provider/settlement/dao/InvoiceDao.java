@@ -17,7 +17,7 @@ public interface InvoiceDao {
      * @param id
      * @return
      */
-    Invoice getInvoiceById(Integer id);
+    Invoice getInvoiceById(Long id);
 
     /**
      * 分页查询商家开票信息列表

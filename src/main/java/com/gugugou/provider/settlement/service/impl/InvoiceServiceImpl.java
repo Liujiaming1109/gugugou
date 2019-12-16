@@ -27,7 +27,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return
      */
     @Override
-    public Invoice getInvoiceById(Integer id) {
+    public Invoice getInvoiceById(Long id) {
 
         return invoiceDao.getInvoiceById(id);
     }

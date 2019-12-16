@@ -3,8 +3,8 @@
 <mapper namespace="com.gugugou.provider.settlement.dao.InvoiceDao">
 
     <resultMap id="invoiceMap" type="com.gugugou.provider.settlement.model.Invoice">
-        <id property="id" column="id" jdbcType="INTEGER"></id>
-        <result property="providerIdFk" column="provider_id_fk" jdbcType="INTEGER"/>
+        <id property="id" column="id" jdbcType="BIGINT"></id>
+        <result property="providerIdFk" column="provider_id_fk" jdbcType="BIGINT"/>
         <result property="invoiceTitle" column="invoice_title" jdbcType="VARCHAR"/>
         <result property="invoiceType" column="invoice_type" jdbcType="INTEGER"/>
         <result property="invoiceContent" column="invoice_content" jdbcType="VARCHAR"/>
@@ -41,7 +41,7 @@
     </sql>
     
     <!--  根据id查询商家开票信息  -->
-    <select id="getInvoiceById" parameterType="integer" resultMap="invoiceMap">
+    <select id="getInvoiceById" parameterType="long" resultMap="invoiceMap">
         select
             <include refid="Base_Column_List"></include>
         from t_invoice
