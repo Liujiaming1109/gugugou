@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.settlement.dao.SettlementDao">
+
+    <!--  结算单字段映射  -->
+    <resultMap id="settlementMap" type="com.gugugou.provider.settlement.model.Settlement">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="providerIdFk" column="provider_id_fk" jdbcType="BIGINT"/>
+        <result property="providerName" column="provider_name" jdbcType="VARCHAR"/>
+        <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
+        <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
+        <result property="specifications" column="specifications" jdbcType="VARCHAR"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="actualNumber" column="actual_number" jdbcType="INTEGER"/>
+        <result property="skuOriginalPrice" column="sku_original_price" jdbcType="DECIMAL"/>
+        <result property="settlementAmount" column="settlement_amount" jdbcType="DECIMAL"/>
+        <result property="summary" column="summary" jdbcType="DECIMAL"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="DATE"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="updated_time" jdbcType="DATE"/>
+        <result property="removed" column="removed" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--  结算单表基本字段  -->
+    <sql id="settlement_column_list">
+        id,provider_id_fk, provider_name, sku_id, sku_name, specifications, unit,
+         actual_number, sku_original_price, settlement_amount, summary, created_by,
+         created_time, updated_by, updated_time, removed
+    </sql>
+
+    <!--  新增结算单  -->
+    <insert id="addSettlement" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+        parameterType="com.gugugou.provider.settlement.model.Settlement">
+        insert into t_settlement
+            <include refid="settlement_column_list"/>
+        values
+            (#{id},#{providerIdFk},#{providerName},#{skuId},#{skuName},#{specifications},
+            #{unit},#{actualNumber},#{skuOriginalPrice},#{settlementAmount},#{summary},
+            #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
+    </insert>
+
+    <!--  根据id查询处罚单  -->
+    <select id="getSettlementById" parameterType="long" resultMap="settlementMap">
+        select
+            <include refid="settlement_column_list"/>
+        from t_settlement
+        where id = #{id}
+    </select>
+
+</mapper>
