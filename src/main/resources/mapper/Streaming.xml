@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.stream.dao.StreamingDaoDao">
+
+     <insert id="addStreaming" useGeneratedKeys="true" keyProperty="id">
+         insert into
+         streaming_room
+         (id,anchor_name,anchor_describe,anchor_server,crossfire_key,is_on_line,created_by,creatd_by,
+         updated_by,updated_time,removed)
+         values
+         (null,#{anchorName},#{anchorDescribe},#{anchorServer},#{crossfireKey},#{isOnLine},
+         #{createdBy},#{createdTime},#{updatedBy},#{updateTime},#{removed})
+     </insert>
+
+     <update id="updateStreaming">
+         update streaming_working_schedule
+         <set >
+           <if test="anchorName !=null" >
+             anchor_name = #{anchorName},
+           </if>
+           <if test="anchorDescribe !=null">
+             anchor_describe = #{anchorDescribe}}
+           </if>
+           <if test="anchorServer !=null">
+             anchor_server = #{anchorServer}
+           </if>
+           <if test="crossfireKey!=null">
+             crossfire_key = #{crossfireKey}
+           </if>
+           <if test="isOnLine !=null">
+               is_on_line = #{isOnLine}
+           </if>
+           <if test="createdBy !=null">
+               creatd_by = #{createdBy}
+           </if>
+           <if test="createdTime !=null">
+               created_time = #{createdTime}
+           </if>
+           <if test="updated_by!=null">
+               updatedBy = #{updatedBy}
+           </if>
+           <if test="updateTime!=null">
+               update_time = #{updateTime}
+           </if>
+           <if test="removed">
+               removed=#{removed}
+           </if>
+
+         </set>
+         where id = #{id}
+     </update>
+
+
+</mapper>
