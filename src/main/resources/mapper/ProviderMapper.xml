@@ -121,4 +121,6 @@
         <result column="updated_time" property="updatedTime" jdbcType="VARCHAR"/>
         <result column="removed" property="removed" jdbcType="INTEGER"/>
     </resultMap>
+
+
 </mapper>
