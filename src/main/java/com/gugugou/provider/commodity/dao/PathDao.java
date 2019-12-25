@@ -31,6 +31,12 @@ public interface PathDao {
     List<PathModel> selectPathListByPage(RequestDTO requestDTO);
 
     /**
+     * 查询路径所有数据
+     * @return
+     */
+    List<PathModel> selectPathList();
+
+    /**
      * 查询路径列表数据条数
      * @return
      */

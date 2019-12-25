@@ -1,9 +1,12 @@
-package com.gugugou.provider.common.until;
+package com.gugugou.provider.common.job;
 
 import com.gugugou.provider.aptitude.DTO.SelectListDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
+import com.gugugou.provider.common.until.DaysToMillis;
+import com.gugugou.provider.common.until.SendEmail;
+import com.gugugou.provider.common.until.TimeToStamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -49,15 +51,13 @@ public class BrandScheduleTask implements SchedulingConfigurer {
 
         Logger logger = LoggerFactory.getLogger(this.getClass());
 
-        /**
-         * 修改资质到期状态
-         */
+
         scheduledTaskRegistrar.addTriggerTask(
                 //1.添加任务内容(Runnable)
                 () -> {
+                    //修改资质到期状态
                     List<SelectListDTO> selectListDTOList = brandDao.selectList();
                     BrandModel brandModel = new BrandModel();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     long timeMillis = System.currentTimeMillis();
                     long cron = DaysToMillis.daysToMillis(30L);
                     long cron1 = DaysToMillis.daysToMillis(15L);
@@ -71,8 +71,7 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                             Date date = null;
                             Integer count;
                             try {
-                                date = format.parse(trademarkEndDate);
-                                long dateTime = date.getTime();
+                                long dateTime = TimeToStamp.timeToStamp(trademarkEndDate);
                                 boolean flag = dateTime - timeMillis < cron ? true : false;
                                 if (flag) {
                                     brandModel.setId(id);
@@ -115,7 +114,7 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                                     }
                                 }
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                throw new RuntimeException("日期解析异常");
                             }
                         });
                     }

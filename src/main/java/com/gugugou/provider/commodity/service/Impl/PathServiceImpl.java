@@ -6,10 +6,13 @@ import com.gugugou.provider.commodity.model.PathModel;
 import com.gugugou.provider.commodity.service.PathService;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.ResponseDTO;
+import com.gugugou.provider.common.until.TimeToStamp;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,8 +40,9 @@ public class PathServiceImpl implements PathService {
     public Long addPath(PathModel pathModel) {
         pathModel.setCreatedTime(new Date());
         pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-        pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
-        return pathDao.addPath(pathModel);
+        pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
+        pathDao.addPath(pathModel);
+        return pathModel.getId();
     }
 
     /**
@@ -94,6 +98,7 @@ public class PathServiceImpl implements PathService {
     @Override
     public Integer closePath(PathModel pathModel) {
         pathModel.setUpdatedTime(new Date());
+        pathModel.setPathCloseOpen(ProviderCentreConsts.INTEGER_ONE);
         pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
         return pathDao.updatePath(pathModel);
     }
@@ -104,9 +109,33 @@ public class PathServiceImpl implements PathService {
      * @return
      */
     @Override
+    @SuppressWarnings("all")
     public Integer openPath(PathModel pathModel) {
-        pathModel.setUpdatedTime(new Date());
-        pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
-        return pathDao.updatePath(pathModel);
+        Long id = pathModel.getId();
+        PathModel pathById = pathDao.getPathById(id);
+        String pathStartTime = pathById.getPathStartTime();
+        String pathEndTime = pathById.getPathEndTime();
+        long now = System.currentTimeMillis();
+        PathModel pathModelUpdate = new PathModel();
+        pathModelUpdate.setUpdatedTime(new Date());
+        pathModelUpdate.setPathCloseOpen(ProviderCentreConsts.INTEGER_ZERO);
+        try {
+            long start = TimeToStamp.timeToStamp(pathStartTime);
+            long end = TimeToStamp.timeToStamp(pathEndTime);
+            if (now < start) {
+                pathModelUpdate.setId(id);
+                pathModelUpdate.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
+                return pathDao.updatePath(pathModel);
+            }else if (now >= start && now <= end) {
+                pathModelUpdate.setId(id);
+                pathModelUpdate.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
+                return pathDao.updatePath(pathModel);
+            }else if(now > end) {
+                throw new RuntimeException("路径过期，请重新设置");
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException("日期解析异常");
+        }
+                return null;
     }
 }

@@ -18,17 +18,21 @@ import java.util.Date;
 @ToString
 public class PathModel implements Serializable {
 
-    private static final long serialVersionUID = -6298258534487295631L;
+    private static final long serialVersionUID = 2622391529992792783L;
     /** 主键id */
     private Long id ;
     /** 路径名称 */
     private String pathName ;
+    /** 路径类型 */
+    private String pathType ;
+    /** 路径开始时间 */
+    private String pathStartTime ;
+    /** 路径结束时间 */
+    private String pathEndTime ;
     /** 路径状态 */
     private Integer pathStatus ;
-    /** 小程序状态 */
-    private Integer miniProgramStatus ;
-    /** 路径有效期 */
-    private String pathValidity ;
+    /** 路径开启关闭 */
+    private Integer pathCloseOpen ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
