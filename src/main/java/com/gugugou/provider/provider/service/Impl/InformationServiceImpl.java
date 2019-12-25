@@ -120,7 +120,7 @@ public class InformationServiceImpl implements InformationService {
     public int updateContactName(InformationContact informationContact) {
         return informationDao.updateContactName(informationContact);
     }
-    /**查看供应商列表*/
+    /**查看供应商列表带条件*/
     @Override
     public Map findAllProviders(QueryField queryField) {
         Map<Object, Object> returnMap = new HashMap<>();
@@ -137,5 +137,11 @@ public class InformationServiceImpl implements InformationService {
             returnMap.put("count",count);
         }
         return returnMap;
+    }
+
+    /**查询所有供应商*/
+    @Override
+    public List<Information> queryAllProviders() {
+        return informationDao.queryAllProviders();
     }
 }

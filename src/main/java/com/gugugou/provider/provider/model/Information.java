@@ -17,7 +17,6 @@ public class Information implements Serializable {
     private Integer pageIndex;
     /** 每页数据 */
     private Integer pageSize;
-
     /**供应商id*/
     private Long providerIdFk;
     /**结算周期*/

@@ -19,6 +19,8 @@ public interface InformationService {
     Map selectDetalById(Long id);
     /**修改采销负责人*/
     int updateContactName(InformationContact informationContact);
-    /**查看供应商列表*/
+    /**查看供应商列表带条件*/
     Map findAllProviders(QueryField queryField);
+    /**查找所有供应商*/
+    List<Information> queryAllProviders();
 }
