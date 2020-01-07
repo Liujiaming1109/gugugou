@@ -1,7 +1,7 @@
-package com.gugugou.provider.commodity.dao;
+package com.gugugou.provider.path.dao;
 
-import com.gugugou.provider.commodity.DTO.RequestDTO;
-import com.gugugou.provider.commodity.model.PathModel;
+import com.gugugou.provider.common.RequestDTO;
+import com.gugugou.provider.path.model.PathModel;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

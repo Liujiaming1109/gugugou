@@ -9,30 +9,24 @@ import java.util.Date;
 
 /**
  * @author: chengShaoShao
- * @Title: PathModel
+ * @Title: InventoryProviderModel
  * @ProjectName: provider
  * @Description:
- * @date 2019/12/11 12:00
+ * @date 2019/12/24 10:24
  */
 @Data
 @ToString
-public class PathModel implements Serializable {
+public class WarehouseProviderModel implements Serializable {
 
-    private static final long serialVersionUID = 2622391529992792783L;
+    private static final long serialVersionUID = -27936402014981994L;
     /** 主键id */
     private Long id ;
-    /** 路径名称 */
-    private String pathName ;
-    /** 路径类型 */
-    private String pathType ;
-    /** 路径开始时间 */
-    private String pathStartTime ;
-    /** 路径结束时间 */
-    private String pathEndTime ;
-    /** 路径状态 */
-    private Integer pathStatus ;
-    /** 路径开启关闭 */
-    private Integer pathCloseOpen ;
+    /** 仓库管理表外键id */
+    private Long warehouseIdFk ;
+    /** 供应商外键id */
+    private Long providerIdFk ;
+    /** 供应商名称 */
+    private String providerName ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */

@@ -1,7 +1,7 @@
 package com.gugugou.provider.commodity.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gugugou.provider.commodity.DTO.RequestDTO;
+import com.gugugou.provider.common.RequestDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,30 +10,28 @@ import java.util.Date;
 
 /**
  * @author: chengShaoShao
- * @Title: Entrepot
+ * @Title: SkuPointModel
  * @ProjectName: provider
  * @Description:
- * @date 2019/12/12 13:51
+ * @date 2019/12/27 15:23
  */
 @Data
 @ToString
-public class EntrepotModel extends RequestDTO {
+public class SkuPathModel extends RequestDTO {
 
-    private static final long serialVersionUID = 6817033657063187748L;
+    private static final long serialVersionUID = 3243459496320797838L;
     /** 主键id */
     private Long id ;
-    /** 供应商外键id */
-    private Long providerIdFk ;
-    /** 供应商名称 */
-    private String providerName ;
-    /** 仓库名称 */
-    private String entrepotName ;
-    /** 收货地址 */
-    private String address ;
-    /** 仓库经纬度 */
-    private String entrepotLatitude ;
-    /** 物理库存 */
-    private Integer physicalInventory ;
+    /** sku_id */
+    private Long skuId ;
+    /** 供应商id*/
+    private Long providerId;
+    /** 路径id*/
+    private Long pathId;
+    /** 路径类型*/
+    private String pathType;
+    /** sku扣点 */
+    private Integer point ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
@@ -46,4 +44,5 @@ public class EntrepotModel extends RequestDTO {
     private Date updatedTime ;
     /** 逻辑删除 */
     private Integer removed ;
+
 }

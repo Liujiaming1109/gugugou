@@ -7,7 +7,7 @@
         <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
         <result column="type_id" property="typeId" jdbcType="BIGINT"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
-        <result column="provider_id_fk" property="providerIdFk" jdbcType="INTEGER"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="BIGINT"/>
         <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
         <result column="provider_auth_level" property="providerAuthLevel" jdbcType="INTEGER"/>
         <result column="trademark_status" property="trademarkStatus" jdbcType="INTEGER"/>
@@ -334,12 +334,22 @@
     <!--修改扣点-->
     <update id="updateBucklePoint" parameterType="com.gugugou.provider.aptitude.model.BrandModel">
         update t_brand
-        set buckle_point = #{bucklePoint}, updated_by = #{updatedBy}, updated_time = #{updatedTime}
+        <set>
+            <if test="bucklePoint != null">
+                buckle_point = #{bucklePoint},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime}
+            </if>
+        </set>
         where id = #{id};
     </update>
 
 <!--查询资质到期时间和采购负责人邮箱-->
-    <select id="selectList" resultType="com.gugugou.provider.aptitude.DTO.SelectListDTO">
+    <select id="selectList" resultType="com.gugugou.provider.aptitude.dto.response.SelectListDTO">
         select
         tp.principal_email principalEmail,
         tb.id id,
@@ -350,5 +360,39 @@
         on tp.id = tb.provider_id_fk
         and tp.removed = 0
         and tb.removed = 0;
+    </select>
+
+<!--根据品牌和类目查询供应商列表-->
+    <select id="selectProviderListByBrandIdAndTypeId" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select
+        id,
+        provider_id_fk,
+        provider_name,
+        buckle_point
+        from t_brand
+        <set>
+            <if test="providerName != null">
+                provider_name = #{providerName}
+            </if>
+        </set>
+        where removed = 0
+        and trademark_status != 2
+        and brand_id = #{brandId}
+        and type_id = #{typeId}
+        limit #{pageIndex}, #{pageSize};
+    </select>
+    <!--根据品牌和类目查询供应商列表数量-->
+    <select id="selectProviderCountByBrandIdAndTypeId" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+        select count(1)
+        from t_brand
+        <set>
+            <if test="providerName != null">
+                provider_name = #{providerName}
+            </if>
+        </set>
+        where removed = 0
+        and trademark_status != 2
+        and brand_id = #{brandId}
+        and type_id = #{typeId};
     </select>
 </mapper>

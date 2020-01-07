@@ -1,6 +1,8 @@
 package com.gugugou.provider.aptitude.service;
 
-import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ResponseDTO;
@@ -85,4 +87,11 @@ public interface BrandService {
      * @return
      */
     Integer updateBucklePoint(BrandModel brandModel);
+
+    /**
+     * 根据品牌和类目查询供应商列表
+     * @param brandSkuPathRequestDTO
+     * @return
+     */
+    BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(BrandSkuPathRequestDTO brandSkuPathRequestDTO);
 }

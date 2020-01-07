@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.commodity.dao.WarehouseProviderDao">
+    <resultMap id="BaseResultMap" type="com.gugugou.provider.commodity.model.WarehouseProviderModel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="warehouse_id_fk" property="warehouseIdFk" jdbcType="BIGINT"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="BIGINT"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
+<!--添加供应商和仓库关系-->
+    <insert id="addWarehouseProvider">
+        insert into commodity_provider
+        (id, warehouse_id_fk, provider_id_fk, provider_name, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id}, #{warehouseIdFk}, #{providerIdFk}, #{providerName}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+    </insert>
+    <!--基本字段-->
+    <sql id="baseColumnList">
+        id,
+        warehouse_id_fk,
+        provider_id_fk,
+        provider_name,
+        created_by,
+        created_time,
+        updated_by,
+        updated_time,
+        removed
+    </sql>
+<!--根据仓库id查询供应商关系-->
+    <select id="selectWarehouseProviderById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select <include refid="baseColumnList"/>
+        from commodity_provider
+        where warehouse_id_fk = #{warehouseIdFk}
+        and removed = 0;
+    </select>
+<!--修改供应商仓库关系-->
+    <update id="updateWarehouseProviderById" parameterType="com.gugugou.provider.commodity.model.WarehouseProviderModel">
+        update commodity_provider
+        <set>
+            <if test="providerIdFk != null">
+                provider_id_fk = #{providerIdFk}
+            </if>
+            <if test="providerName != null">
+                provider_name = #{providerName}
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy}
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime}
+            </if>
+            <if test="removed != null">
+                removed = #{removed}
+            </if>
+        </set>
+        where warehouse_id_fk = #{warehouseIdFk};
+    </update>
+
+
+</mapper>

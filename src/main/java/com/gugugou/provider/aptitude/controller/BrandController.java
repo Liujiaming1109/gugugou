@@ -1,6 +1,8 @@
 package com.gugugou.provider.aptitude.controller;
 
-import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
@@ -136,13 +138,19 @@ public class BrandController {
      * @return
      */
     @PostMapping("updateBucklePoint")
-    public Integer updateBucklePoint(BrandModel brandModel) {
+    public Integer updateBucklePoint(@RequestBody BrandModel brandModel) {
         logger.info("修改扣点的入参--brandModel：{}", brandModel);
         return brandService.updateBucklePoint(brandModel);
     }
 
-    @GetMapping("sendEmail")
-    public void sendEmail(@RequestParam String email) {
-        sendEmail.sendMail(email,"你好，我就测试一下","测试");
+    /**
+     * 根据品牌和类目查询供应商列表
+     * @param brandSkuPathRequestDTO
+     * @return
+     */
+    @PostMapping("selectProviderListByBrandIdAndTypeId")
+    public BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(@RequestBody BrandSkuPathRequestDTO brandSkuPathRequestDTO) {
+        logger.info("根据品牌和类目查询供应商列表--brandModel：{}", brandSkuPathRequestDTO);
+        return brandService.selectProviderListByBrandIdAndTypeId(brandSkuPathRequestDTO);
     }
 }

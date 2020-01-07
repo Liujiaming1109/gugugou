@@ -1,4 +1,4 @@
-package com.gugugou.provider.commodity.DTO;
+package com.gugugou.provider.common;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
 package com.gugugou.provider.common.job;
 
-import com.gugugou.provider.commodity.dao.PathDao;
-import com.gugugou.provider.commodity.model.PathModel;
+import com.gugugou.provider.path.dao.PathDao;
+import com.gugugou.provider.path.model.PathModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.until.TimeToStamp;
 import org.slf4j.Logger;

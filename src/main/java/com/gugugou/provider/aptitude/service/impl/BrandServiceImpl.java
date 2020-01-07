@@ -1,10 +1,15 @@
-package com.gugugou.provider.aptitude.service.Impl;
+package com.gugugou.provider.aptitude.service.impl;
 
-import com.gugugou.provider.aptitude.dto.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandResponseDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
+import com.gugugou.provider.commodity.dao.SkuPathDao;
+import com.gugugou.provider.commodity.dto.response.SkuPathResponseDTO;
+import com.gugugou.provider.commodity.model.SkuPathModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.ResponseDTO;
 import org.springframework.stereotype.Service;
@@ -28,6 +33,8 @@ public class BrandServiceImpl implements BrandService {
 
    @Resource
    private BrandDao brandDao;
+   @Resource
+   private SkuPathDao skuPathDao;
 
     /**
      * 新增品牌资质
@@ -395,4 +402,53 @@ public class BrandServiceImpl implements BrandService {
         brandModel.setUpdatedTime(new Date());
         return brandDao.updateBucklePoint(brandModel);
     }
+
+    /**
+     * 根据品牌和类目查询供应商列表
+     * @param brandSkuPathRequestDTO
+     * @return
+     */
+    @Override
+    public BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(BrandSkuPathRequestDTO brandSkuPathRequestDTO) {
+        BrandModel brandModel = new BrandModel();
+        SkuPathModel skuPathModel = new SkuPathModel();
+        BrandSkuPathResponseDTO brandSkuPathResponseDTO = new BrandSkuPathResponseDTO();
+        brandModel.setBrandId(brandSkuPathRequestDTO.getBrandId());
+        brandModel.setTypeId(brandSkuPathRequestDTO.getTypeId());
+        brandModel.setPageIndex(brandSkuPathRequestDTO.getPageIndex());
+        brandModel.setPageSize(brandSkuPathRequestDTO.getPageSize());
+        List<BrandModel> brandModelList = brandDao.selectProviderListByBrandIdAndTypeId(brandModel);
+        ArrayList<SkuPathResponseDTO> skuPathModels = new ArrayList<>();
+        ArrayList<BrandModel> brandModelArrayList = new ArrayList<>();
+        if (!brandModelList.isEmpty()) {
+            for (BrandModel brandModels:brandModelList) {
+                skuPathModel.setProviderId(brandModels.getProviderIdFk());
+                skuPathModel.setSkuId(brandSkuPathRequestDTO.getSkuId());
+                SkuPathResponseDTO skuPathResponseDTO = skuPathDao.selectSkuPathBySkuIdAndProviderId(skuPathModel);
+                if (skuPathResponseDTO != null) {
+                    skuPathResponseDTO.setProviderName(brandModels.getProviderName());
+                    skuPathModels.add(skuPathResponseDTO);
+                }else {
+                    brandModelArrayList.add(brandModels);
+                }
+            }
+        }
+        if (!brandModelArrayList.isEmpty()) {
+            brandSkuPathResponseDTO.setBrandModelList(brandModelArrayList);
+        }else {
+            brandSkuPathResponseDTO.setBrandModelList(new ArrayList<>());
+        }
+        if (!skuPathModels.isEmpty()) {
+            brandSkuPathResponseDTO.setSkuPathModelList(skuPathModels);
+        }else {
+            brandSkuPathResponseDTO.setSkuPathModelList(new ArrayList<>());
+        }
+        Long count = brandDao.selectProviderCountByBrandIdAndTypeId(brandModel);
+        if (null != count && count > ProviderCentreConsts.INTEGER_ZERO) {
+            brandSkuPathResponseDTO.setCount(count);
+        }
+        return brandSkuPathResponseDTO;
+    }
+
+
 }

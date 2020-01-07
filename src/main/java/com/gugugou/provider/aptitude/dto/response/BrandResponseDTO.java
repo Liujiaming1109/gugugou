@@ -1,4 +1,4 @@
-package com.gugugou.provider.aptitude.dto;
+package com.gugugou.provider.aptitude.dto.response;
 
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;

@@ -1,6 +1,6 @@
 package com.gugugou.provider.aptitude.dao;
 
-import com.gugugou.provider.aptitude.DTO.SelectListDTO;
+import com.gugugou.provider.aptitude.dto.response.SelectListDTO;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -134,4 +134,19 @@ public interface BrandDao {
      * @return
      */
     List<SelectListDTO> selectList();
+
+    /**
+     * 根据品牌和类目查询供应商列表
+     * @param brandModel
+     * @return
+     */
+    List<BrandModel> selectProviderListByBrandIdAndTypeId(BrandModel brandModel);
+
+    /**
+     * 根据品牌和类目查询供应商列表数量
+     * @param brandModel
+     * @return
+     */
+    Long selectProviderCountByBrandIdAndTypeId(BrandModel brandModel);
+
 }

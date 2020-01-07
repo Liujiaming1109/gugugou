@@ -1,6 +1,6 @@
 package com.gugugou.provider.common.job;
 
-import com.gugugou.provider.aptitude.DTO.SelectListDTO;
+import com.gugugou.provider.aptitude.dto.response.SelectListDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ProviderCentreConsts;

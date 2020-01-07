@@ -1,8 +1,8 @@
-package com.gugugou.provider.commodity.controller;
+package com.gugugou.provider.path.controller;
 
-import com.gugugou.provider.commodity.DTO.RequestDTO;
-import com.gugugou.provider.commodity.model.PathModel;
-import com.gugugou.provider.commodity.service.PathService;
+import com.gugugou.provider.common.RequestDTO;
+import com.gugugou.provider.path.model.PathModel;
+import com.gugugou.provider.path.service.PathService;
 import com.gugugou.provider.common.ResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

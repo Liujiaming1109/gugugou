@@ -1,4 +1,4 @@
-package com.gugugou.provider.aptitude.DTO;
+package com.gugugou.provider.aptitude.dto.response;
 
 
 import java.io.Serializable;

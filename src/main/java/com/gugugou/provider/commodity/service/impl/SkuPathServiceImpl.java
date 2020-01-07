@@ -1,0 +1,82 @@
+package com.gugugou.provider.commodity.service.impl;
+
+import com.gugugou.provider.commodity.dao.SkuPathDao;
+import com.gugugou.provider.commodity.dto.model.UpdateSkuPathModel;
+import com.gugugou.provider.commodity.dto.request.UpdateSkuPathListRequest;
+import com.gugugou.provider.commodity.model.SkuPathModel;
+import com.gugugou.provider.commodity.service.SkuPathService;
+import com.gugugou.provider.common.ProviderCentreConsts;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * @author: chengShaoShao
+ * @Title: SkuPointServiceImpl
+ * @ProjectName: provider
+ * @Description:
+ * @date 2019/12/27 15:36
+ */
+@Service
+@Transactional
+public class SkuPathServiceImpl implements SkuPathService {
+
+    @Resource
+    private SkuPathDao skuPathDao;
+
+    /**
+     * 修改扣点
+     * @param skuPathModel
+     * @return
+     */
+    @Override
+    public Integer updateSkuPoint(SkuPathModel skuPathModel) {
+        Long id = skuPathModel.getId();
+        SkuPathModel skuPathById = skuPathDao.getSkuPathById(id);
+        if (skuPathById != null) {
+            skuPathModel.setUpdatedTime(new Date());
+            skuPathDao.updateSkuPoint(skuPathModel);
+        }else {
+            skuPathModel.setCreatedTime(new Date());
+            skuPathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+            skuPathDao.insertSkuPath(skuPathModel);
+        }
+        return null;
+    }
+
+    /**
+     * 批量修改扣点
+     * @param updateSkuPathListRequest
+     * @return
+     */
+    @Override
+    public Integer updateSkuPointList(UpdateSkuPathListRequest updateSkuPathListRequest) {
+        List<UpdateSkuPathModel> updateSkuPathModels = updateSkuPathListRequest.getUpdateSkuPathModels();
+        if (!updateSkuPathModels.isEmpty()) {
+            for (UpdateSkuPathModel updateSkuPathModel:updateSkuPathModels) {
+                Long id = updateSkuPathModel.getId();
+                SkuPathModel skuPathById = skuPathDao.getSkuPathById(id);
+                if (skuPathById != null) {
+                    SkuPathModel skuPathModel = new SkuPathModel();
+                    skuPathModel.setId(id);
+                    skuPathModel.setPoint(updateSkuPathListRequest.getPoint());
+                    skuPathModel.setUpdatedTime(new Date());
+                    skuPathDao.updateSkuPoint(skuPathModel);
+                }else {
+                    SkuPathModel skuPathModel = new SkuPathModel();
+                    skuPathModel.setSkuId(updateSkuPathListRequest.getSkuId());
+                    skuPathModel.setPoint(updateSkuPathListRequest.getPoint());
+                    skuPathModel.setProviderId(updateSkuPathModel.getProviderId());
+                    skuPathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+                    skuPathModel.setCreatedTime(new Date());
+                    skuPathDao.insertSkuPath(skuPathModel);
+                }
+            }
+        }
+                 return null;
+    }
+}

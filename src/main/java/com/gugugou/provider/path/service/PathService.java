@@ -1,7 +1,7 @@
-package com.gugugou.provider.commodity.service;
+package com.gugugou.provider.path.service;
 
-import com.gugugou.provider.commodity.DTO.RequestDTO;
-import com.gugugou.provider.commodity.model.PathModel;
+import com.gugugou.provider.common.RequestDTO;
+import com.gugugou.provider.path.model.PathModel;
 import com.gugugou.provider.common.ResponseDTO;
 
 
