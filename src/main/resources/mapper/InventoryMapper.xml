@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.commodity.dao.InventoryDao">
+    <resultMap id="InventoryMap" type="com.gugugou.provider.commodity.model.InventoryModel">
+        <id column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="provider_id" property="providerId"/>
+        <result column="path_id" property="pathId"/>
+        <result column="path_type" property="pathType"/>
+        <result column="unique_code" property="uniqueCode" />
+        <result column="warehouse_code" property="warehouseCode"/>
+        <result column="warehouse_type" property="warehouseType"/>
+        <result column="real_quantity" property="realQuantity"/>
+        <result column="safe_quantity" property="safeQuantity"/>
+        <result column="preorder_quantity" property="preorderQuantity"/>
+        <result column="withhold_quantity" property="withholdQuantity"/>
+        <result column="occupy_quantity" property="occupyQuantity"/>
+        <result column="status" property="status"/>
+        <result column="sku_code" property="skuCode"/>
+        <result column="extra_json" property="extraJson"/>
+        <result column="version" property="version"/>
+        <result column="sync_at" property="syncAt"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insertInventory" parameterType="com.gugugou.provider.commodity.model.InventoryModel" useGeneratedKeys="true" keyProperty="id">
+        insert into ipm_solution.inventory
+        (id, provider_id, path_id, path_type, tenant_id, entity_id, entity_type, unique_code, warehouse_code, warehouse_type, real_quantity, safe_quantity, preorder_quantity, withhold_quantity, occupy_quantity, status, sku_code, extra_json, version, sync_at, created_at, updated_at, updated_by)
+        values
+        (#{id}, #{providerId}, #{pathId}, #{pathType}, #{tenantId}, #{entityId}, #{entityType}, #{uniqueCode}, #{warehouseCode}, #{warehouseType}, #{realQuantity}, #{safeQuantity}, #{preorderQuantity}, #{withholdQuantity}, #{occupyQuantity}, #{status}, #{skuCode}, #{extraJson}, #{version},#{syncAt}, #{createdAt},#{updatedAt},#{updatedBy})
+    </insert>
+
+<!--根据skuId和仓库编码，查询可用库存-->
+    <select id="selectRealQuantityBySkuIdAndWareHouse" parameterType="long" resultMap="InventoryMap">
+        select isi.real_quantity, isw. from ipm_solution.inventory as isi
+        join ipm_solution.warehouse as isw
+        on isi.warehouse = isw.warehouse
+        where entity_id = #{entityId}
+        and warehouse_code = #{warehouseCode}
+        and path_id = null;
+    </select>
+
+<!-- 根据路径id和skuId查询所有路径库存数据-->
+    <select id="selectPathRealQuantityBySkuIdAndPathId" parameterType="long" resultMap="InventoryMap">
+        select real_quantity from ipm_solution.inventory
+        where sku_id = #{skuId}
+        and path_id = #{pathId};
+    </select>
+</mapper>

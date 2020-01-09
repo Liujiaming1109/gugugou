@@ -3,6 +3,7 @@ package com.gugugou.provider.commodity.dao;
 import com.gugugou.provider.commodity.dto.response.SkuPathResponseDTO;
 import com.gugugou.provider.commodity.model.SkuPathModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,6 +39,13 @@ public interface SkuPathDao {
     SkuPathModel getSkuPathById(Long id);
 
     /**
+     * 根据skuId判断是否有商品原有扣点数据
+     * @param id
+     * @return
+     */
+    SkuPathModel getSkuPathBySkuId(Long id);
+
+    /**
      * 查询所有修改扣点表数据
      * @return
      */
@@ -49,4 +57,35 @@ public interface SkuPathDao {
      * @return
      */
     int updateSkuPoint(SkuPathModel skuPathModel);
+
+    /**
+     * 查询路径下的扣点列表
+     * @param skuPathModel
+     * @return
+     */
+    List<SkuPathModel> selectPathPointListByPage(SkuPathModel skuPathModel);
+
+    /**
+     * 查询路径下的扣点数据数量
+     * @param skuPathModel
+     * @return
+     */
+    Long selectPathPointCountByPage(SkuPathModel skuPathModel);
+
+    /**
+     * 修改路径扣点
+     * @param skuPathModel
+     * @return
+     */
+    int updatePathPoint(SkuPathModel skuPathModel);
+
+    /**
+     * selectSkuIdByPathIdAndItemId
+     * @param itemId
+     * @param pathId
+     * @return
+     */
+    List<SkuPathModel> selectSkuIdByPathIdAndItemId(@Param("itemId") Long itemId, @Param("pathId") Long pathId);
+
+
 }

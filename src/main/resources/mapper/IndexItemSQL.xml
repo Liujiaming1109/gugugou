@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gugugou.provider.commodity.dao.ItemDao">
+    <resultMap id="Item" type="com.gugugou.provider.commodity.model.ItemModel">
+        <id column="id" property="id"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="item_code" property="itemCode"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="name" property="name"/>
+        <result column="main_image" property="mainImage"/>
+        <result column="status" property="status"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="type" property="type"/>
+        <result column="business_type" property="businessType"/>
+        <result column="high_price" property="highPrice"/>
+        <result column="low_price" property="lowPrice"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="categoryIds" property="categoryIds"/>
+        <result column="shopCategoryIds" property="shopCategoryIds"/>
+        <result column="sale_quantity" property="saleQuantity"/>
+        <result column="in_stock" property="inStock"/>
+        <result column="source" property="source"/>
+    </resultMap>
+
+    <sql id="col">
+        id,spu_id,tenant_id,category_id,item_code,shop_id,shop_name,brand_id,brand_name,name,main_image,status,audit_status,type,business_type,high_price,low_price,updated_at,categoryIds,shopCategoryIds,sale_quantity,in_stock,source
+    </sql>
+
+    <select id="searchItemList" parameterType="com.gugugou.provider.commodity.model.ItemModel"
+            resultMap="Item">
+        SELECT
+        <include refid="col"/>
+        FROM
+        parana-item.index_item
+        WHERE tenant_id = ${tenantId}
+        <if test="id != null">AND id = '${id}'</if>
+        <if test="excludeId != null">AND id != '${excludeId}'</if>
+        <if test="name != null and name != ''">AND name LIKE '${name}'</if>
+        <if test="itemCode != null and itemCode != ''">AND item_code = '${itemCode}'</if>
+        <if test="spuId != null">AND spu_id = '${spuId}'</if>
+        <if test="shopName != null and shopName != ''">AND shop_name = '${shopName}'</if>
+        <if test="auditStatus != null and auditStatus !=''">AND audit_status = '${auditStatus}'</if>
+        <if test="lowPrice != null">
+            AND low_price between '${lowPrice}' and '${highPrice}'
+        </if>
+        <if test="shopIdList != null">
+            AND shop_id IN
+            <foreach collection="shopIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="filterCategoryIdList != null">
+            AND categoryIds IN
+            <foreach collection="filterCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="excludeCategoryIdList != null">
+            AND categoryIds NOT IN
+            <foreach collection="excludeCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="categoryIdList != null">
+            AND categoryIds IN
+            <foreach collection="categoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="shopCategoryIdList != null">
+            AND shopCategoryIds IN
+            <foreach collection="shopCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="typeList != null">
+            AND type IN
+            <foreach collection="typeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="businessTypeList != null">
+            AND business_type IN
+            <foreach collection="businessTypeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="excludeBusinessTypeList != null">
+            AND business_type NOT IN
+            <foreach collection="excludeBusinessTypeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="statusList != null">
+            AND status IN
+            <foreach collection="statusList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="sourceList != null">
+            AND source IN
+            <foreach collection="sourceList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        ORDER BY _score,updated_at DESC
+        LIMIT ${offset},${limit}
+    </select>
+
+
+    <select id="searchItemListCount" parameterType="com.gugugou.provider.commodity.model.ItemModel"
+            resultMap="Item">
+        SELECT
+        count(1)
+        FROM
+        parana-item.index_item
+        WHERE tenant_id = ${tenantId}
+        <if test="id != null">AND id = '${id}'</if>
+        <if test="excludeId != null">AND id != '${excludeId}'</if>
+        <if test="name != null and name != ''">AND name LIKE '${name}'</if>
+        <if test="itemCode != null and itemCode != ''">AND item_code = '${itemCode}'</if>
+        <if test="spuId != null">AND spu_id = '${spuId}'</if>
+        <if test="shopName != null and shopName != ''">AND shop_name = '${shopName}'</if>
+        <if test="auditStatus != null and auditStatus !=''">AND audit_status = '${auditStatus}'</if>
+        <if test="lowPrice != null">
+            AND low_price between '${lowPrice}' and '${highPrice}'
+        </if>
+        <if test="shopIdList != null">
+            AND shop_id IN
+            <foreach collection="shopIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="filterCategoryIdList != null">
+            AND categoryIds IN
+            <foreach collection="filterCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="excludeCategoryIdList != null">
+            AND categoryIds NOT IN
+            <foreach collection="excludeCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="categoryIdList != null">
+            AND categoryIds IN
+            <foreach collection="categoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="shopCategoryIdList != null">
+            AND shopCategoryIds IN
+            <foreach collection="shopCategoryIdList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="typeList != null">
+            AND type IN
+            <foreach collection="typeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="businessTypeList != null">
+            AND business_type IN
+            <foreach collection="businessTypeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="excludeBusinessTypeList != null">
+            AND business_type NOT IN
+            <foreach collection="excludeBusinessTypeList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="statusList != null">
+            AND status IN
+            <foreach collection="statusList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        <if test="sourceList != null">
+            AND source IN
+            <foreach collection="sourceList" item="item" separator="," open="(" close=")">
+                '${item}'
+            </foreach>
+        </if>
+        ORDER BY _score,updated_at DESC
+        LIMIT ${offset},${limit}
+    </select>
+</mapper>

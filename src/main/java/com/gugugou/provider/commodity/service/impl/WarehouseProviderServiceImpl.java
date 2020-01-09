@@ -21,39 +21,5 @@ import java.util.Date;
 @Transactional
 public class WarehouseProviderServiceImpl implements WarehouseProviderService {
 
-    @Resource
-    private WarehouseProviderDao inventoryProviderDao;
 
-    /**
-     * 添加供应商和仓库关系
-     * @param inventoryProviderModel
-     * @return
-     */
-    @Override
-    public Integer addWarehouseProvider(WarehouseProviderModel inventoryProviderModel) {
-        inventoryProviderModel.setCreatedTime(new Date());
-        inventoryProviderModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-        return inventoryProviderDao.addWarehouseProvider(inventoryProviderModel);
-    }
-
-    /**
-     * 根据仓库id查询供应商关系
-     * @param id
-     * @return
-     */
-    @Override
-    public WarehouseProviderModel selectWarehouseProviderById(Long id) {
-        return inventoryProviderDao.selectWarehouseProviderById(id);
-    }
-
-    /**
-     * 修改供应商仓库关系
-     * @param inventoryProviderModel
-     * @return
-     */
-    @Override
-    public Integer updateWarehouseProviderById(WarehouseProviderModel inventoryProviderModel) {
-        inventoryProviderModel.setUpdatedTime(new Date());
-        return inventoryProviderDao.updateWarehouseProviderById(inventoryProviderModel);
-    }
 }

@@ -362,8 +362,8 @@
         and tb.removed = 0;
     </select>
 
-<!--根据品牌和类目查询供应商列表-->
-    <select id="selectProviderListByBrandIdAndTypeId" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
+<!--根据品牌查询供应商列表-->
+    <select id="selectProviderListByBrandId" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
         select
         id,
         provider_id_fk,
@@ -378,8 +378,20 @@
         where removed = 0
         and trademark_status != 2
         and brand_id = #{brandId}
-        and type_id = #{typeId}
         limit #{pageIndex}, #{pageSize};
+    </select>
+
+    <!--根据品牌查询供应商数据-->
+    <select id="selectProviderByBrandId" parameterType="long" resultMap="BaseResultMap">
+        select
+        id,
+        provider_id_fk,
+        provider_name,
+        buckle_point
+        from t_brand
+        where removed = 0
+        and trademark_status != 2
+        and brand_id = #{brandId};
     </select>
     <!--根据品牌和类目查询供应商列表数量-->
     <select id="selectProviderCountByBrandIdAndTypeId" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultMap="BaseResultMap">
@@ -392,7 +404,6 @@
         </set>
         where removed = 0
         and trademark_status != 2
-        and brand_id = #{brandId}
-        and type_id = #{typeId};
+        and brand_id = #{brandId};
     </select>
 </mapper>

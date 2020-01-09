@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.commodity.dao.SkuPathDao">
+    <resultMap id="BaseResultMap" type="com.gugugou.provider.commodity.model.SkuPathModel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+        <result column="provider_id" property="providerId" jdbcType="BIGINT"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="item_path_id" property="itemPathId" jdbcType="BIGINT"/>
+        <result column="point" property="point" jdbcType="INTEGER"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+        <result column="removed" property="removed" jdbcType="INTEGER"/>
+    </resultMap>
+<!--新增sku扣点表-->
+    <insert id="insertSkuPath" useGeneratedKeys="true" keyProperty="id">
+        insert into sku_path
+        (id, sku_id, provider_id, item_path_id, point, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id}, #{skuId}, #{providerId}, #{itemPathId}, #{point}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+    </insert>
+
+<!--查询扣点列表-->
+    <select id="selectSkuPathBySkuIdAndProviderId" parameterType="com.gugugou.provider.commodity.model.SkuPathModel" resultMap="BaseResultMap">
+       select
+       id,
+       point
+       from sku_path
+       where removed = 0
+       and sku_id = #{skuId}
+       and provider_id = #{providerId}
+       and path_id = null;
+    </select>
+<!--根据id查询扣点表数据-->
+    <select id="getSkuPathById" parameterType="long" resultMap="BaseResultMap">
+        select id from sku_path
+        where removed = 0
+        and id = #{id};
+    </select>
+<!--根据skuId判断是否有商品原有扣点数据-->
+    <select id="getSkuPathBySkuId" parameterType="long" resultMap="BaseResultMap">
+        select id from sku_path
+        where removed = 0
+        and sku_id = #{skuId}
+        and item_path_id = null;
+    </select>
+<!--查询所有修改扣点表数据-->
+    <select id="selectSkuPointAll" resultMap="BaseResultMap">
+        select id from t_sku_point
+        where removed = 0;
+    </select>
+
+<!--修改扣点-->
+    <update id="updateSkuPoint" parameterType="com.gugugou.provider.commodity.model.SkuPathModel">
+        update sku_path
+        <set>
+            <if test="point != null">
+                point = #{point},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+<!--查询路径下的扣点列表-->
+    <select id="selectPathPointListByPage" parameterType="com.gugugou.provider.commodity.model.SkuPathModel" resultMap="BaseResultMap">
+        select
+        tp.provider_name,
+        sp.point,
+        sp.id
+        from
+        sku_path as sp
+        left join t_provider as tp
+        on sp.provider_id = tp.id
+        <set>
+            <if test="providerName != null">
+                provider_name like concat('%', #{providerName}, '%')
+            </if>
+        </set>
+        where sp.removed = 0
+        and tp.removed = 0
+        and sp.item_path_id = #{itemPathId};
+    </select>
+
+    <!--查询路径下的扣点数据数量-->
+    <select id="selectPathPointCountByPage" parameterType="com.gugugou.provider.commodity.model.SkuPathModel" resultMap="BaseResultMap">
+        select
+        count(1)
+        from
+        sku_path as sp
+        left join t_provider as tp
+        on sp.provider_id = tp.id
+        <set>
+            <if test="providerName != null">
+                provider_name like concat('%', #{providerName}, '%')
+            </if>
+        </set>
+        where sp.removed = 0
+        and tp.removed = 0
+        and sp.item_path_id = #{itemPathId};
+    </select>
+
+<!--修改路径下的扣点-->
+    <update id="updatePathPoint" parameterType="com.gugugou.provider.commodity.model.SkuPathModel">
+        update sku_path
+        <set>
+            <if test="point != null">
+                point = #{point},
+            </if>
+            <if test="updatedBy != null">
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime}
+            </if>
+            <if test="removed != null">
+                removed = #{removed}
+            </if>
+        </set>
+        where id = {id};
+    </update>
+
+<!--通过路径id和商品id查询skuId-->
+    <select id="selectSkuIdByPathIdAndItemId" parameterType="long" resultMap="BaseResultMap">
+        select sp.sku_id from
+        item_path as ip
+        join sku_path as sp
+        on ip.id = sp.item_path_id
+        where ip.item_id = #{itemId}
+        and ip.path_id = #{pathId}
+        and ip.removed = 0
+        and sp.removed = 0;
+    </select>
+</mapper>

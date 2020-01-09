@@ -1,36 +1,28 @@
 package com.gugugou.provider.commodity.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.gugugou.provider.common.RequestDTO;
 import lombok.Data;
-import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author: chengShaoShao
- * @Title: SkuPointModel
+ * @Title: ItemPathModel
  * @ProjectName: provider
  * @Description:
- * @date 2019/12/27 15:23
+ * @date 2020/1/7 21:19
  */
 @Data
-@ToString
-public class SkuPathModel extends RequestDTO {
+public class ItemPathModel implements Serializable{
 
-    private static final long serialVersionUID = -6494492276947229909L;
+    private static final long serialVersionUID = 4195700384582135413L;
     /** 主键id */
     private Long id ;
-    /** sku_id */
-    private Long skuId ;
-    /** 供应商id */
-    private Long providerId;
-    /** 供应商名称 */
-    private String providerName;
-    /** 商品路径表id */
-    private Long itemPathId;
-    /** sku扣点 */
-    private Integer point ;
+    /** 商品外键id */
+    private Long itemId ;
+    /** 路径id */
+    private Long pathId ;
     /** 创建人 */
     private String createdBy ;
     /** 创建时间 */
@@ -41,7 +33,6 @@ public class SkuPathModel extends RequestDTO {
     /** 更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updatedTime ;
-    /** 逻辑删除 */
+    /** 逻辑删除（0：正常，1删除） */
     private Integer removed ;
-
 }

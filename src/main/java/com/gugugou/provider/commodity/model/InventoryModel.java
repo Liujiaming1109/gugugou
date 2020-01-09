@@ -1,77 +1,103 @@
 package com.gugugou.provider.commodity.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+
 /**
  * @author: chengShaoShao
- * @Title: InventoryProviderModel
+ * @Title: Inventory
  * @ProjectName: provider
  * @Description:
- * @date 2019/12/24 10:24
+ * @date 2020/1/9 11:57
  */
 @Data
-@ToString
-public class WarehouseProviderModel implements Serializable {
+public class InventoryModel implements Serializable {
 
-    private static final long serialVersionUID = -7188015607877234263L;
+
+    private static final long serialVersionUID = -3650810646797404464L;
     private Long providerId;
+
+    private Long pathId;
+
+    private String pathType;
     /**
-     * 编码
+     * entity id
+     */
+    private Long entityId;
+
+    /**
+     * 类型：SkuId(1), SkuCode(2)
+     */
+    private Integer entityType;
+
+    /**
+     * 唯一键，用于幂等
+     */
+    private String uniqueCode;
+
+    /**
+     * 仓库编码
      */
     private String warehouseCode;
 
     /**
-     * 名称
-     */
-    private String warehouseName;
+     * 仓库类型
 
-    /**
-     * 类型
      */
     private Integer warehouseType;
 
     /**
-     * priority
+     * 真实库存(物理库存)
      */
-    private Integer priority;
+    private Long realQuantity;
 
     /**
-     * 地址
+     * 安全库存
      */
-    private String address;
+    private Long safeQuantity;
 
     /**
-     * 是否默认仓库
+     * 在途库存(JIT)
      */
-    private Integer isDefault;
+    private Long preorderQuantity;
 
     /**
-     * 省市区Id
+     * 锁定库存
      */
-    private String divisionId;
+    private Long withholdQuantity;
 
     /**
-     * 区域
+     * 占用库存
      */
-    private String regionId;
+    private Long occupyQuantity;
 
     /**
-     *  状态
+     * 状态：Active(1), Inactive(0)
      */
-    private Integer status ;
+    private Integer status;
 
     /**
-     *  外部编号
+     * sku code
      */
-    private String outerCode;
+    private String skuCode;
+
+    /**
+     * 版本号，乐观锁
+     */
+    private Integer version;
+
+    /**
+     * 库存同步时间
+     */
+    private Date syncAt;
 
     /**
      * 创建时间
@@ -110,4 +136,5 @@ public class WarehouseProviderModel implements Serializable {
     @Getter
     @Setter
     private String updatedBy;
+
 }
