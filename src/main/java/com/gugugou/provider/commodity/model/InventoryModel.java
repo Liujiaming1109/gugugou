@@ -2,11 +2,12 @@ package com.gugugou.provider.commodity.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gugugou.provider.common.RequestDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -19,10 +20,10 @@ import java.util.Map;
  * @date 2020/1/9 11:57
  */
 @Data
-public class InventoryModel implements Serializable {
+public class InventoryModel extends RequestDTO {
 
 
-    private static final long serialVersionUID = -3650810646797404464L;
+    private static final long serialVersionUID = -3546014425904430787L;
     private Long providerId;
 
     private Long pathId;
@@ -136,5 +137,15 @@ public class InventoryModel implements Serializable {
     @Getter
     @Setter
     private String updatedBy;
+
+    private Long pathQuantity;
+
+    private String warehouseName;
+
+    private String providerName;
+
+    private Integer pathPrice;
+
+    private Long AllQuantity;
 
 }

@@ -15,6 +15,14 @@
         <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
         <result column="removed" property="removed" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="ItemPathSkuMap" type="com.gugugou.provider.path.model.ItemPathSkuDTO">
+        <id column="id" property="id"/>
+        <result column="item_id" property="itemId"/>
+        <result column="path_id" property="pathId"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="item_path_id" property="itemPathId"/>
+        <result column="path_price" property="pathPrice"/>
+    </resultMap>
     <!--添加路径-->
     <insert id="addPath" parameterType="com.gugugou.provider.path.model.PathModel" useGeneratedKeys="true" keyProperty="id">
         insert  into t_path
@@ -101,4 +109,19 @@
         </set>
         where id = #{id};
     </update>
+
+<!--根据路径id查询下面所有的商品id-->
+    <select id="selectItemIdByPathId" parameterType="long" resultMap="ItemPathSkuMap">
+        select id, item_id from item_path
+        where path_id = #{pathId}
+        and removed = 0;
+    </select>
+
+<!--根据商品路径表外键id查询所有路径价格-->
+    <select id="selectPathPriceByItemPathId" parameterType="long" resultMap="ItemPathSkuMap">
+        select path_price, sku_id from path_price
+        where item_path_id = #{itemPathId}
+        and removed = 0
+        order by path_price desc;
+    </select>
 </mapper>

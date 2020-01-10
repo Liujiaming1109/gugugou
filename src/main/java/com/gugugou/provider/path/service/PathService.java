@@ -1,5 +1,6 @@
 package com.gugugou.provider.path.service;
 
+import com.gugugou.provider.commodity.model.SkuModel;
 import com.gugugou.provider.common.RequestDTO;
 import com.gugugou.provider.path.model.PathModel;
 import com.gugugou.provider.common.ResponseDTO;
@@ -56,4 +57,9 @@ public interface PathService {
      * @return
      */
     Integer openPath(PathModel pathModel);
+
+    /**
+     * 查询路径下商品列表
+     */
+    ResponseDTO selectPathItem(SkuModel skuModel);
 }

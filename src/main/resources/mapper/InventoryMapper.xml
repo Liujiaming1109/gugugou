@@ -13,6 +13,8 @@
         <result column="path_type" property="pathType"/>
         <result column="unique_code" property="uniqueCode" />
         <result column="warehouse_code" property="warehouseCode"/>
+        <result column="warehouse_name" property="warehouseName"/>
+        <result column="provider_name" property="providerName"/>
         <result column="warehouse_type" property="warehouseType"/>
         <result column="real_quantity" property="realQuantity"/>
         <result column="safe_quantity" property="safeQuantity"/>
@@ -36,19 +38,60 @@
     </insert>
 
 <!--根据skuId和仓库编码，查询可用库存-->
-    <select id="selectRealQuantityBySkuIdAndWareHouse" parameterType="long" resultMap="InventoryMap">
-        select isi.real_quantity, isw. from ipm_solution.inventory as isi
-        join ipm_solution.warehouse as isw
-        on isi.warehouse = isw.warehouse
-        where entity_id = #{entityId}
-        and warehouse_code = #{warehouseCode}
-        and path_id = null;
-    </select>
+    <select id="selectRealQuantityBySkuIdAndWareHouse" parameterType="com.gugugou.provider.commodity.model.InventoryModel" resultMap="InventoryMap">
+    select real_quantity from ipm_solution.inventory
+    where entity_id = #{entityId}
+    and warehouse_code = #{warehouseCode}
+    and path_id = null;
+</select>
+
 
 <!-- 根据路径id和skuId查询所有路径库存数据-->
-    <select id="selectPathRealQuantityBySkuIdAndPathId" parameterType="long" resultMap="InventoryMap">
-        select real_quantity from ipm_solution.inventory
-        where sku_id = #{skuId}
-        and path_id = #{pathId};
+    <select id="selectPathRealQuantityBySkuIdAndPathId" parameterType="com.gugugou.provider.commodity.model.InventoryModel" resultMap="InventoryMap">
+        select isi.real_quantity, isw.warehouse_code, isw.warehouse_name, isi.id, gtp.provider_name
+        from ipm_solution.inventory as isi
+        join ipm_solution.warehouse as isw
+        join gugugou.t_provider as gtp
+        on isi.warehouse = isw.warehouse
+        <set>
+            <if test="warehouseName != null">
+                isw.warehouse_name like concat('%', #{warehouseName}, '%')
+            </if>
+            <if test="providerName != null">
+               and isw.provider_name like concat('%', #{providerName}, '%')
+            </if>
+        </set>
+        where isi.entity_id = #{entityId}
+        and isi.path_id = #{pathId}
+        order by isi.id desc
+        limit #{pageIndex}, #{pageSize};
     </select>
+
+    <select id="selectPathRealQuantityCountBySkuIdAndPathId" parameterType="com.gugugou.provider.commodity.model.InventoryModel" resultMap="InventoryMap">
+        select count(1)
+        from ipm_solution.inventory as isi
+        join ipm_solution.warehouse as isw
+        on isi.warehouse = isw.warehouse
+        <set>
+            <if test="warehouseName != null">
+                isw.warehouse_name like concat('%', #{warehouseName}, '%')
+            </if>
+            <if test="providerName != null">
+                and isw.provider_name like concat('%', #{providerName}, '%')
+            </if>
+        </set>
+        where isi.entity_id = #{entityId}
+        and isi.path_id = #{pathId};
+    </select>
+
+<!--设置路径库存-->
+    <update id="updatePathRealQuantity" parameterType="com.gugugou.provider.commodity.model.InventoryModel">
+        update ipm_solution.inventory
+        <set>
+            <if test="realQuantity != null">
+                real_quantity = #{realQuantity}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
 </mapper>

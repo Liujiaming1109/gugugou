@@ -14,22 +14,39 @@ import java.util.List;
  */
 public interface InventoryDao {
 
+    /**
+     * 新增库存
+     * @param inventoryModel
+     * @return
+     */
     Long insertInventory(InventoryModel inventoryModel);
 
     /**
      * 根据skuId和仓库编码，查询可用库存
-     * @param wareHouseCode
-     * @param entityId
+     * @param inventoryModel
      * @return
      */
-    InventoryModel selectRealQuantityBySkuIdAndWareHouse(@Param("warehouseCode") Long wareHouseCode, @Param("entityId") Long entityId);
+    InventoryModel selectRealQuantityBySkuIdAndWareHouse(InventoryModel inventoryModel);
+
+    /**
+     * 根据路径id和skuId查询所有路径库存数据条数
+     * @param inventoryModel
+     * @return
+     */
+    Long selectPathRealQuantityCountBySkuIdAndPathId(InventoryModel inventoryModel);
 
     /**
      * 根据路径id和skuId查询所有路径库存数据
-     * @param pathId
-     * @param entityId
+     * @param inventoryModel
      * @return
      */
-    List<InventoryModel> selectPathRealQuantityBySkuIdAndPathId(@Param("pathId") Long pathId, @Param("entityId") Long entityId);
+    List<InventoryModel> selectPathRealQuantityBySkuIdAndPathId(InventoryModel inventoryModel);
+
+    /**
+     * 设置路径库存
+     * @param inventoryModel
+     * @return
+     */
+    int updatePathRealQuantity(InventoryModel inventoryModel);
 
 }
