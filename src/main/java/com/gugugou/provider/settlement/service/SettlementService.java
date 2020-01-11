@@ -1,5 +1,6 @@
 package com.gugugou.provider.settlement.service;
 
+import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.Settlement;
 
 /**
@@ -20,4 +21,25 @@ public interface SettlementService {
      * @return
      */
     Settlement getSettlementById(Long id);
+
+    /**
+     * 根据结算单id更新结算单状态
+     * @param settlement
+     * @return
+     */
+    Integer updateSettlementStatusById(Settlement settlement);
+
+    /**
+     * 查询结算单列表（不包含结算单行数据）
+     * @param settlement
+     * @return
+     */
+    ResponseDTO selectSettlementList(Settlement settlement);
+
+    /**
+     * 查询结算单列表（包含结算单行数据）
+     * @param settlement
+     * @return
+     */
+    ResponseDTO selectSettlementListForFinance(Settlement settlement);
 }

@@ -2,6 +2,9 @@ package com.gugugou.provider.settlement.dao;
 
 import com.gugugou.provider.settlement.model.Settlement;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author: yuelitao
@@ -17,9 +20,30 @@ public interface SettlementDao {
     Integer addSettlement(Settlement settlement);
 
     /**
-     * 根据id查询处罚单
+     * 根据id查询结算单
      * @param id
      * @return
      */
-    Settlement getSettlementById(Long id);
+    Settlement getSettlementById(@Param("id") Long id);
+
+    /**
+     * 根据结算单id更新结算单状态
+     * @param settlement
+     * @return
+     */
+    Integer updateSettlementStatusById(Settlement settlement);
+
+    /**
+     * 查询结算单管理列表
+     * @param settlement
+     * @return
+     */
+    List<Settlement> selectSettlementList(Settlement settlement);
+
+    /**
+     * 查询结算单管理表的记录数
+     * @param settlement
+     * @return
+     */
+    Integer selectSettlementCount(Settlement settlement);
 }

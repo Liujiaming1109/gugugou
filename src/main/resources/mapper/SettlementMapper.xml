@@ -5,28 +5,26 @@
     <!--  结算单字段映射  -->
     <resultMap id="settlementMap" type="com.gugugou.provider.settlement.model.Settlement">
         <id property="id" column="id" jdbcType="BIGINT"/>
-        <result property="providerIdFk" column="provider_id_fk" jdbcType="BIGINT"/>
+        <result property="providerId" column="provider_id" jdbcType="BIGINT"/>
         <result property="providerName" column="provider_name" jdbcType="VARCHAR"/>
-        <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
-        <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
-        <result property="specifications" column="specifications" jdbcType="VARCHAR"/>
-        <result property="unit" column="unit" jdbcType="VARCHAR"/>
-        <result property="actualNumber" column="actual_number" jdbcType="INTEGER"/>
-        <result property="skuOriginalPrice" column="sku_original_price" jdbcType="DECIMAL"/>
+        <result property="settlementTime" column="settlement_time" jdbcType="DATE"/>
+        <result property="settlementCycle" column="settlement_cycle" jdbcType="VARCHAR"/>
         <result property="settlementAmount" column="settlement_amount" jdbcType="DECIMAL"/>
+        <result property="settlementStatus" column="settlement_status" jdbcType="INTEGER"/>
         <result property="summary" column="summary" jdbcType="DECIMAL"/>
         <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
         <result property="createdTime" column="created_time" jdbcType="DATE"/>
         <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
         <result property="updatedTime" column="updated_time" jdbcType="DATE"/>
         <result property="removed" column="removed" jdbcType="INTEGER"/>
+        <result property="settlementCode" column="settlement_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--  结算单表基本字段  -->
     <sql id="settlement_column_list">
-        id,provider_id_fk, provider_name, sku_id, sku_name, specifications, unit,
-         actual_number, sku_original_price, settlement_amount, summary, created_by,
-         created_time, updated_by, updated_time, removed
+        id, provider_id, provider_name, settlement_time,
+        settlement_cycle, settlement_amount, settlement_status, summary,
+        created_by, created_time, updated_by, updated_time, removed,settlement_code
     </sql>
 
     <!--  新增结算单  -->
@@ -35,17 +33,69 @@
         insert into t_settlement
             <include refid="settlement_column_list"/>
         values
-            (#{id},#{providerIdFk},#{providerName},#{skuId},#{skuName},#{specifications},
-            #{unit},#{actualNumber},#{skuOriginalPrice},#{settlementAmount},#{summary},
-            #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
+            (#{id},#{providerId}, #{providerName}, #{settlementTime},
+            #{settlementCycle}, #{settlementAmount}, #{settlementStatus},
+            #{summary}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed},#{settlementCode})
     </insert>
 
-    <!--  根据id查询处罚单  -->
+    <!--  根据id查询结算单  -->
     <select id="getSettlementById" parameterType="long" resultMap="settlementMap">
         select
             <include refid="settlement_column_list"/>
         from t_settlement
-        where id = #{id}
+        where id = #{id};
     </select>
 
+    <!--  根据结算单id更改结算单状态  -->
+    <update id="updateSettlementStatusById" parameterType="com.gugugou.provider.settlement.model.Settlement">
+        update t_settlement
+            <trim prefix="set" suffixOverrides=",">
+               <if test="id != null">id=#{id},</if>
+                <if test="providerId != null">provider_id=#{providerId},</if>
+                <if test="settlementCode != null">settlement_code=#{settlementCode},</if>
+                <if test="providerName != null">provider_name=#{providerName},</if>
+                <if test="settlementTime != null">settlement_time=#{settlementTime},</if>
+                <if test="settlementCycle != null">settlement_cycle=#{settlementCycle},</if>
+                <if test="settlementAmount != null">settlement_amount=#{settlementAmount},</if>
+                <if test="settlementStatus != null">settlement_status=#{settlementStatus},</if>
+                <if test="summary != null">summary=#{summary},</if>
+                <if test="createdBy != null">created_by=#{createdBy},</if>
+                <if test="createdTime != null">created_time=#{createdTime},</if>
+                <if test="updatedBy != null">updated_by=#{updatedBy},</if>
+                <if test="updatedTime != null">updated_time=#{updatedTime},</if>
+                <if test="removed != null">removed=#{removed}</if>
+            </trim>
+        where
+            id = #{id};
+    </update>
+
+    <!--  查询结算单列表的查询条件  -->
+    <sql id="queryConditions">
+        <where>
+            removed=0
+            <if test="providerId != null">and provider_id=#{providerId}</if>
+            <if test="settlementCode != null">and settlement_code=#{settlementCode}</if>
+            <if test="providerName!=null and providerName.trim()!=''">and provider_name=#{providerName}</if>
+            <if test="settlementStatus!=null">and settlement_status=#{settlementStatus}</if>
+            <if test="settlementBeginTime!=null">and settlement_time&gt;=#{settlementBeginTime}</if>
+            <if test="settlementEndTime!=null">and settlement_time&lt;=#{settlementEndTime}</if>
+        </where>
+    </sql>
+
+    <!--  查询结算单管理列表  -->
+    <select id="selectSettlementList" parameterType="com.gugugou.provider.settlement.model.Settlement" resultMap="settlementMap">
+        select
+        <include refid="settlement_column_list"/>
+        from t_settlement
+        <include refid="queryConditions"/>
+        order by created_time asc
+        limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <!--  查询结算单管理表记录数  -->
+    <select id="selectSettlementCount" resultType="java.lang.Integer">
+        select count(1)
+        from t_settlement
+        <include refid="queryConditions"></include>
+    </select>
 </mapper>
