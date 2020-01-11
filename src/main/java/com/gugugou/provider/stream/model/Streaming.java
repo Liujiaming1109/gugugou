@@ -22,6 +22,8 @@ public class Streaming implements Serializable {
     private String crossfireKey;
     /**是否在线*/
     private Integer isOnLine;
+    /**直播间类型*/
+    private int streamingType;
     /**创建人*/
     private String createdBy;
     /**创建时间*/

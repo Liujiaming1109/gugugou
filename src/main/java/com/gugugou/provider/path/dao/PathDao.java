@@ -1,8 +1,10 @@
 package com.gugugou.provider.path.dao;
 
 import com.gugugou.provider.common.RequestDTO;
+import com.gugugou.provider.path.model.ItemPathSkuDTO;
 import com.gugugou.provider.path.model.PathModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public interface PathDao {
      * @param id
      * @return
      */
-    PathModel getPathById(Long id);
+    PathModel getPathById(@Param("id") Long id);
 
     /**
      * 编辑路径/关闭路径
@@ -55,4 +57,18 @@ public interface PathDao {
      * @return
      */
     int updatePath(PathModel pathModel);
+
+    /**
+     * 根据路径id查询下面所有的商品id
+     * @param id
+     * @return
+     */
+    List<ItemPathSkuDTO> selectItemIdByPathId(@Param("pathId") Long id);
+
+    /**
+     * 根据商品路径表外键id查询所有路径价格
+     * @param id
+     * @return
+     */
+    List<ItemPathSkuDTO> selectPathPriceByItemPathId(@Param("itemPathId") Long id);
 }

@@ -417,7 +417,7 @@ public class BrandServiceImpl implements BrandService {
         brandModel.setTypeId(brandSkuPathRequestDTO.getTypeId());
         brandModel.setPageIndex(brandSkuPathRequestDTO.getPageIndex());
         brandModel.setPageSize(brandSkuPathRequestDTO.getPageSize());
-        List<BrandModel> brandModelList = brandDao.selectProviderListByBrandIdAndTypeId(brandModel);
+        List<BrandModel> brandModelList = brandDao.selectProviderListByBrandId(brandModel);
         ArrayList<SkuPathResponseDTO> skuPathModels = new ArrayList<>();
         ArrayList<BrandModel> brandModelArrayList = new ArrayList<>();
         if (!brandModelList.isEmpty()) {

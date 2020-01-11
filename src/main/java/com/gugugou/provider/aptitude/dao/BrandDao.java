@@ -136,11 +136,16 @@ public interface BrandDao {
     List<SelectListDTO> selectList();
 
     /**
-     * 根据品牌和类目查询供应商列表
+     * 根据品牌和类目查询供应商列表分页
      * @param brandModel
      * @return
      */
-    List<BrandModel> selectProviderListByBrandIdAndTypeId(BrandModel brandModel);
+    List<BrandModel> selectProviderListByBrandId(BrandModel brandModel);
+
+    /**
+     * 根据品牌查询供应商数据
+     */
+    List<BrandModel> selectProviderByBrandId(Long id);
 
     /**
      * 根据品牌和类目查询供应商列表数量

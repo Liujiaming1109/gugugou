@@ -5,7 +5,6 @@ import com.gugugou.provider.common.RequestDTO;
 import lombok.Data;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -19,17 +18,17 @@ import java.util.Date;
 @ToString
 public class SkuPathModel extends RequestDTO {
 
-    private static final long serialVersionUID = 3243459496320797838L;
+    private static final long serialVersionUID = -6494492276947229909L;
     /** 主键id */
     private Long id ;
     /** sku_id */
     private Long skuId ;
-    /** 供应商id*/
+    /** 供应商id */
     private Long providerId;
-    /** 路径id*/
-    private Long pathId;
-    /** 路径类型*/
-    private String pathType;
+    /** 供应商名称 */
+    private String providerName;
+    /** 商品路径表id */
+    private Long itemPathId;
     /** sku扣点 */
     private Integer point ;
     /** 创建人 */

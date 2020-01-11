@@ -1,5 +1,7 @@
 package com.gugugou.provider.path.service.impl;
 
+import com.gugugou.provider.commodity.model.ItemModel;
+import com.gugugou.provider.commodity.model.SkuModel;
 import com.gugugou.provider.common.RequestDTO;
 import com.gugugou.provider.path.dao.PathDao;
 import com.gugugou.provider.path.model.PathModel;
@@ -136,5 +138,16 @@ public class PathServiceImpl implements PathService {
             throw new RuntimeException("日期解析异常");
         }
                 return null;
+    }
+
+    /**
+     * 查询路径下商品列表
+     * @param skuModel
+     * @return
+     */
+    @Override
+    public ResponseDTO selectPathItem(SkuModel skuModel) {
+
+        return null;
     }
 }
