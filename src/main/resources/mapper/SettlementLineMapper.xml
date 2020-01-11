@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.settlement.dao.SettlementLineDao">
+
+    <resultMap id="settlementLineMap" type="com.gugugou.provider.settlement.model.SettlementLine">
+        <id property="id" column="id"/>
+        <result property="settlementId" column="settlement_id"/>
+        <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+        <result property="subOrderId" column="sub_order_id" jdbcType="BIGINT"/>
+        <result property="orderPaymentTime" column="order_payment_time" jdbcType="DATE"/>
+        <result property="orderSuccessfulTime" column="order_successful_time" jdbcType="DATE"/>
+        <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
+        <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
+        <result property="skuOriginalPrice" column="sku_original_price" jdbcType="DECIMAL"/>
+        <result property="actualPaymentPrice" column="actual_payment_price" jdbcType="DECIMAL"/>
+        <result property="tradeSuccessfulNumber" column="trade_successful_number" jdbcType="INTEGER"/>
+        <result property="originalPriceSales" column="original_price_sales" jdbcType="DECIMAL"/>
+        <result property="pathId" column="path_id" jdbcType="BIGINT"/>
+        <result property="bucklePoint" column="buckle_point" jdbcType="DOUBLE"/>
+        <result property="settlementAmount" column="settlement_amount" jdbcType="DECIMAL"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="DATE"/>
+        <result property="updatedBy" column="updated_by" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="updated_time" jdbcType="DATE"/>
+        <result property="removed" column="removed" jdbcType="INTEGER"/>
+        <result property="pathName" column="path_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="settlementLine_column_list">
+        id,settlement_id,order_id,sub_order_id,order_payment_time,
+        order_successful_time, sku_id, sku_name,sku_original_price,actual_payment_price,
+        trade_successful_number,original_price_sales,path_id,buckle_point,settlement_amount,
+        created_by, created_time, updated_by, updated_time, removed,path_name
+    </sql>
+
+    <!--  批量新增结算单行数据  -->
+    <sql id="settlementLine_column_values">
+        #{settlementLine.id},#{settlementLine.settlementId},#{settlementLine.orderId},#{settlementLine.subOrderId},
+        #{settlementLine.orderPaymentTime},#{settlementLine.orderSuccessfulTime},#{settlementLine.skuId},
+        #{settlementLine.skuName},#{settlementLine.skuOriginalPrice},#{settlementLine.actualPaymentPrice},
+        #{settlementLine.tradeSuccessfulNumber},#{settlementLine.originalPriceSales},#{settlementLine.pathId},
+        #{settlementLine.bucklePoint},#{settlementLine.settlementAmount},
+        #{settlementLine.createdBy},#{settlementLine.createdTime},#{settlementLine.updatedBy},
+        #{settlementLine.updatedTime},#{settlementLine.removed},#{settlementLine.pathName}
+    </sql>
+
+    <insert id="addSettlementLines" parameterType="list">
+        insert into t_settlement_line
+        values
+        <foreach collection="list" item="settlementLine" separator="," open="(" close=")">
+            <include refid="settlementLine_column_values"/>
+        </foreach>
+    </insert>
+
+    <select id="selectSettlementLinesBySettlementId" parameterType="long" resultMap="settlementLineMap">
+        select
+            <include refid="settlementLine_column_list"/>
+        from t_settlement_line
+        where settlement_id = #{settlementId};
+    </select>
+
+
+</mapper>
