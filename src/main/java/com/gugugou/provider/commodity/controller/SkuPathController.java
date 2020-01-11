@@ -2,8 +2,6 @@ package com.gugugou.provider.commodity.controller;
 
 import com.gugugou.provider.commodity.dto.request.UpdatePathPointListRequest;
 import com.gugugou.provider.commodity.dto.request.UpdateSkuPathListRequest;
-import com.gugugou.provider.commodity.model.ItemModel;
-import com.gugugou.provider.commodity.model.SkuModel;
 import com.gugugou.provider.commodity.model.SkuPathModel;
 import com.gugugou.provider.commodity.service.SkuPathService;
 import com.gugugou.provider.common.ResponseDTO;
@@ -12,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author: chengShaoShao
@@ -84,25 +81,5 @@ public class SkuPathController {
         return skuPathService.updatePathPointList(updatePathPointListRequest);
     }
 
-    /**
-     * 带分页条件搜索商品
-     * @param itemModel
-     * @return
-     */
-    @PostMapping("searchItemList")
-    public ResponseDTO searchItemList(@RequestBody ItemModel itemModel) {
-        logger.info("带分页条件搜索商品的入参--itemModel：{}", itemModel);
-        return skuPathService.searchItemList(itemModel);
-    }
 
-    /**
-     * 带条件搜索sku
-     * @param skuModel
-     * @return
-     */
-    @GetMapping("searchSku")
-    public List<SkuModel> searchSku(@RequestBody SkuModel skuModel) {
-        logger.info("带条件搜索sku的入参--skuModel：{}", skuModel);
-        return skuPathService.searchSku(skuModel);
-    }
 }

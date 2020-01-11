@@ -1,6 +1,5 @@
 package com.gugugou.provider.commodity.dto.response;
 
-import com.gugugou.provider.commodity.model.SkuModel;
 import lombok.Data;
 
 import java.io.Serializable;
