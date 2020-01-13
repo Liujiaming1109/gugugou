@@ -19,14 +19,11 @@ public class SkuAndPath implements Serializable {
     /**供应商id*/
     private Long providerId;
 
-    /**路径id*/
-    private Long pathId;
-
-    /**路径类型*/
-    private String pathType;
+    /**商品路径id*/
+    private Long itemPathId;
 
     /**扣点*/
-    private String point;
+    private int point;
 
     /**创建人*/
     private String createdBy;

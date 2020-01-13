@@ -105,4 +105,10 @@ public interface StreamingService {
 
     /**排班间商品的排班顺序*/
     int shopEdit(ArrangeAndSku arrangeAndSku);
+
+    /**排班间列表的编辑商品*/
+    int updatedStreamingShop(List<ArrangeAndSku> arrangeAndSku);
+
+    /**返回排班表中有效状态表*/
+    List<ArrangeStreaming> showArrangeRoomStatus(ArrangeStreaming arrangeStreaming);
 }

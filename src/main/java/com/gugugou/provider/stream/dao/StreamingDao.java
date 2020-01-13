@@ -50,7 +50,7 @@ public interface StreamingDao {
     /**根据直播间的开始结束时间查找视频评论*/
     List<StreamingComment> findAllCommentById(ShortVideo streamingComment);
 
-    /**禁言*/
+    /**???禁言[缺少评论用户表]*/
     int updateCommentStatus(StreamingComment streamingComment);
 
     /**复制短视频地址*/
@@ -142,4 +142,28 @@ public interface StreamingDao {
 
     /**修改排班表下的商品的顺序数*/
     int updateStreamingOrder(ArrangeAndSku arr);
+
+    /**添加sku_path下商品路径表*/
+    void saveSkuAndPath(SkuAndPath skuAndPath);
+
+    /**排班间编辑商品*/
+    int updatedStreamingShop(ArrangeAndSku arrangeAndSku);
+
+    /**删除排班间原商品id*/
+    void deleteStreamingItemShop(ArrangeAndSku arr);
+
+    /**删除排班间商品sku*/
+    void deletestreamingSkuShop(ArrangeAndSku arr);
+
+    /**删除原有排班间路径下sku的路径扣点*/
+    void deleteSkuAndPath(ArrangeAndSku arr);
+
+    /**查找该排班间下原所有商品*/
+    List<ArrangeAndSku> findAllStreamingShopById(Long arrangeRoomId);
+
+    /**返回直播间排班表的有效状态*/
+    List<ArrangeStreaming> showArrangeRoomStatus(ArrangeStreaming arrangeStreaming);
+
+    /**查找排班表下有效状态的sku*/
+    List<ArrangeAndSkuFk> findStreamingsArrangeSkuFk(ArrangeAndSku arrs);
 }
