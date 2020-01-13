@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString
@@ -61,4 +63,7 @@ public class ArrangeStreaming implements Serializable {
 
     /**逻辑删除*/
     private int removed;
+
+    /**排班表与商品表的中间表的*/
+    private List<ArrangeAndSku> arrangeAndSku;
 }

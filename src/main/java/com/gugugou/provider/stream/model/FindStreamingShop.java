@@ -35,4 +35,7 @@ public class FindStreamingShop implements Serializable{
     /**库存*/
     private String realQuantity;
 
+    /**排班表的id*/
+    private Long anchorId;
+
 }

@@ -164,15 +164,22 @@ public class StreamingServiceImpl implements StreamingService {
     /**添加直播间的商品*/
     @Override
     public int saveShop(List<ArrangeAndSku> arrangeAndSkus) {
+        SkuAndPath skuAndPath = new SkuAndPath();
         for (ArrangeAndSku arrange:arrangeAndSkus) {
             if(arrange.getCommtitys()!=null && arrange.getCommtitys().size()>0 ){
                 List<ArrangeAndSkuFk> commtitys = arrange.getCommtitys();
                 for (ArrangeAndSkuFk comm: commtitys) {
                      comm.setArrangeSkuId(arrange.getId());
+                     skuAndPath.setSkuId(comm.getCommotityId());
+                     skuAndPath.setItemPathId(comm.getArrangeSkuId());
+                     skuAndPath.setPoint(1);
+                     streamingDao.saveSkuAndPath(skuAndPath);
                       streamingDao.saveArrangeSkuFks(comm);
                 }
             }
+            arrange.setCreatedTime(new Date());
             streamingDao.saveShop(arrange);
+
         }
         return 1;
     }
@@ -327,6 +334,59 @@ public class StreamingServiceImpl implements StreamingService {
            streamingDao.updateStreamingOrder(arrangeAndSku);
         }
         return 1;
+    }
+
+    /**排班间列表编辑商品)*/
+    @Override
+    public int updatedStreamingShop(List<ArrangeAndSku> arrangeAndSku) {
+
+
+        /**先删除原有的添加的商品*/
+        for (ArrangeAndSku arr: arrangeAndSku) {
+
+            /**查看原排班表的商品*/
+            List<ArrangeAndSku> arrangeAndSkus = streamingDao.findAllStreamingShopById(arr.getArrangeRoomId());
+            for (ArrangeAndSku arrs:arrangeAndSkus) {
+                if(arrs.getItemId() != arr.getItemId()){
+
+                    /**删除原有排班间商品id*/
+                    streamingDao.deleteStreamingItemShop(arrs);
+                    /**删除原有排班间商品sku*/
+                    streamingDao.deletestreamingSkuShop(arrs);
+                    /**删除原有排班间路径下sku的路径扣点*/
+                    streamingDao.deleteSkuAndPath(arr);
+                    /**删除原有排班间路径下的库存*/
+
+                    /**添加排班间修改过的商品*/
+                    streamingDao.saveShop(arr);
+                    /**添加修改过的商品sku*/
+                    List<ArrangeAndSkuFk> commtitys = arr.getCommtitys();
+                    /**添加排班路径下的sku的扣点*/
+                    for (ArrangeAndSkuFk arres: commtitys) {
+                        streamingDao.saveArrangeSkuFks(arres);
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+
+    /**返回排班表中有效状态表*/
+    @Override
+    public List<ArrangeStreaming> showArrangeRoomStatus(ArrangeStreaming arrangeStreaming) {
+        /**查找有效状态的排班表*/
+        List<ArrangeStreaming> arrangeStreamings = streamingDao.showArrangeRoomStatus(arrangeStreaming);
+        for (ArrangeStreaming arr:arrangeStreamings) {
+            /**添加排班表与sku表的中间商品表*/
+            List<ArrangeAndSku> streamingOrders = streamingDao.findStreamingOrders(arr.getId());
+            arr.setArrangeAndSku(streamingOrders);
+            for (ArrangeAndSku arrs:streamingOrders) {
+                /**查找排班表有效状态的sku*/
+                List<ArrangeAndSkuFk> commoditiess = streamingDao.findStreamingsArrangeSkuFk(arrs);
+                arrs.setCommtitys(commoditiess);
+            }
+        }
+        return arrangeStreamings;
     }
 
 }
