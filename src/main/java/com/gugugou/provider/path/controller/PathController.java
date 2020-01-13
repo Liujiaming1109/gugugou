@@ -70,25 +70,16 @@ public class PathController {
         return pathService.updatePath(pathModel);
     }
 
-    /**
-     * 关闭路径
-     * @param pathModel
-     * @return
-     */
-    @PostMapping("closePath")
-    public Integer closePath(@RequestBody PathModel pathModel) {
-        logger.info("关闭路径的入参--pathModel：{}", pathModel);
-        return pathService.closePath(pathModel);
-    }
+
 
     /**
      * 开启路径
      * @param pathModel
      * @return
      */
-    @PostMapping("openPath")
-    public Integer openPath(@RequestBody PathModel pathModel) {
+    @PostMapping("openOrClosePath")
+    public Integer openOrClosePath(@RequestBody PathModel pathModel) {
         logger.info("开启路径的入参--pathModel：{}", pathModel);
-        return pathService.openPath(pathModel);
+        return pathService.openOrClosePath(pathModel);
     }
 }
