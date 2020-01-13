@@ -27,14 +27,14 @@ public class PathController {
     private PathService pathService;
 
     /**
-     * 添加路径
+     * 添加编辑路径
      * @param pathModel
      * @return
      */
-    @PostMapping("addPath")
-    public Long addPath(@RequestBody PathModel pathModel) {
+    @PostMapping("addOrUpdatePath")
+    public Long addOrUpdatePath(@RequestBody PathModel pathModel) {
         logger.info("添加路径的入参--pathModel：{}", pathModel);
-        return pathService.addPath(pathModel);
+        return pathService.addOrUpdatePath(pathModel);
     }
 
     /**
@@ -58,18 +58,6 @@ public class PathController {
         logger.info("查询单条路径数据详情的入参--id：{}", id);
         return pathService.getPathById(id);
     }
-
-    /**
-     * 编辑路径
-     * @param pathModel
-     * @return
-     */
-    @PostMapping("updatePath")
-    public Integer updatePath(@RequestBody PathModel pathModel) {
-        logger.info("编辑路径的入参--pathModel：{}", pathModel);
-        return pathService.updatePath(pathModel);
-    }
-
 
 
     /**

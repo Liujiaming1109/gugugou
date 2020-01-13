@@ -37,7 +37,7 @@ public class PathServiceImpl implements PathService {
      */
     @Override
     @SuppressWarnings("all")
-    public Long addPath(PathModel pathModel) {
+    public Long addOrUpdatePath(PathModel pathModel) {
         //开始时间
         String pathStartTime = pathModel.getPathStartTime();
         //结束时间
@@ -52,24 +52,23 @@ public class PathServiceImpl implements PathService {
                 if (now < pathStartTimeStamp) {
                     pathModel.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
                     pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-                    pathModel.setCreatedTime(new Date());
-                    return pathDao.addPath(pathModel);
                 }else if (now >= pathStartTimeStamp && now <= pathEndTimeStamp) {
                     pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
-                    pathModel.setCreatedTime(new Date());
                     pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-                    return pathDao.addPath(pathModel);
                 }else if (now > pathEndTimeStamp) {
                     pathModel.setPathStatus(ProviderCentreConsts.INTEGER_THREE);
-                    pathModel.setCreatedTime(new Date());
                     pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-                    return pathDao.addPath(pathModel);
                 }
             }else if (!ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
                 pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
-                pathModel.setCreatedTime(new Date());
                 pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-                return pathDao.addPath(pathModel);
+            }
+            if(pathModel.getId() == null){
+                pathModel.setCreatedTime(new Date());
+                pathDao.addPath(pathModel);
+            } else {
+                pathModel.setUpdatedTime(new Date());
+                pathDao.updatePath(pathModel);
             }
         } catch (ParseException e) {
             throw new RuntimeException("日期解析失败");
@@ -109,49 +108,6 @@ public class PathServiceImpl implements PathService {
     @Override
     public PathModel getPathById(Long id) {
         return pathDao.getPathById(id);
-    }
-
-    /**
-     * 编辑路径
-     * @param pathModel
-     * @return
-     */
-    @Override
-    @SuppressWarnings("all")
-    public Integer updatePath(PathModel pathModel) {
-        //开始时间
-        String pathStartTime = pathModel.getPathStartTime();
-        //结束时间
-        String pathEndTime = pathModel.getPathEndTime();
-        //路径开启状态：0：启用，1：禁用
-        Integer pathCloseOpen = pathModel.getPathCloseOpen();
-        long now = System.currentTimeMillis();
-        try {
-            long pathStartTimeStamp = TimeToStamp.timeToStamp(pathStartTime);
-            long pathEndTimeStamp = TimeToStamp.timeToStamp(pathEndTime);
-            if (ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
-                if (now < pathStartTimeStamp) {
-                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
-                    pathModel.setUpdatedTime(new Date());
-                    return pathDao.updatePath(pathModel);
-                }else if (now >= pathStartTimeStamp && now <= pathEndTimeStamp) {
-                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
-                    pathModel.setUpdatedTime(new Date());
-                    return pathDao.updatePath(pathModel);
-                }else if (now > pathEndTimeStamp) {
-                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_THREE);
-                    pathModel.setUpdatedTime(new Date());
-                    return pathDao.updatePath(pathModel);
-                }
-            }else if (!ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
-                pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
-                pathModel.setUpdatedTime(new Date());
-                return pathDao.updatePath(pathModel);
-            }
-        } catch (ParseException e) {
-            throw new RuntimeException("日期解析失败");
-        }
-        return null;
     }
 
     /**

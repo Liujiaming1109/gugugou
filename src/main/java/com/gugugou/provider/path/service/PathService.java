@@ -15,11 +15,11 @@ import com.gugugou.provider.common.ResponseDTO;
 public interface PathService {
 
     /**
-     * 添加路径
+     * 添加编辑路径
      * @param pathModel
      * @return
      */
-    Long addPath(PathModel pathModel);
+    Long addOrUpdatePath(PathModel pathModel);
 
 
     /**
@@ -35,14 +35,6 @@ public interface PathService {
      * @return
      */
     PathModel getPathById(Long id);
-
-    /**
-     * 编辑路径
-     * @param pathModel
-     * @return
-     */
-    Integer updatePath(PathModel pathModel);
-
 
     /**
      * 开启路径
