@@ -43,19 +43,13 @@ public interface PathService {
      */
     Integer updatePath(PathModel pathModel);
 
-    /**
-     * 关闭路径
-     * @param pathModel
-     * @return
-     */
-    Integer closePath(PathModel pathModel);
 
     /**
      * 开启路径
      * @param pathModel
      * @return
      */
-    Integer openPath(PathModel pathModel);
+    Integer openOrClosePath(PathModel pathModel);
 
 
 }

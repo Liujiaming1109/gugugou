@@ -14,7 +14,8 @@ import java.io.Serializable;
 @Data
 public class UpdateSkuPathModel implements Serializable {
 
-    private static final long serialVersionUID = 30892283195729224L;
+
+    private static final long serialVersionUID = -6399251308573684369L;
     /**
      * 主键id
      */
@@ -24,5 +25,10 @@ public class UpdateSkuPathModel implements Serializable {
      * 供应商外键
      */
     private Long providerId;
+
+    /**
+     * skuId
+     */
+    private Long skuId;
 
 }

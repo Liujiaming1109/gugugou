@@ -88,10 +88,4 @@ public interface BrandService {
      */
     Integer updateBucklePoint(BrandModel brandModel);
 
-    /**
-     * 根据品牌和类目查询供应商列表
-     * @param brandSkuPathRequestDTO
-     * @return
-     */
-    BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(BrandSkuPathRequestDTO brandSkuPathRequestDTO);
 }

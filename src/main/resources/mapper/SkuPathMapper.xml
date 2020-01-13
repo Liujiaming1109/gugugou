@@ -25,8 +25,7 @@
 <!--查询扣点列表-->
     <select id="selectSkuPathBySkuIdAndProviderId" parameterType="com.gugugou.provider.commodity.model.SkuPathModel" resultMap="BaseResultMap">
        select
-       id,
-       point
+       id, sku_id, provider_id, item_path_id, point
        from sku_path
        where removed = 0
        and sku_id = #{skuId}

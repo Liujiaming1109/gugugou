@@ -403,52 +403,7 @@ public class BrandServiceImpl implements BrandService {
         return brandDao.updateBucklePoint(brandModel);
     }
 
-    /**
-     * 根据品牌和类目查询供应商列表
-     * @param brandSkuPathRequestDTO
-     * @return
-     */
-    @Override
-    public BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(BrandSkuPathRequestDTO brandSkuPathRequestDTO) {
-        BrandModel brandModel = new BrandModel();
-        SkuPathModel skuPathModel = new SkuPathModel();
-        BrandSkuPathResponseDTO brandSkuPathResponseDTO = new BrandSkuPathResponseDTO();
-        brandModel.setBrandId(brandSkuPathRequestDTO.getBrandId());
-        brandModel.setTypeId(brandSkuPathRequestDTO.getTypeId());
-        brandModel.setPageIndex(brandSkuPathRequestDTO.getPageIndex());
-        brandModel.setPageSize(brandSkuPathRequestDTO.getPageSize());
-        List<BrandModel> brandModelList = brandDao.selectProviderListByBrandId(brandModel);
-        ArrayList<SkuPathResponseDTO> skuPathModels = new ArrayList<>();
-        ArrayList<BrandModel> brandModelArrayList = new ArrayList<>();
-        if (!brandModelList.isEmpty()) {
-            for (BrandModel brandModels:brandModelList) {
-                skuPathModel.setProviderId(brandModels.getProviderIdFk());
-                skuPathModel.setSkuId(brandSkuPathRequestDTO.getSkuId());
-                SkuPathResponseDTO skuPathResponseDTO = skuPathDao.selectSkuPathBySkuIdAndProviderId(skuPathModel);
-                if (skuPathResponseDTO != null) {
-                    skuPathResponseDTO.setProviderName(brandModels.getProviderName());
-                    skuPathModels.add(skuPathResponseDTO);
-                }else {
-                    brandModelArrayList.add(brandModels);
-                }
-            }
-        }
-        if (!brandModelArrayList.isEmpty()) {
-            brandSkuPathResponseDTO.setBrandModelList(brandModelArrayList);
-        }else {
-            brandSkuPathResponseDTO.setBrandModelList(new ArrayList<>());
-        }
-        if (!skuPathModels.isEmpty()) {
-            brandSkuPathResponseDTO.setSkuPathModelList(skuPathModels);
-        }else {
-            brandSkuPathResponseDTO.setSkuPathModelList(new ArrayList<>());
-        }
-        Long count = brandDao.selectProviderCountByBrandIdAndTypeId(brandModel);
-        if (null != count && count > ProviderCentreConsts.INTEGER_ZERO) {
-            brandSkuPathResponseDTO.setCount(count);
-        }
-        return brandSkuPathResponseDTO;
-    }
+
 
 
 }

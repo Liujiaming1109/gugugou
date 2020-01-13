@@ -49,7 +49,15 @@
     <select id="selectPathListByPage" parameterType="com.gugugou.provider.path.model.PathModel" resultMap="BaseResultMap">
         select <include refid="baseColumnList"/>
         from t_path
-        where removed = 0
+        <set>
+            <if test="pathType != null and pathType != ''">
+                path_type like concat ('%', #{pathType}, '%')
+            </if>
+            <if test="pathStatus != null">
+                and path_status = #{pathStatus}
+            </if>
+        </set>
+        and removed = 0
         order by created_time desc
         limit #{pageIndex}, #{pageSize}
     </select>
@@ -65,7 +73,15 @@
     <select id="selectPathListCount" resultType="Long">
         select count(1)
         from t_path
-        where removed = 0;
+        <set>
+            <if test="pathType != null and pathType != ''">
+                path_type like concat ('%', #{pathType}, '%')
+            </if>
+            <if test="pathStatus != null">
+                and path_status = #{pathStatus}
+            </if>
+        </set>
+        and removed = 0;
     </select>
 
     <!--查询单条路径数据详情-->

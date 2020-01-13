@@ -372,12 +372,13 @@
         from t_brand
         <set>
             <if test="providerName != null">
-                provider_name = #{providerName}
+                provider_name like concat('%', #{providerName}, '%')
             </if>
         </set>
         where removed = 0
         and trademark_status != 2
         and brand_id = #{brandId}
+        and type_id = #{typeId}
         limit #{pageIndex}, #{pageSize};
     </select>
 
@@ -399,7 +400,7 @@
         from t_brand
         <set>
             <if test="providerName != null">
-                provider_name = #{providerName}
+                provider_name like concat('%', #{providerName}, '%')
             </if>
         </set>
         where removed = 0

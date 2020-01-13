@@ -142,15 +142,4 @@ public class BrandController {
         logger.info("修改扣点的入参--brandModel：{}", brandModel);
         return brandService.updateBucklePoint(brandModel);
     }
-
-    /**
-     * 根据品牌和类目查询供应商列表
-     * @param brandSkuPathRequestDTO
-     * @return
-     */
-    @PostMapping("selectProviderListByBrandIdAndTypeId")
-    public BrandSkuPathResponseDTO selectProviderListByBrandIdAndTypeId(@RequestBody BrandSkuPathRequestDTO brandSkuPathRequestDTO) {
-        logger.info("根据品牌和类目查询供应商列表--brandModel：{}", brandSkuPathRequestDTO);
-        return brandService.selectProviderListByBrandIdAndTypeId(brandSkuPathRequestDTO);
-    }
 }
