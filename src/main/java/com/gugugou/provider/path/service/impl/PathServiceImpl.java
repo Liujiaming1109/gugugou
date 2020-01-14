@@ -36,12 +36,44 @@ public class PathServiceImpl implements PathService {
      * @return
      */
     @Override
-    public Long addPath(PathModel pathModel) {
-        pathModel.setCreatedTime(new Date());
-        pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-        pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
-        pathDao.addPath(pathModel);
-        return pathModel.getId();
+    @SuppressWarnings("all")
+    public Long addOrUpdatePath(PathModel pathModel) {
+        //开始时间
+        String pathStartTime = pathModel.getPathStartTime();
+        //结束时间
+        String pathEndTime = pathModel.getPathEndTime();
+        //路径开启状态：0：启用，1：禁用
+        Integer pathCloseOpen = pathModel.getPathCloseOpen();
+        long now = System.currentTimeMillis();
+        try {
+            long pathStartTimeStamp = TimeToStamp.timeToStamp(pathStartTime);
+            long pathEndTimeStamp = TimeToStamp.timeToStamp(pathEndTime);
+            if (ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
+                if (now < pathStartTimeStamp) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
+                    pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+                }else if (now >= pathStartTimeStamp && now <= pathEndTimeStamp) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
+                    pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+                }else if (now > pathEndTimeStamp) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_THREE);
+                    pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+                }
+            }else if (!ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
+                pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
+                pathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
+            }
+            if(pathModel.getId() == null){
+                pathModel.setCreatedTime(new Date());
+                pathDao.addPath(pathModel);
+            } else {
+                pathModel.setUpdatedTime(new Date());
+                pathDao.updatePath(pathModel);
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException("日期解析失败");
+        }
+                return null;
     }
 
     /**
@@ -79,61 +111,44 @@ public class PathServiceImpl implements PathService {
     }
 
     /**
-     * 编辑路径
-     * @param pathModel
-     * @return
-     */
-    @Override
-    public Integer updatePath(PathModel pathModel) {
-        pathModel.setUpdatedTime(new Date());
-        return pathDao.updatePath(pathModel);
-    }
-
-    /**
-     * 关闭路径
-     * @param pathModel
-     * @return
-     */
-    @Override
-    public Integer closePath(PathModel pathModel) {
-        pathModel.setUpdatedTime(new Date());
-        pathModel.setPathCloseOpen(ProviderCentreConsts.INTEGER_ONE);
-        pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
-        return pathDao.updatePath(pathModel);
-    }
-
-    /**
-     * 开启路径
+     * 关闭/开启路径
      * @param pathModel
      * @return
      */
     @Override
     @SuppressWarnings("all")
-    public Integer openPath(PathModel pathModel) {
-        Long id = pathModel.getId();
-        PathModel pathById = pathDao.getPathById(id);
-        String pathStartTime = pathById.getPathStartTime();
-        String pathEndTime = pathById.getPathEndTime();
-        long now = System.currentTimeMillis();
-        PathModel pathModelUpdate = new PathModel();
-        pathModelUpdate.setUpdatedTime(new Date());
-        pathModelUpdate.setPathCloseOpen(ProviderCentreConsts.INTEGER_ZERO);
-        try {
-            long start = TimeToStamp.timeToStamp(pathStartTime);
-            long end = TimeToStamp.timeToStamp(pathEndTime);
-            if (now < start) {
-                pathModelUpdate.setId(id);
-                pathModelUpdate.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
-                return pathDao.updatePath(pathModel);
-            }else if (now >= start && now <= end) {
-                pathModelUpdate.setId(id);
-                pathModelUpdate.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
-                return pathDao.updatePath(pathModel);
-            }else if(now > end) {
-                throw new RuntimeException("路径过期，请重新设置");
+    public Integer openOrClosePath(PathModel pathModel) {
+        //路径开启状态：0：启用，1：禁用
+        Integer pathCloseOpen = pathModel.getPathCloseOpen();
+        //关闭路径
+        if (!ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
+            pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ONE);
+            pathModel.setUpdatedTime(new Date());
+            pathDao.updatePath(pathModel);
+            //开启路径
+        }else if (ProviderCentreConsts.INTEGER_ZERO.equals(pathCloseOpen)) {
+            //开始时间
+            String pathStartTime = pathModel.getPathStartTime();
+            //结束时间
+            String pathEndTime = pathModel.getPathEndTime();
+            long now = System.currentTimeMillis();
+            try {
+                long start = TimeToStamp.timeToStamp(pathStartTime);
+                long end = TimeToStamp.timeToStamp(pathEndTime);
+                if (now < start) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_TWO);
+                    pathModel.setUpdatedTime(new Date());
+                    return pathDao.updatePath(pathModel);
+                }else if (now >= start && now <= end) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_ZERO);
+                    return pathDao.updatePath(pathModel);
+                }else if(now > end) {
+                    pathModel.setPathStatus(ProviderCentreConsts.INTEGER_THREE);
+                    return pathDao.updatePath(pathModel);
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException("日期解析异常");
             }
-        } catch (ParseException e) {
-            throw new RuntimeException("日期解析异常");
         }
                 return null;
     }

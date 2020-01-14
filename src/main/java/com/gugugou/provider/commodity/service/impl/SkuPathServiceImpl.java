@@ -1,9 +1,14 @@
 package com.gugugou.provider.commodity.service.impl;
 
+import com.gugugou.provider.aptitude.dao.BrandDao;
+import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
+import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
+import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.commodity.dao.SkuPathDao;
 import com.gugugou.provider.commodity.dto.model.UpdateSkuPathModel;
 import com.gugugou.provider.commodity.dto.request.UpdatePathPointListRequest;
 import com.gugugou.provider.commodity.dto.request.UpdateSkuPathListRequest;
+import com.gugugou.provider.commodity.dto.response.SkuPathResponseDTO;
 import com.gugugou.provider.commodity.model.SkuPathModel;
 import com.gugugou.provider.commodity.service.SkuPathService;
 import com.gugugou.provider.common.ProviderCentreConsts;
@@ -30,6 +35,8 @@ public class SkuPathServiceImpl implements SkuPathService {
 
     @Resource
     private SkuPathDao skuPathDao;
+    @Resource
+    private BrandDao brandDao;
 
     /**
      * 修改扣点
@@ -38,15 +45,14 @@ public class SkuPathServiceImpl implements SkuPathService {
      */
     @Override
     public Integer updateSkuPoint(SkuPathModel skuPathModel) {
-        Long id = skuPathModel.getId();
-        SkuPathModel skuPathById = skuPathDao.getSkuPathById(id);
-        if (skuPathById != null) {
-            skuPathModel.setUpdatedTime(new Date());
-            skuPathDao.updateSkuPoint(skuPathModel);
-        }else {
+        Long skuId = skuPathModel.getSkuId();
+        if (skuId == null && "".equals(skuId)) {
             skuPathModel.setCreatedTime(new Date());
             skuPathModel.setRemoved(ProviderCentreConsts.INTEGER_ZERO);
-            skuPathDao.insertSkuPath(skuPathModel);
+            Long aLong = skuPathDao.insertSkuPath(skuPathModel);
+        }else {
+            skuPathModel.setUpdatedTime(new Date());
+            int i = skuPathDao.updateSkuPoint(skuPathModel);
         }
         return null;
     }
@@ -137,5 +143,8 @@ public class SkuPathServiceImpl implements SkuPathService {
         }
         return null;
     }
+
+
+
 
 }

@@ -27,14 +27,14 @@ public class PathController {
     private PathService pathService;
 
     /**
-     * 添加路径
+     * 添加编辑路径
      * @param pathModel
      * @return
      */
-    @PostMapping("addPath")
-    public Long addPath(@RequestBody PathModel pathModel) {
+    @PostMapping("addOrUpdatePath")
+    public Long addOrUpdatePath(@RequestBody PathModel pathModel) {
         logger.info("添加路径的入参--pathModel：{}", pathModel);
-        return pathService.addPath(pathModel);
+        return pathService.addOrUpdatePath(pathModel);
     }
 
     /**
@@ -59,36 +59,15 @@ public class PathController {
         return pathService.getPathById(id);
     }
 
-    /**
-     * 编辑路径
-     * @param pathModel
-     * @return
-     */
-    @PostMapping("updatePath")
-    public Integer updatePath(@RequestBody PathModel pathModel) {
-        logger.info("编辑路径的入参--pathModel：{}", pathModel);
-        return pathService.updatePath(pathModel);
-    }
-
-    /**
-     * 关闭路径
-     * @param pathModel
-     * @return
-     */
-    @PostMapping("closePath")
-    public Integer closePath(@RequestBody PathModel pathModel) {
-        logger.info("关闭路径的入参--pathModel：{}", pathModel);
-        return pathService.closePath(pathModel);
-    }
 
     /**
      * 开启路径
      * @param pathModel
      * @return
      */
-    @PostMapping("openPath")
-    public Integer openPath(@RequestBody PathModel pathModel) {
+    @PostMapping("openOrClosePath")
+    public Integer openOrClosePath(@RequestBody PathModel pathModel) {
         logger.info("开启路径的入参--pathModel：{}", pathModel);
-        return pathService.openPath(pathModel);
+        return pathService.openOrClosePath(pathModel);
     }
 }
