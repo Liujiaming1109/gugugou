@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
-/**供应商资质表*/
+/**
+ * 供应商资质信息
+ * */
+
 @RequestMapping("provider")
 @RestController
 public class AptitudeController {
@@ -17,22 +20,22 @@ public class AptitudeController {
     @Resource
     private AptitudeService aptitudeService;
 
-    /**添加供应商资质信息*/
+    /**资质信息----添加供应商资质信息*/
     @PostMapping("aptitude/addaptitude")
     public Integer addProviderAptitude(@RequestBody Aptitude aptitude){
           return aptitudeService.addProviderAptitude(aptitude);
     }
 
-    /**修改供应商资质信息*/
+    /**资质信息----修改供应商资质信息*/
     @PostMapping("updateaptitude")
     public Integer updateProviderAptitude(@RequestBody Aptitude aptitude){
           return aptitudeService.updateProviderAptitude(aptitude);
     }
 
-    /**查看供应商的资质信息*/
+    /**资质信息----查看供应商的资质信息*/
     @GetMapping("findAptitudeById")
-    public Map findAptitudeById(@RequestParam Long providerIdFk){
-            return aptitudeService.findAptitudeById(providerIdFk);
+    public Map findAptitudeById(@RequestParam Long id){
+            return aptitudeService.findAptitudeById(id);
     }
 
     /*@Scheduled(cron = "0/3 * * * * ?")

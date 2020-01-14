@@ -9,37 +9,58 @@ import com.gugugou.provider.provider.model.*;
 import com.gugugou.provider.provider.service.AptitudeService;
 import com.gugugou.provider.provider.service.InformationService;
 import com.gugugou.provider.provider.service.ProviderService;
+import com.gugugou.provider.provider.service.SettlementServices;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class InformationServiceImpl implements InformationService {
     /**供应商基本信息*/
     @Resource
     private InformationDao informationDao;
+
     /**资质表业务层*/
     private AptitudeService aptitudeService;
+
     /**财务信息业务层*/
     private ProviderService providerService;
+
     /**资质信息的dao层*/
     private AptitudeDao aptitudeDao;
+
     /**财务信息dao层*/
     private ProviderDao providerDao;
+
+    /**供应商基本信息中计算下次结算周期service层*/
+    private SettlementServices settlementService;
 
     /**添加供应商的基本信息*/
     @Override
     public Long addInformation(Information information) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        /**设置供应商上一次的结算时间*/
+        information.setLastSettlementTime(new Date());
+        /**参数中包括上一次结算时间,和结算周期*/
+        String nextSettleTime = settlementService.settlementTime(information);
+        try {
+            /**转换成Date类型*/
+            Date nextTimes = df.parse(nextSettleTime);
+            /**设置成供应商的下次结算时间*/
+            information.setNextSettlementTime(nextTimes);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        /**添加供应商的基本信息*/
         informationDao.addInformation(information);
         /**获取供应商主键id*/
         Long id = information.getId();
-        /**添加供应商的基本信息*/
-       informationDao.addInformation(information);
         List<InformationContact> informationContacts = information.getInformationContacts();
         for (InformationContact contacts : informationContacts) {
             informationDao.addInformationContact(contacts);
@@ -47,12 +68,16 @@ public class InformationServiceImpl implements InformationService {
 
         return id;
     }
+
     /**返现供应商的基本信息*/
     @Override
     public Information findInformationById(Long id) {
-
-        return informationDao.findInformationById(id);
+        List<InformationContact> informationContact = informationDao.findInformationConcat(id);
+        Information informationById = informationDao.findInformationById(id);
+        informationById.setInformationContacts(informationContact);
+        return informationById;
     }
+
     /**修改供应商的基本信息*/
     @Override
     public int updateInformation(Information information) {
@@ -63,6 +88,7 @@ public class InformationServiceImpl implements InformationService {
         }
         return count;
     }
+
     /**修改供应商的经营状态*/
     @Override
     public int updateInformationStatus(Information information) {
@@ -115,11 +141,13 @@ public class InformationServiceImpl implements InformationService {
         returnMap.put("finance",finance);
         return returnMap;
     }
+
     /**设置采销负责人*/
     @Override
     public int updateContactName(InformationContact informationContact) {
         return informationDao.updateContactName(informationContact);
     }
+
     /**查看供应商列表带条件*/
     @Override
     public Map findAllProviders(QueryField queryField) {
@@ -142,6 +170,7 @@ public class InformationServiceImpl implements InformationService {
     /**查询所有供应商*/
     @Override
     public List<Information> queryAllProviders() {
+
         return informationDao.queryAllProviders();
     }
 }

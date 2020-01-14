@@ -160,11 +160,11 @@ public class AptitudeServiceImpl implements AptitudeService {
             return aptitude1;
         }
 
-    /**查看供应商资质信息*/
+    /**供应商管理----查看供应商资质信息*/
     @Override
-    public Map findAptitudeById(Long providerIdFk) {
+    public Map findAptitudeById(Long id) {
         /**查看资质信息*/
-        Aptitude aptitude = aptitudeDao.selectAptitude(providerIdFk);
+        Aptitude aptitude = aptitudeDao.selectAptitude(id);
         /**附件表*/
         AccessoryUrlModel accessoryUrlModel = new AccessoryUrlModel();
 
