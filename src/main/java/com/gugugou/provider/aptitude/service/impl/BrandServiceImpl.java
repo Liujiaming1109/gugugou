@@ -390,7 +390,7 @@ public class BrandServiceImpl implements BrandService {
     public Integer updateProvider(BrandModel brandModel) {
         //已经存在的派单权重
         Integer sendOrderWeightExist = brandModel.getSendOrderWeight();
-        //修改的派单权重
+        //修改派单权重入参
         Integer sendOrderWeightIn = brandModel.getSendOrderWeightIn();
         brandModel.setSendOrderWeight(sendOrderWeightIn);
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityListOne(brandModel);
@@ -405,7 +405,7 @@ public class BrandServiceImpl implements BrandService {
             }else if (sendOrderWeightExist < sendOrderWeightIn) {
                 List<BrandModel> subList = brandModelList.subList(sendOrderWeightIn, sendOrderWeightExist);
                 for (BrandModel brandModels:subList) {
-                    brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() + ProviderCentreConsts.INTEGER_ONE);
+                    brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() - ProviderCentreConsts.INTEGER_ONE);
                     brandModels.setUpdatedTime(new Date());
                     brandDao.updateProvider(brandModel);
                 }
