@@ -9,18 +9,28 @@ public interface InformationService {
 
     /**添加供应商的基本信息*/
     Long addInformation(Information information);
+
+    /**计算供应商下一次结算时间*/
+
+
     /**查看供应商基本信息*/
     Information findInformationById(Long id);
+
     /**修改供应商的基本信息*/
     int updateInformation(Information information);
+
     /**修改供应商的供应状态*/
     int updateInformationStatus(Information information);
+
     /**查看详情*/
     Map selectDetalById(Long id);
+
     /**修改采销负责人*/
     int updateContactName(InformationContact informationContact);
+
     /**查看供应商列表带条件*/
     Map findAllProviders(QueryField queryField);
+
     /**查找所有供应商*/
     List<Information> queryAllProviders();
 }
