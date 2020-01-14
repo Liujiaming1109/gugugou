@@ -12,10 +12,13 @@ import com.gugugou.provider.commodity.dto.response.SkuPathResponseDTO;
 import com.gugugou.provider.commodity.model.SkuPathModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.ResponseDTO;
+import com.gugugou.provider.common.until.DaysToMillis;
+import com.gugugou.provider.common.until.TimeToStamp;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,12 +47,40 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Long addAptitude(BrandModel brandModel) {
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityList(brandModel);
+        //授权开始日期和结束日期
+        String trademarkStartDate = String.valueOf(brandModel.getTrademarkStartDate());
+        String trademarkEndDate = brandModel.getTrademarkEndDate();
         if (!brandModelList.isEmpty()) {
-            brandModel.setSendOrderWeight(brandModelList.size()+ProviderCentreConsts.INTEGER_ONE);
+            brandModel.setSendOrderWeight(brandModelList.get(0).getSendOrderWeight()+ProviderCentreConsts.INTEGER_ONE);
         }else {
             brandModel.setSendOrderWeight(ProviderCentreConsts.INTEGER_ONE);
         }
-        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
+        long now = System.currentTimeMillis();
+        try {
+            long start = TimeToStamp.timeToStamp(trademarkStartDate);
+                if (now < start) {
+                    brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_THREE);
+                }else {
+                    if ("长期".equals(trademarkEndDate)) {
+                        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
+                    }else {
+                        long end = TimeToStamp.timeToStamp(trademarkEndDate);
+                        //小于三十天为即将过期
+                        long corn = DaysToMillis.daysToMillis(30L);
+                        if (end - now >= 0 && end - now <= corn) {
+                            brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ONE);
+                        }
+                        if (end - now > corn) {
+                            brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
+                        }
+                        if (end - now < 0) {
+                            brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_TWO);
+                        }
+                    }
+                }
+        } catch (ParseException e) {
+            throw new RuntimeException("日期解析失败");
+        }
         brandModel.setCreatedTime(new Date());
         brandModel.setRemoved(ProviderCentreConsts.REMOVED_ZERO);
         brandDao.addAptitude(brandModel);
@@ -341,7 +372,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     /**
-     * 查询品牌在该类目下的其他供应商（修改优先级用）
+     * 查询品牌在该类目下的其他供应商优先级
      * @param brandModel
      * @return
      */
@@ -357,14 +388,27 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Integer updateProvider(BrandModel brandModel) {
+        //已经存在的派单权重
         Integer sendOrderWeightExist = brandModel.getSendOrderWeight();
+        //修改的派单权重
+        Integer sendOrderWeightIn = brandModel.getSendOrderWeightIn();
+        brandModel.setSendOrderWeight(sendOrderWeightIn);
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityListOne(brandModel);
         if (!brandModelList.isEmpty()) {
-            List<BrandModel> subList = brandModelList.subList(sendOrderWeightExist - ProviderCentreConsts.INTEGER_ONE, brandModelList.size());
-            for (BrandModel brandModels:subList) {
-                brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() + ProviderCentreConsts.INTEGER_ONE);
-                brandModels.setUpdatedTime(new Date());
-                brandDao.updateProvider(brandModel);
+            if (sendOrderWeightExist > sendOrderWeightIn) {
+                List<BrandModel> subList = brandModelList.subList(sendOrderWeightIn - ProviderCentreConsts.INTEGER_ONE, sendOrderWeightExist - ProviderCentreConsts.INTEGER_ONE);
+                for (BrandModel brandModels:subList) {
+                    brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() + ProviderCentreConsts.INTEGER_ONE);
+                    brandModels.setUpdatedTime(new Date());
+                    brandDao.updateProvider(brandModel);
+                }
+            }else if (sendOrderWeightExist < sendOrderWeightIn) {
+                List<BrandModel> subList = brandModelList.subList(sendOrderWeightIn, sendOrderWeightExist);
+                for (BrandModel brandModels:subList) {
+                    brandModels.setSendOrderWeight(brandModels.getSendOrderWeight() + ProviderCentreConsts.INTEGER_ONE);
+                    brandModels.setUpdatedTime(new Date());
+                    brandDao.updateProvider(brandModel);
+                }
             }
         }
                 return brandDao.updateProvider(brandModel);

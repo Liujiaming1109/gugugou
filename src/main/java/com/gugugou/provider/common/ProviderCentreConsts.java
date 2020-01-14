@@ -62,11 +62,12 @@ public final class ProviderCentreConsts {
 
     /**
      * 供应商授权状态
-     * 0：正常，1：即将过期，2：过期
+     * 0：正常，1：即将过期，2：过期，3：未开始
      */
     public static final Integer TRADEMARK_STATUS_ZERO = 0;
     public static final Integer TRADEMARK_STATUS_ONE = 1;
     public static final Integer TRADEMARK_STATUS_TWO = 2;
+    public static final Integer TRADEMARK_STATUS_THREE = 3;
 
 
     /**

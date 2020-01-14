@@ -131,4 +131,9 @@ public class BrandModel implements Serializable {
      * 贵司近3个月内向上一级经销商的进货发票复印件，且发票需体现此次申请的品牌名称。
      */
     private List<AccessoryUrlModel> invoiceList;
+
+    /**
+     * 修改的传入派单权重
+     */
+    private Integer sendOrderWeightIn;
 }
