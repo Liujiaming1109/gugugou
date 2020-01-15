@@ -1,6 +1,6 @@
 package com.gugugou.provider.provider.controller;
 
-import com.gugugou.provider.common.until.SendEmail;
+import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.provider.model.*;
 import com.gugugou.provider.provider.service.InformationService;
 import org.slf4j.Logger;
@@ -17,11 +17,11 @@ import java.util.Map;
 @RequestMapping("provider")
 @RestController
 public class InformationController {
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private InformationService informationService;
-    @Resource
-    private SendEmail sendEmail;
 
     /**
      * 新增供应商----添加供应商的基本信息
@@ -74,16 +74,18 @@ public class InformationController {
         return  informationService.findAllProviders(queryField);
     }
 
-    /**供应商管理----编辑供应商*/
+    /**供应商管理----给仓库绑定供应商提供的所有的供应商*/
     @PostMapping("queryAllProviders")
     public List<Information> queryAllProviders(){
         return  informationService.queryAllProviders();
     }
 
-    /**新增供应商----合同到期发送邮件*/
-    @GetMapping("sendEmails")
-    public void sendEmail(@RequestParam String email) {
-        sendEmail.sendMail(email,"你好,合同即将到期,请及时续约","合同即将到期");
+    /**供应商管理----编辑品牌资质*/
+    @PostMapping("updatedBrandAptitude")
+    public List<BrandModel> updatedBrandAptitude(@RequestBody int id){
+        long ids = id;
+        return informationService.updatedBrandAptitu(ids);
+
     }
 
 }

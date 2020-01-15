@@ -34,7 +34,8 @@ public class Information implements Serializable {
     private String contactId;
 
     /**合同开始时间*/
-    private String contactStartDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date contactStartDate;
 
     /**合同结束时间*/
     private String contactEndDate;

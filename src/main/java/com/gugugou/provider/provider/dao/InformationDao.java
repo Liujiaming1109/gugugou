@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.dao;
 
+import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.provider.model.Aptitude;
 import com.gugugou.provider.provider.model.Information;
 import com.gugugou.provider.provider.model.InformationContact;
@@ -47,5 +48,8 @@ public interface InformationDao {
 
     /**查找所有供应商*/
     List<Information> queryAllProviders();
+
+    /**供应商管理----编辑品牌资质*/
+    List<BrandModel> updatedBrandAptitu(long ids);
 
 }
