@@ -37,29 +37,21 @@ public class SettlementServiceImpls implements SettlementServices {
                 System.out.println("增加一天后日期:"+sad);
                 settlementTimeNext = sad;
 
-        }else if (settlementInterval == 1){
-            /**周结*/
-            Date date = new Date();
+        }else if (settlementInterval == 1 || settlementInterval == 2){
+            /**周结或两周结*/
+            Date date = information.getContactStartDate();
             DateFormat format = DateFormat.getDateInstance();
             String tuesday = format.format(date);
             System.out.println("Today is : " + tuesday);
-            date = getNextTuesday(date);
+            if(settlementInterval ==2){
+                date = getNextTuesdayTwo(date);
+            }else{
+                date = getNextTuesday(date);
+            }
             String nextTuesday = format.format(date);
             String nexts = nextTuesday +" "+ "23:59:00";
             System.out.println("Next tuesday is: "+ nexts);
             settlementTimeNext = nexts;
-
-        }else if(settlementInterval == 2){
-            /**周结*/
-            Date date = new Date();
-            DateFormat format = DateFormat.getDateInstance();
-            String tuesday = format.format(date);
-            System.out.println("Today is : " + tuesday);
-            date = getNextTuesdayTwo(date);
-            String nextTuesday = format.format(date);
-            String nextss = nextTuesday +" "+ "23:59:00";
-            System.out.println("Next tuesday is: "+ nextss);
-            settlementTimeNext = nextss;
 
         }else if(settlementInterval == 3){
                  /**月结*/
@@ -69,7 +61,7 @@ public class SettlementServiceImpls implements SettlementServices {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 //获取当前年月日
                 ParsePosition pos = new ParsePosition(0);
-                Date date1 = new Date();
+                Date date1 = information.getContactStartDate();
                 //Date date1 = df.parse(df.format(new Date()) +"-28 18:00:00",pos);
                 //获取当前年月,拼接25号
                 Date date2 = df.parse(dfs.format(new Date()) + "-" +"25" + " " + "23:59:00",pos);
@@ -98,7 +90,7 @@ public class SettlementServiceImpls implements SettlementServices {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             //获取当前年月日
             ParsePosition pos = new ParsePosition(0);
-            Date date1 = new Date();
+            Date date1 = information.getContactStartDate();
             //Date date1 = df.parse(df.format(new Date()) +"-28 18:00:00",pos);
             //获取当前年月,拼接25号
             Date date2 = df.parse(dfs.format(new Date())+ "-" + "12" + "-" +"25" + " " + "23:59:00",pos);

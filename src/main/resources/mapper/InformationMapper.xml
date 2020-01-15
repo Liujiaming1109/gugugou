@@ -7,40 +7,42 @@
           insert into t_provider
            <include refid="Information"/>
           values
-          (null,#{settlementInterval},#{companyName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{contractStatus},#{isContactExtension},#{companyAddress},
+          (null,#{settlementInterval},#{providerName},#{companyEmail},#{contactId},#{contactStartDate},#{contactEndDate},#{contractStatus},#{isContactExtension},#{companyAddress},
           #{permitNumber},#{businessPeople},#{businessPeopleCardId},#{source},#{isTaxpayer},#{manageMethod},#{companyIntroduce},#{manageStatus},#{changeReason},#{platformPrincipal},#{principalEmail},
-          #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+          #{lastSettlementTime},#{nextSettlementTime},#{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
 
     </insert>
 
     <!--添加联系人-->
     <insert id="addInformationContact">
         insert into t_provider_contact
-        (id,provider_id_fk,contact_type,contact_name,contact_phone,contact_email,contact_dingding,created_by, created_time, updated_by, updated_time, removed)
+        (provider_id_fk,contact_type,contact_name,contact_phone,contact_email,created_by, created_time, updated_by, updated_time, removed)
         values
-        (null,#{providerIdFk},#{contactType},#{contactName},#{contactPhone},#{contactEmail}, #{contactDingding},#{createdBy},#{createdTime},#{updatedBy}, #{updatedTime}, #{removed})
+        (#{providerIdFk},#{contactType},#{contactName},#{contactPhone},#{contactEmail}, #{createdBy},#{createdTime},#{updatedBy}, #{updatedTime}, #{removed})
     </insert>
 
+    <!--供应商基本信息字段-->
     <sql id="Information">
-          id,settlement_interval,company_name,company_email,contact_id,contact_start_date,contact_end_date,contract_status,is_contact_extension,company_address,permit_number,
+          id,settlement_interval,provider_name,company_email,contact_id,contact_start_date,contact_end_date,contract_status,is_contact_extension,company_address,permit_number,
           business_people,business_people_card_id,source,is_taxpayer,manage_method,company_introduce,manage_status,change_reason,platform_principal,principal_email,
-          created_by, created_time, updated_by, updated_time, removed
+          last_settlement_time,next_settlement_time,created_by, created_time, updated_by, updated_time, removed
     </sql>
 
     <!--查看基本信息-->
-    <select id="findInformationById" parameterType="Long" resultMap="InformationById">
+    <select id="findInformationById" parameterType="long" resultMap="InformationById">
          SELECT <include refid="Information"/>
          from t_provider p
          where p.id = #{id}
     </select>
     <resultMap id="InformationById" type="com.gugugou.provider.provider.model.Information">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="settlement_interval" property="settlementInterval" jdbcType="INTEGER"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
         <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
-        <result column="manage_method" property="manageMethod" jdbcType="INTEGER"/>
         <result column="contact_id" property="contactId" jdbcType="VARCHAR"/>
-        <result column="contact_start_date" property="contactStartDate" jdbcType="VARCHAR"/>
-        <result column="contact_end_date" property="contactEndDate" jdbcType="VARCHAR"/>
+        <result column="contact_start_date" property="contactStartDate" jdbcType="DATE"/>
+        <result column="contact_end_date" property="contactEndDate" jdbcType="DATE"/>
+        <result column="contract_status" property="contractStatus" jdbcType="INTEGER"/>
         <result column="is_contact_extension" property="isContactExtension" jdbcType="INTEGER"/>
         <result column="company_address" property="companyAddress" jdbcType="VARCHAR"/>
         <result column="permit_number" property="permitNumber" jdbcType="VARCHAR"/>
@@ -48,21 +50,29 @@
         <result column="business_people_card_id" property="businessPeopleCardId" jdbcType="VARCHAR"/>
         <result column="source" property="source" jdbcType="INTEGER"/>
         <result column="is_taxpayer" property="isTaxpayer" jdbcType="INTEGER"/>
+        <result column="manage_method" property="manageMethod" jdbcType="INTEGER"/>
         <result column="company_introduce" property="companyIntroduce" jdbcType="VARCHAR"/>
+        <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
+        <result column="company_introduce" property="companyIntroduce" jdbcType="VARCHAR"/>
+        <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
+        <result column="change_reason" property="changeReason" jdbcType="VARCHAR"/>
+        <result column="platform_principal" property="platformPrincipal" jdbcType="VARCHAR"/>
+        <result column="principal_email" property="principalEmail" jdbcType="VARCHAR"/>
+        <result column="last_settlement_time" property="lastSettlementTime" jdbcType="DATE"/>
+        <result column="next_settlement_time" property="nextSettlementTime" jdbcType="DATE"/>
         <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
         <result column="created_time" property="createdTime" jdbcType="DATE"/>
         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
         <result column="updated_time" property="updatedTime" jdbcType="DATE"/>
         <result column="removed" property="removed" jdbcType="INTEGER"/>
-        <result column="settlement_interval" property="settlementInterval" jdbcType="INTEGER"/>
-        <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
-        <result column="change_reason" property="changeReason" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查看供应商的联系人-->
-    <select id="findInformationConcat" parameterType="Long" resultMap="InformationContact">
-        select contact_type,contact_name,contact_phone,contact_dingding,contact_email,
+    <select id="findInformationConcat" parameterType="long" resultMap="InformationContact">
+        select contact_type,contact_name,contact_phone,contact_email,
         created_by,created_time,updated_by,updated_time,removed
+        from
+        t_provider_contact
         where provider_id_fk = #{id}
     </select>
     <resultMap id="InformationContact" type="com.gugugou.provider.provider.model.InformationContact">
@@ -70,7 +80,6 @@
         <result column="contact_type" property="contactType" jdbcType="VARCHAR"/>
         <result column="contact_name"  property="contactName"  jdbcType="VARCHAR"/>
         <result column="contact_phone"  property="contactPhone"  jdbcType="VARCHAR"/>
-        <result column="contact_dingding"  property="contactDingding"  jdbcType="VARCHAR"/>
         <result column="contact_email"  property="contactEmail"  jdbcType="VARCHAR"/>
         <result column="created_by"  property="createdBy"  jdbcType="VARCHAR"/>
         <result column="created_time"  property="createdTime"  jdbcType="DATE"/>
@@ -86,8 +95,8 @@
             <if test="settlementInterval !=null" >
              settlement_interval = #{settlementInterval},
             </if>
-            <if test="companyName !=null and companyName != ''" >
-                company_name = #{companyName},
+            <if test="providerName !=null and providerName != ''" >
+                provider_name = #{providerName},
             </if>
             <if test="companyEmail !=null" >
                 company_email = #{companyEmail},
@@ -199,15 +208,12 @@
     <select id="findAllProviders" parameterType="com.gugugou.provider.provider.model.QueryField" resultMap="findAllProvidersMap">
         SELECT
         t_provider.id,
-        t_provider.company_name,
+        t_provider.provider_name,
         t_provider.company_email,
         CASE
         manage_status
-        WHEN 0 THEN '新进商家'
-        WHEN 1 THEN '储备商家'
-        WHEN 2 THEN '正常商家'
-        WHEN 3 THEN '监督整改'
-        WHEN 4 THEN '黑名单'
+        WHEN 0 THEN '正常商家'
+        WHEN 1 THEN '黑名单'
         ELSE '暂停合作'
         END AS manage_status,
         CASE
@@ -225,7 +231,7 @@
         WHEN 1 THEN
         '周'
         WHEN 2 THEN
-        '半月'
+        '双周'
         WHEN 3 THEN
         '月' ELSE '年'
         END,
@@ -237,7 +243,6 @@
         WHEN 1 THEN '一级经销商'
         WHEN 2 THEN '二级经销商'
         WHEN 3 THEN '三级经销商'
-        ELSE '代销'
         END AS provider_auth_level,
         GROUP_CONCAT( t_brand.brand_name ) AS brand_name,
         GROUP_CONCAT( t_brand.type_name ) AS type_name,
@@ -254,15 +259,15 @@
         CASE
         is_contact_extension
         WHEN 0 THEN
-        '续约' ELSE '不续约'
+        '是' ELSE '否'
         END AS is_contact_extension
         FROM
         t_provider
         LEFT JOIN t_finance ON t_provider.id = t_finance.provider_id_fk
         LEFT JOIN t_brand ON t_provider.id = t_brand.provider_id_fk
        where 1=1  and removed = 0
-            <if test="companyName !=null and companyName != ''" >
-               and company_name = #{companyName,jdbcType=VARCHAR}
+            <if test="providerName !=null and providerName != ''" >
+               and provider_name = #{providerName,jdbcType=VARCHAR}
             </if>
             <if test="manageStatus !=null and manageStatus != ''" >
                AND manage_status = #{manageStatus,jdbcType=INTEGER}
@@ -285,7 +290,7 @@
     <select id="queryAllProviders"  resultMap="findAllProvidersMap">
         SELECT
 			    t_provider.id,
-                t_provider.company_name,
+                t_provider.provider_name,
                 t_provider.company_email,
 				t_provider.company_address,
 				t_provider.permit_number,
@@ -305,22 +310,19 @@
 				t_provider.removed
 				from
                 t_provider
-                where removed = 0 and manage_status != 4 and contract_status != 2
+                where removed = 0 and manage_status != 1 and contract_status != 2
     </select>
 
     <select id="findAllProvidersCount" resultType="java.lang.Integer" parameterType="com.gugugou.provider.provider.model.QueryField">
         select count(*) as count from (
         SELECT
         t_provider.id,
-        t_provider.company_name,
+        t_provider.provider_name,
         t_provider.company_email,
         CASE
         manage_status
-        WHEN 0 THEN '新进商家'
-        WHEN 1 THEN '储备商家'
-        WHEN 2 THEN '正常商家'
-        WHEN 3 THEN '监督整改'
-        WHEN 4 THEN '黑名单'
+        WHEN 0 THEN '正常商家'
+        WHEN 1 THEN '黑名单'
         ELSE '暂停合作'
         END AS manage_status,
         CASE
@@ -338,7 +340,7 @@
         WHEN 1 THEN
         '周'
         WHEN 2 THEN
-        '半月'
+        '双周'
         WHEN 3 THEN
         '月' ELSE '年'
         END,
@@ -350,7 +352,6 @@
         WHEN 1 THEN '一级经销商'
         WHEN 2 THEN '二级经销商'
         WHEN 3 THEN '三级经销商'
-        ELSE '代销'
         END AS provider_auth_level,
         GROUP_CONCAT( t_brand.brand_name ) AS brand_name,
         GROUP_CONCAT( t_brand.type_name ) AS type_name,
@@ -367,15 +368,15 @@
         CASE
         is_contact_extension
         WHEN 0 THEN
-        '续约' ELSE '不续约'
+        '是' ELSE '否'
         END AS is_contact_extension
         FROM
         t_provider
         LEFT JOIN t_finance ON t_provider.id = t_finance.provider_id_fk
         LEFT JOIN t_brand ON t_provider.id = t_brand.provider_id_fk
         where 1=1 and removed = 0
-        <if test="companyName !=null and companyName != ''" >
-            and company_name like concat('%',#{companyName},'%')
+        <if test="providerName !=null and providerName != ''" >
+            and provider_name like concat('%',#{providerName},'%')
         </if>
         <if test="manageStatus !=null and manageStatus != ''" >
             AND manage_status like concat('%',#{manageStatus},'%')
@@ -390,13 +391,13 @@
             AND brand_name like concat('%',#{brandName},'%')
         </if>
         GROUP BY
-        t_provider.provider_id_fk
+        t_provider.id
         ) as t
     </select>
 
     <resultMap id="findAllProvidersMap" type="com.gugugou.provider.provider.model.QueryField">
         <result column="id" property="id" jdbcType="INTEGER"/>
-        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
         <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
         <result column="manage_status" property="manageStatus" jdbcType="INTEGER"/>
         <result column="platform_principal" property="platformPrincipal" jdbcType="VARCHAR"/>
@@ -411,7 +412,7 @@
     <select id="findAllProvider" resultMap="InformationById">
         SELECT
 	id,
-	company_name,
+	provider_name,
 	company_email,
 	manage_method,
 	contact_id,
@@ -431,13 +432,34 @@
 	company_introduce,
 	manage_status,
 	change_reason,
+	last_settlement_time,
+	next_settlement_time,
 	created_by,
-	created_by,
+	created_time,
 	updated_by,
 	updated_time,
 	removed
 FROM
 	t_provider
     </select>
-    
+
+
+    <!--供应商管理-编辑品牌资质-->
+    <select id="updatedBrandAptitu" parameterType="long" resultMap="streamingBrands">
+        select
+        id,brand_id,brand_name,type_id,type_name,provider_id_fk,provider_name
+        from
+        t_brand
+        where provider_id_fk = #{id}
+    </select>
+    <resultMap id="streamingBrands" type="com.gugugou.provider.aptitude.model.BrandModel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="BIGINT"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="provider_id_fk" property="providerIdFk" jdbcType="BIGINT"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+    </resultMap>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.gugugou.provider.provider.service.Impl;
 
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
+import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.provider.dao.AptitudeDao;
 import com.gugugou.provider.provider.dao.InformationDao;
@@ -42,10 +43,9 @@ public class InformationServiceImpl implements InformationService {
     /**添加供应商的基本信息*/
     @Override
     public Long addInformation(Information information) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         /**设置供应商上一次的结算时间*/
-        information.setLastSettlementTime(new Date());
+        information.setLastSettlementTime(information.getContactStartDate());
         /**参数中包括上一次结算时间,和结算周期*/
         String nextSettleTime = settlementService.settlementTime(information);
         try {
@@ -107,27 +107,27 @@ public class InformationServiceImpl implements InformationService {
         accessoryUrlModel.setProviderAptitudeIdFk(aptitude.getProviderIdFk());
 
         /**企业资质执照附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ZERO);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_ZERO);
         List<AccessoryUrlModel> taxRegistration = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setTaxRegistration(taxRegistration);
         /**税务登记表附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_ONE);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_ONE);
         List<AccessoryUrlModel> enterpriseAptitudes = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setEnterpriseAptitude(enterpriseAptitudes);
         /**组织机构附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_TWO);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_TWO);
         List<AccessoryUrlModel> businessAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setBusinessAccessory(businessAccessory);
         /**一般纳税人附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_THREE);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_THREE);
         List<AccessoryUrlModel> taxPayerAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setBusinessAccessory(taxPayerAccessory);
         /**银行开户附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FOUR);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_FOUR);
         List<AccessoryUrlModel> bankAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setBusinessAccessory(bankAccessory);
         /**法定代表人身份附件*/
-        accessoryUrlModel.setAccessoryName(ProviderCentreConsts.PROVIDER_ADDRESS_FIVE);
+        accessoryUrlModel.setAccessoryAddress(ProviderCentreConsts.PROVIDER_ADDRESS_FIVE);
         List<AccessoryUrlModel> representativeAccessory = aptitudeDao.selectAccessoryUrlModelList(accessoryUrlModel);
         aptitude.setBusinessAccessory(representativeAccessory);
 
@@ -172,5 +172,11 @@ public class InformationServiceImpl implements InformationService {
     public List<Information> queryAllProviders() {
 
         return informationDao.queryAllProviders();
+    }
+
+    /**供应商管理----编辑品牌资质*/
+    @Override
+    public List<BrandModel> updatedBrandAptitu(long ids) {
+        return informationDao.updatedBrandAptitu(ids);
     }
 }

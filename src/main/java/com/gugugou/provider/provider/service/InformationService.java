@@ -1,5 +1,6 @@
 package com.gugugou.provider.provider.service;
 
+import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.provider.model.*;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public interface InformationService {
     /**查看供应商列表带条件*/
     Map findAllProviders(QueryField queryField);
 
-    /**查找所有供应商*/
+    /**查找所有供应商[给商品模块提供所有供应商绑定]*/
     List<Information> queryAllProviders();
+
+    /**供应商管理----编辑品牌资质*/
+    List<BrandModel> updatedBrandAptitu(long ids);
 }

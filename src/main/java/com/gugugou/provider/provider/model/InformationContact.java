@@ -23,16 +23,14 @@ public class InformationContact implements Serializable {
     private String contactPhone;
     /**联系人邮件*/
     private String contactEmail;
-    /**联系人钉钉*/
-    private String contactDingding;
-    /*创建人*/
+    /**创建人*/
     private String createdBy;
-    /*创建时间*/
+    /**创建时间*/
     private Date createdTime;
-    /*更新人*/
+    /**更新人*/
     private String updatedBy;
-    /*更新时间*/
+    /**更新时间*/
     private Date updatedTime;
-    /*逻辑删除*/
+    /**逻辑删除*/
     private int removed;
 }
