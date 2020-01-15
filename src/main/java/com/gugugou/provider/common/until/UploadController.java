@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -33,9 +34,17 @@ public class UploadController {
             jsonResultVo.setData("上传失败，请选择文件");
             return jsonResultVo;
         }
-
         String fileName = file.getOriginalFilename();
-        String filePath = "E:/image/pic/";
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int date = calendar.get(Calendar.DATE);
+        String filePath = "upload/image/pic/" + year + "/" + month + "/" + date;
+        File file1 = new File(filePath);
+        // 判断文件是否存在，如果不存在，则创建此文件夹
+        if (!file1.exists()) {
+            file1.mkdir();
+        }
         File dest = new File(filePath + fileName);
         try {
             file.transferTo(dest);

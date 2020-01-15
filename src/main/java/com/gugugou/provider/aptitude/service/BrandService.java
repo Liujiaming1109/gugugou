@@ -87,5 +87,4 @@ public interface BrandService {
      * @return
      */
     Integer updateBucklePoint(BrandModel brandModel);
-
 }

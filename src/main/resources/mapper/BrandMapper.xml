@@ -137,20 +137,20 @@
     </select>
 
 <!--查询品牌列表数据条数-->
-    <select id="selectAptitudeListCount" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultType="Long">
+    <select id="selectAptitudeListCount" parameterType="com.gugugou.provider.aptitude.model.BrandModel" resultType="long">
         select count(1)
         from t_brand
         <include refid="pageConditions"/>
     </select>
 
 <!--查询单条品牌数据详情-->
-    <select id="getAptitudeById" parameterType="Long" resultMap="BaseResultMap">
+    <select id="getAptitudeById" parameterType="long" resultMap="BaseResultMap">
         select <include refid="baseColumnList"/>
         from t_brand
         where id = #{id}
     </select>
 <!--根据品牌数据主键id查询附件-->
-    <select id="getAccessoryByBrandIdFk" parameterType="Long" resultMap="FkResultMap">
+    <select id="getAccessoryByBrandIdFk" parameterType="long" resultMap="FkResultMap">
         select
         id,
         brand_id_fk,
@@ -355,7 +355,8 @@
         select
         tp.principal_email principalEmail,
         tb.id id,
-        tb.trademark_end_date trademarkEndDate
+        tb.trademark_end_date trademarkEndDate,
+        tb.trademark_start_date trademarkStartDate
         from
         t_provider as tp
         join t_brand as tb
