@@ -76,11 +76,18 @@ public final class ProviderCentreConsts {
      * 3：一般纳税人资格证明，4：银行开户许可证，
      * 5：法定代表人身份证正反面，
      */
-    public static  final  String PROVIDER_ADDRESS_ZERO = "0";
+   /* public static  final  String PROVIDER_ADDRESS_ZERO = "0";
     public static  final  String PROVIDER_ADDRESS_ONE = "1";
     public static  final  String PROVIDER_ADDRESS_TWO = "2";
     public static  final  String PROVIDER_ADDRESS_THREE = "3";
     public static  final  String PROVIDER_ADDRESS_FOUR = "4";
-    public static  final  String PROVIDER_ADDRESS_FIVE = "5";
+    public static  final  String PROVIDER_ADDRESS_FIVE = "5";*/
+
+    public static  final  Integer PROVIDER_ADDRESS_ZERO = 0;
+    public static  final  Integer PROVIDER_ADDRESS_ONE = 1;
+    public static  final  Integer PROVIDER_ADDRESS_TWO = 2;
+    public static  final  Integer PROVIDER_ADDRESS_THREE = 3;
+    public static  final  Integer PROVIDER_ADDRESS_FOUR = 4;
+    public static  final  Integer PROVIDER_ADDRESS_FIVE = 5;
 
 }
