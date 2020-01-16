@@ -61,16 +61,19 @@ public class StreamingController {
         return  streamingService.updatedStreamingShop(arrangeAndSku);
     }
 
+    /**直播间排班表----返回直播间排班表有效状态表*/
+    @PostMapping("showArrangeRoomStatus")
+    public List<ArrangeStreaming> showArrangeRoomStatus(@RequestBody ArrangeStreaming arrangeStreaming){
+        return  streamingService.showArrangeRoomStatus(arrangeStreaming);
+    }
 
-
-
-    /**直播间排班间----排班直播间解冻*/
+    /**直播间排班表----排班直播间解冻*/
     @PostMapping("updateStatus")
     public int updatedStatus(@RequestBody ArrangeStreaming arrangeStreaming){
         return streamingService.updatedStatus(arrangeStreaming);
     }
 
-    /**直播间排班间----排班直播间冻结*/
+    /**直播间排班表----排班直播间冻结*/
     @PostMapping("updateArrangeStatus")
     public int updateArrangeStatus(@RequestBody ArrangeStreaming arrangeStreaming){
         return streamingService.updateArrangeStatus(arrangeStreaming);
@@ -100,17 +103,74 @@ public class StreamingController {
         return streamingService.addShortVideo(shortVideo);
     }
 
-    /**录播管理----查找短视频*/
-    @PostMapping("findShortVideo")
-    public Map findShortVideo(@RequestBody ShortVideo shortVideo){
-        return  streamingService.findShortVideo(shortVideo);
-    }
-
     /**直播管理-商品管理----添加直播间的评论*/
     @RequestMapping("addComment")
     public int addComment(@RequestBody StreamingComment streamingComment){
         return  streamingService.addComment(streamingComment);
     }
+
+
+    /**?直播间商品管理----查找直播路径下的商品和sku信息价格*/
+    @PostMapping("streamingSkuPrice")
+    public List<PathAndPrice> streamingSkuPrice(@RequestBody ArrangeStreaming arrangeStreaming){
+        return streamingService.streamingSkuPrice(arrangeStreaming);
+    }
+
+
+    /**直播间商品管理----添加直播间的商品(从前台传过来商品及sku的集合)*/
+    @RequestMapping("saveShop")
+    public int saveShop(@RequestBody List<ArrangeAndSku> arrangeAndSkus){
+        logger.info("arrangeAndSkus:{}",arrangeAndSkus.toString());
+        return  streamingService.saveShop(arrangeAndSkus);
+    }
+
+
+    /**直播间的商品管理----展示直播间的商品名称及sku属性*/
+    @GetMapping("showStreamingSku")
+    public List<ArrangeAndSku> showStreamingSku(@RequestParam int id){
+        long ids = id;
+        return  streamingService.showStreamingSku(ids);
+    }
+
+    /**直播间商品管理-售价设置----直播间售价设置*/
+    @GetMapping("findStreamingSell")
+    public ArrangeAndSku findStreamingSell(@RequestParam ArrangeSkuId arrangeSkuId){
+        return  streamingService.findStreamingSell(arrangeSkuId);
+    }
+
+    /**直播间商品管理-售价设置----直播间的商品sku的路径设置提交*/
+    @PostMapping("streamingSkuPriceCommotity")
+    public int addStreamingSkuPrice(@RequestBody PathAndPrice pathAndPrice){
+        return streamingService.addStreamingSkuPrice(pathAndPrice);
+    }
+
+    /* *//**售价设置*//*
+    @PostMapping("setPrice")
+    public int setPrice(@RequestBody PathAndPrice pathAndPrice){
+        return streamingService.setPrice(pathAndPrice);
+    }*/
+
+    /**直播间商品管理----直播间删除sku*/
+    @PostMapping("deleteSkuId")
+    public int deleteSkuId(@RequestBody ArrangeSkuId arrangeSkuId){
+        return  streamingService.deleteSkuId(arrangeSkuId);
+    }
+
+    /**直播管理-商品管理----排班间商品上架*/
+    @PostMapping("putaway")
+    public int putaway(@RequestBody ArrangeAndSku arrangeAndSku){
+
+        return  streamingService.putaway(arrangeAndSku);
+    }
+
+    /**直播管理-商品管理----排班间商品的编辑*/
+    @PostMapping("shopEdit")
+    public int shopEdit(@RequestBody ArrangeAndSku arrangeAndSku){
+        return  streamingService.shopEdit(arrangeAndSku);
+    }
+
+
+
 
     /**直播管理-评论查看----根据排班表id和开始结束时间查看所有评论*/
     @PostMapping("findAllCommentById")
@@ -118,10 +178,10 @@ public class StreamingController {
         return  streamingService.findAllCommentById(longVideo);
     }
 
-    /**??直播管理-商品管理-评论查看----禁言(待定没有找到用户表)*/
-    @RequestMapping("updateCommentStatus")
-    public int updateCommentStatus(@RequestBody StreamingComment streamingComment){
-        return streamingService.updateCommentStatus(streamingComment);
+    /**录播管理----查找短视频*/
+    @PostMapping("findShortVideo")
+    public Map findShortVideo(@RequestBody ShortVideo shortVideo){
+        return  streamingService.findShortVideo(shortVideo);
     }
 
     /**录播管理----复制短视频链接(根据短视频id)*/
@@ -160,69 +220,12 @@ public class StreamingController {
         return  streamingService.changeShortStatus(shortVideo);
     }
 
-   /* *//**售价设置*//*
-    @PostMapping("setPrice")
-    public int setPrice(@RequestBody PathAndPrice pathAndPrice){
-        return streamingService.setPrice(pathAndPrice);
+
+
+    /**??直播管理-商品管理-评论查看----禁言(待定没有找到用户表)*/
+   /* @RequestMapping("updateCommentStatus")
+    public int updateCommentStatus(@RequestBody StreamingComment streamingComment){
+        return streamingService.updateCommentStatus(streamingComment);
     }*/
 
-    /**?直播间商品管理----查找直播路径下的商品和sku信息价格*/
-   @PostMapping("streamingSkuPrice")
-   public List<PathAndPrice> streamingSkuPrice(@RequestBody ArrangeStreaming arrangeStreaming){
-       return streamingService.streamingSkuPrice(arrangeStreaming);
-   }
-
-
-    /**直播间商品管理----添加直播间的商品(从前台传过来商品及sku的集合)*/
-    @RequestMapping("saveShop")
-    public int saveShop(@RequestBody List<ArrangeAndSku> arrangeAndSkus){
-        logger.info("arrangeAndSkus:{}",arrangeAndSkus.toString());
-        return  streamingService.saveShop(arrangeAndSkus);
-    }
-
-
-    /**直播间的商品管理----展示直播间的商品名称及sku属性*/
-    @GetMapping("showStreamingSku")
-    public List<ArrangeAndSku> showStreamingSku(@RequestParam int id){
-        long ids = id;
-        return  streamingService.showStreamingSku(ids);
-    }
-
-    /**直播间商品管理-售价设置----直播间售价设置*/
-    @GetMapping("findStreamingSell")
-    public ArrangeAndSku findStreamingSell(@RequestParam ArrangeSkuId arrangeSkuId){
-          return  streamingService.findStreamingSell(arrangeSkuId);
-    }
-
-    /**直播间商品管理-售价设置----直播间的商品sku的路径设置提交*/
-    @PostMapping("streamingSkuPriceCommotity")
-    public int addStreamingSkuPrice(@RequestBody PathAndPrice pathAndPrice){
-        return streamingService.addStreamingSkuPrice(pathAndPrice);
-    }
-
-    /**直播间商品管理----直播间删除sku*/
-    @PostMapping("deleteSkuId")
-    public int deleteSkuId(@RequestBody ArrangeSkuId arrangeSkuId){
-        return  streamingService.deleteSkuId(arrangeSkuId);
-    }
-
-    /**直播管理-商品管理----排班间商品上架*/
-    @PostMapping("putaway")
-    public int putaway(@RequestBody ArrangeAndSku arrangeAndSku){
-
-        return  streamingService.putaway(arrangeAndSku);
-    }
-
-    /**直播管理-商品管理----排班间商品的编辑*/
-    @PostMapping("shopEdit")
-    public int shopEdit(@RequestBody ArrangeAndSku arrangeAndSku){
-        return  streamingService.shopEdit(arrangeAndSku);
-    }
-
-
-    /**直播间排班表----返回直播间排班表有效状态表*/
-    @PostMapping("showArrangeRoomStatus")
-    public List<ArrangeStreaming> showArrangeRoomStatus(@RequestBody ArrangeStreaming arrangeStreaming){
-        return  streamingService.showArrangeRoomStatus(arrangeStreaming);
-     }
 }

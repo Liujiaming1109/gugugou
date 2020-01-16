@@ -33,13 +33,32 @@ public class StreamingServiceImpl implements StreamingService {
 
     /**展示直播间列表*/
     @Override
-    public List<Streaming> allStreamings(String anchorName) {
+    public List<Streaming> allStreamings(String anchorName){
         return streamingDao.allStreamings(anchorName);
     }
 
     /**添加排班*/
     @Override
     public int addWorkingSchedule(ArrangeStreaming arrangeStreaming) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        /**获取创建的开始时间*/
+        Date anchorStartDate = arrangeStreaming.getAnchorStartDate();
+        /**获取创建的结束时间*/
+        Date anchorEndDate = arrangeStreaming.getAnchorEndDate();
+        Date date = new Date();
+
+        long dateTime = anchorEndDate.getTime();
+        long dateTime1 = anchorEndDate.getTime();
+        long dateTime2 = date.getTime();
+        if(dateTime > dateTime2){
+            arrangeStreaming.setStreamingStatus(1);
+        }else if(dateTime2 > dateTime && dateTime1 > dateTime){
+            arrangeStreaming.setStreamingStatus(0);
+        }else{
+            arrangeStreaming.setStreamingStatus(2);
+        }
         arrangeStreaming.setCreatedTime(new Date());
         return streamingDao.addWorkingSchedule(arrangeStreaming);
     }
@@ -132,6 +151,12 @@ public class StreamingServiceImpl implements StreamingService {
     /**展示所有排班所有直播间和关联商品的数量*/
     @Override
     public Map findArrangeList(ArrangeStreaming arrangeStreaming) {
+        /**获取开起始时间*/
+        Date anchorEndDate = arrangeStreaming.getAnchorEndDate();
+        /**获取结束时间*/
+        Date anchorEndDate1 = arrangeStreaming.getAnchorEndDate();
+
+
         List<Integer> count = new ArrayList<Integer>();
         Map<Object,Object> hashMap = new HashMap<>();
         List<ArrangeStreaming> arrangeList = streamingDao.findArrangeList(arrangeStreaming);
@@ -309,8 +334,10 @@ public class StreamingServiceImpl implements StreamingService {
     public int shopEdit(ArrangeAndSku arrangeAndSku) {
         /**查找该排班表下所有商品的顺序*/
         List<ArrangeAndSku> findStreamingOrdes = streamingDao.findStreamingOrders(arrangeAndSku.getArrangeRoomId());
+
         /**查找原表中商品id的排序*/
         int math = streamingDao.findArrangeOrder(arrangeAndSku.getOrder());
+
         /**前台传过来的顺序数*/
         int orders = arrangeAndSku.getOrder();
         if(math == orders){
@@ -326,7 +353,7 @@ public class StreamingServiceImpl implements StreamingService {
             streamingDao.updateStreamingOrder(arrangeAndSku);
         }else{
             for (ArrangeAndSku arr: findStreamingOrdes) {
-                if(math > arr.getOrder() && arr.getOrder() <= orders){
+                if(math > arr.getOrder() && arr.getOrder() >= orders){
                     arr.setOrder(arr.getOrder()+1);
                     streamingDao.updateStreamingOrder(arr);
                 }
@@ -340,35 +367,29 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public int updatedStreamingShop(List<ArrangeAndSku> arrangeAndSku) {
 
+        Map<Object, Object> returnMap = new HashMap<>();
+        if(arrangeAndSku.size()>0 && arrangeAndSku != null){
+            /**循环排班间添加的商品*/
+            for (ArrangeAndSku arr: arrangeAndSku) {
 
-        /**先删除原有的添加的商品*/
-        for (ArrangeAndSku arr: arrangeAndSku) {
-
-            /**查看原排班表的商品*/
-            List<ArrangeAndSku> arrangeAndSkus = streamingDao.findAllStreamingShopById(arr.getArrangeRoomId());
-            for (ArrangeAndSku arrs:arrangeAndSkus) {
-                if(arrs.getItemId() != arr.getItemId()){
-
-                    /**删除原有排班间商品id*/
-                    streamingDao.deleteStreamingItemShop(arrs);
-                    /**删除原有排班间商品sku*/
-                    streamingDao.deletestreamingSkuShop(arrs);
-                    /**删除原有排班间路径下sku的路径扣点*/
-                    streamingDao.deleteSkuAndPath(arr);
-                    /**删除原有排班间路径下的库存*/
-
-                    /**添加排班间修改过的商品*/
-                    streamingDao.saveShop(arr);
-                    /**添加修改过的商品sku*/
-                    List<ArrangeAndSkuFk> commtitys = arr.getCommtitys();
-                    /**添加排班路径下的sku的扣点*/
-                    for (ArrangeAndSkuFk arres: commtitys) {
-                        streamingDao.saveArrangeSkuFks(arres);
-                    }
+                /**查看原排班表的商品*/
+                List<ArrangeAndSku> arrangeAndSkus = streamingDao.findAllStreamingShopById(arr.getArrangeRoomId());
+                /**循环原排班表的商品*/
+                for (ArrangeAndSku arrs: arrangeAndSkus) {
+                     if(arr.getItemId() == arrs.getItemId()){
+                         break;
+                     }
                 }
+                Long itemId = arr.getItemId();
+
             }
+            /**删除*/
+            return 1;
+        }else{
+            return 0;
         }
-        return 1;
+
+
     }
 
     /**返回排班表中有效状态表*/
