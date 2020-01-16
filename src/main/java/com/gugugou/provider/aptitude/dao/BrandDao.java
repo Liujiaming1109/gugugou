@@ -153,5 +153,4 @@ public interface BrandDao {
      * @return
      */
     Long selectProviderCountByBrandIdAndTypeId(BrandModel brandModel);
-
 }

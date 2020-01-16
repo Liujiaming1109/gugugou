@@ -80,6 +80,17 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.14</version>
         </dependency>
+<!--导出到excl依赖包-->
+        <dependency>
+            <groupId>com.wuwenze</groupId>
+            <artifactId>ExcelKit</artifactId>
+            <version>2.0.71</version>
+        </dependency>
+        <dependency>
+        <groupId>xml-apis</groupId>
+        <artifactId>xml-apis</artifactId>
+        <version>1.4.01</version>
+    </dependency>
     </dependencies>
 
     <build>

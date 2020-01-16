@@ -12,11 +12,13 @@ import java.io.Serializable;
  */
 public class SelectListDTO implements Serializable {
 
-    private static final long serialVersionUID = 3212650768767086165L;
+    private static final long serialVersionUID = -4133182566662861801L;
     /**资质表主键id**/
     private Long id;
     /**资质授权到期时间**/
     private String trademarkEndDate;
+    /**资质授权到期时间**/
+    private String trademarkStartDate;
     /**负责人邮箱**/
     private String principalEmail;
 
@@ -34,6 +36,14 @@ public class SelectListDTO implements Serializable {
 
     public void setTrademarkEndDate(String trademarkEndDate) {
         this.trademarkEndDate = trademarkEndDate;
+    }
+
+    public String getTrademarkStartDate() {
+        return trademarkStartDate;
+    }
+
+    public void setTrademarkStartDate(String trademarkStartDate) {
+        this.trademarkStartDate = trademarkStartDate;
     }
 
     public String getPrincipalEmail() {

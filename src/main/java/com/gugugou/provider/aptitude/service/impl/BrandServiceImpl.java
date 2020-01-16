@@ -1,15 +1,11 @@
 package com.gugugou.provider.aptitude.service.impl;
 
-import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
 import com.gugugou.provider.aptitude.dto.response.BrandResponseDTO;
-import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
 import com.gugugou.provider.aptitude.dao.BrandDao;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
 import com.gugugou.provider.commodity.dao.SkuPathDao;
-import com.gugugou.provider.commodity.dto.response.SkuPathResponseDTO;
-import com.gugugou.provider.commodity.model.SkuPathModel;
 import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.common.until.DaysToMillis;
@@ -45,6 +41,7 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
+    @SuppressWarnings("all")
     public Long addAptitude(BrandModel brandModel) {
         List<BrandModel> brandModelList = brandDao.selectProviderPriorityList(brandModel);
         //授权开始日期和结束日期
@@ -271,6 +268,34 @@ public class BrandServiceImpl implements BrandService {
     @SuppressWarnings("all")
     @Override
     public Integer updateAptitude(BrandModel brandModel) {
+        String trademarkStartDate = String.valueOf(brandModel.getTrademarkStartDate());
+        String trademarkEndDate = brandModel.getTrademarkEndDate();
+        long now = System.currentTimeMillis();
+        try {
+            long start = TimeToStamp.timeToStamp(trademarkStartDate);
+            if (now < start) {
+                brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_THREE);
+            }else {
+                if ("长期".equals(trademarkEndDate)) {
+                    brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
+                }else {
+                    long end = TimeToStamp.timeToStamp(trademarkEndDate);
+                    //小于三十天为即将过期
+                    long corn = DaysToMillis.daysToMillis(30L);
+                    if (end - now >= 0 && end - now <= corn) {
+                        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ONE);
+                    }
+                    if (end - now > corn) {
+                        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ZERO);
+                    }
+                    if (end - now < 0) {
+                        brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_TWO);
+                    }
+                }
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException("日期解析失败");
+        }
         brandModel.setUpdatedTime(new Date());
         int aptitude = brandDao.updateAptitude(brandModel);
         List<AccessoryUrlModel> trademarkList = brandModel.getTrademarkList();
@@ -446,8 +471,4 @@ public class BrandServiceImpl implements BrandService {
         brandModel.setUpdatedTime(new Date());
         return brandDao.updateBucklePoint(brandModel);
     }
-
-
-
-
 }

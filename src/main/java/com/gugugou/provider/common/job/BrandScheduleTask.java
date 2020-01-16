@@ -43,6 +43,9 @@ public class BrandScheduleTask implements SchedulingConfigurer {
     @Resource
     private SendEmail sendEmail;
 
+    private final static String TITLE = "标题";
+    private final static String CONTENT = "你好，我就测试一下";
+
     /**
      * 执行定时任务.
      */
@@ -58,7 +61,7 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                     //修改资质到期状态
                     List<SelectListDTO> selectListDTOList = brandDao.selectList();
                     BrandModel brandModel = new BrandModel();
-                    long timeMillis = System.currentTimeMillis();
+                    long now = System.currentTimeMillis();
                     long cron = DaysToMillis.daysToMillis(30L);
                     long cron1 = DaysToMillis.daysToMillis(15L);
                     long cron2 = DaysToMillis.daysToMillis(7L);
@@ -71,44 +74,44 @@ public class BrandScheduleTask implements SchedulingConfigurer {
                             Date date = null;
                             Integer count;
                             try {
-                                long dateTime = TimeToStamp.timeToStamp(trademarkEndDate);
-                                boolean flag = dateTime - timeMillis < cron ? true : false;
+                                long end = TimeToStamp.timeToStamp(trademarkEndDate);
+                                boolean flag = end - now < cron ? true : false;
                                 if (flag) {
                                     brandModel.setId(id);
                                     brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_ONE);
                                     brandDao.updateAptitude(brandModel);
                                 }
-                                if (dateTime < timeMillis) {
+                                if (end < now) {
                                     brandModel.setId(id);
                                     brandModel.setTrademarkStatus(ProviderCentreConsts.TRADEMARK_STATUS_TWO);
                                     brandDao.updateAptitude(brandModel);
                                 }
-                                long T = dateTime - timeMillis;
+                                long T = end - now;
                                 String s = stringRedisTemplate.opsForValue().get(id + "count");
                                 if (s == null) {
                                     if (T > cron1 && T <= cron) {
-                                        sendEmail.sendMail(principalEmail, "你好，我就测试一下", "测试");
+                                        sendEmail.sendMail(principalEmail, CONTENT, TITLE);
                                         count = 1;
                                         stringRedisTemplate.opsForValue().set(id + "count", String.valueOf(count));
                                     }
                                 }
                                 if (ProviderCentreConsts.INTEGER_ONE.equals(s)) {
                                     if (T > cron2 && T <= cron1) {
-                                        sendEmail.sendMail(principalEmail, "你好，我就测试一下", "测试");
+                                        sendEmail.sendMail(principalEmail, CONTENT, TITLE);
                                         count = 2;
                                         stringRedisTemplate.opsForValue().set(id + "count", String.valueOf(count));
                                     }
                                 }
                                 if (ProviderCentreConsts.INTEGER_TWO.equals(s)) {
                                     if (T > cron3 && T <= cron2) {
-                                        sendEmail.sendMail(principalEmail, "你好，我就测试一下", "测试");
+                                        sendEmail.sendMail(principalEmail, CONTENT, TITLE);
                                         count = 3;
                                         stringRedisTemplate.opsForValue().set(id + "count", String.valueOf(count));
                                     }
                                 }
                                 if (ProviderCentreConsts.INTEGER_THREE.equals(s)) {
                                     if (T >= ProviderCentreConsts.INTEGER_ZERO && T <= cron3) {
-                                        sendEmail.sendMail(principalEmail, "你好，我就测试一下", "测试");
+                                        sendEmail.sendMail(principalEmail, CONTENT, TITLE);
                                         count = 4;
                                         stringRedisTemplate.opsForValue().set(id + "count", String.valueOf(count));
                                     }

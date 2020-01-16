@@ -1,6 +1,8 @@
 package com.gugugou.provider.aptitude.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wuwenze.poi.annotation.Excel;
+import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,10 +18,12 @@ import java.util.Date;
  */
 @Data
 @ToString
+@Excel("附件表")
 public class AccessoryUrlModel implements Serializable {
 
     private static final long serialVersionUID = -757239143721427513L;
     /** 主键id */
+    @ExcelField("数据条数")
     private Long id ;
     /** 品牌资质外键id */
     private Long brandIdFk ;
@@ -28,8 +32,10 @@ public class AccessoryUrlModel implements Serializable {
     /** 供应商资质表外键id */
     private Long providerAptitudeIdFk ;
     /** 附件路径 */
+    @ExcelField("附件路径")
     private String accessoryUrl ;
     /** 附件名称 */
+    @ExcelField("附件名称")
     private String accessoryName ;
     /** 附件来源;0:资质信息,1:品牌资质 */
     private Integer accessorySource ;

@@ -1,8 +1,6 @@
 package com.gugugou.provider.aptitude.controller;
 
-import com.gugugou.provider.aptitude.dto.request.BrandSkuPathRequestDTO;
 import com.gugugou.provider.aptitude.dto.response.BrandResponseDTO;
-import com.gugugou.provider.aptitude.dto.response.BrandSkuPathResponseDTO;
 import com.gugugou.provider.aptitude.model.AccessoryUrlModel;
 import com.gugugou.provider.aptitude.model.BrandModel;
 import com.gugugou.provider.aptitude.service.BrandService;
