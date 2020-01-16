@@ -45,7 +45,7 @@ public class SettlementController {
     }
 
     /**
-     * 根据结算单管理id更新结算单状态
+     * 根据结算单id更新结算单状态
      * @param settlement
      * @return
      */
@@ -61,7 +61,7 @@ public class SettlementController {
      * @return
      */
     @PostMapping("sell/selectSettlementList")
-    public ResponseDTO selectSettlementManageList(@RequestBody Settlement settlement){
+    public ResponseDTO selectSettlementList(@RequestBody Settlement settlement){
         logger.info("查询结算单列表的入参--settlement : {}",settlement);
         return settlementService.selectSettlementList(settlement);
     }
