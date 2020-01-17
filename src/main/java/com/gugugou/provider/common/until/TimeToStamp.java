@@ -22,4 +22,16 @@ public class TimeToStamp {
         Date datetime = sdf.parse(time);
         return datetime.getTime();
     }
+
+    /**
+     * 将long类型的时间戳转换为yyyy-MM-dd格式的字符串输出
+     * @param time
+     * @return
+     * @throws ParseException
+     */
+    public static String stampToTime(Long time) throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeStr = sdf.format(time);
+        return timeStr;
+    }
 }

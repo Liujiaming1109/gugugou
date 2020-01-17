@@ -8,7 +8,7 @@
         <result property="providerId" column="provider_id" jdbcType="BIGINT"/>
         <result property="providerName" column="provider_name" jdbcType="VARCHAR"/>
         <result property="settlementTime" column="settlement_time" jdbcType="DATE"/>
-        <result property="settlementCycle" column="settlement_cycle" jdbcType="VARCHAR"/>
+        <result property="settlementCycle" column="settlement_cycle" jdbcType="INTEGER"/>
         <result property="settlementAmount" column="settlement_amount" jdbcType="DECIMAL"/>
         <result property="settlementStatus" column="settlement_status" jdbcType="INTEGER"/>
         <result property="summary" column="summary" jdbcType="DECIMAL"/>
@@ -82,20 +82,20 @@
         </where>
     </sql>
 
-    <!--  查询结算单管理列表  -->
+    <!--  查询结算单列表  -->
     <select id="selectSettlementList" parameterType="com.gugugou.provider.settlement.model.Settlement" resultMap="settlementMap">
         select
-        <include refid="settlement_column_list"/>
+            <include refid="settlement_column_list"/>
         from t_settlement
-        <include refid="queryConditions"/>
+            <include refid="queryConditions"/>
         order by created_time asc
-        limit #{pageIndex}, #{pageSize}
+            limit #{pageIndex}, #{pageSize}
     </select>
 
     <!--  查询结算单管理表记录数  -->
     <select id="selectSettlementCount" resultType="java.lang.Integer">
         select count(1)
         from t_settlement
-        <include refid="queryConditions"></include>
+            <include refid="queryConditions"/>
     </select>
 </mapper>

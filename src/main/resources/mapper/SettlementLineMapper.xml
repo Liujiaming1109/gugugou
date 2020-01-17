@@ -46,6 +46,7 @@
 
     <insert id="addSettlementLines" parameterType="list">
         insert into t_settlement_line
+            <include refid="settlementLine_column_list"/>
         values
         <foreach collection="list" item="settlementLine" separator="," open="(" close=")">
             <include refid="settlementLine_column_values"/>

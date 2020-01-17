@@ -26,7 +26,6 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Resource
     private SettlementLineDao settlementLineDao;
-
     /**
      * 新增结算单
      * @param settlement
@@ -34,10 +33,20 @@ public class SettlementServiceImpl implements SettlementService {
      */
     @Override
     public Integer addSettlement(Settlement settlement) {
-        //这里要设置汇总金额
-        //获取订单集合，合并同类项，计算汇总金额
-
-        return settlementDao.addSettlement(settlement);
+        //新增结算单，返回主键
+        Integer result = settlementDao.addSettlement(settlement);
+        if (result > 0){
+            List<SettlementLine> settlementLines = settlement.getSettlementLines();
+            if (!settlementLines.isEmpty()){
+                for (SettlementLine settlementLine : settlementLines) {
+                    //设置结算单行关联的结算单id
+                    settlementLine.setSettlementId(settlement.getId());
+                }
+                //批量新增结算单行
+                settlementLineDao.addSettlementLines(settlementLines);
+            }
+        }
+        return result;
     }
 
     /**

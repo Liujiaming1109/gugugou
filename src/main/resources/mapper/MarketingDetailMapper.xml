@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.settlement.dao.MarketingDetailDao">
+
+    <resultMap id="MarketingDetailMap" type="com.gugugou.provider.settlement.model.MarketingDetail">
+        <id property="id" column="id"/>
+        <result property="providerId" column="provider_id"/>
+        <result property="providerName" column="provider_name"/>
+        <result property="orderId" column="order_id"/>
+        <result property="subOrderId" column="sub_order_id"/>
+        <result property="orderPaymentTime" column="order_payment_time"/>
+        <result property="orderSuccessfulTime" column="order_successful_time"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="activityName" column="activity_name"/>
+        <result property="marketingType" column="marketing_type"/>
+        <result property="marketingAmount" column="marketing_amount"/>
+        <result property="tradeSuccessfulNumber" column="trade_successful_number"/>
+        <result property="totalMarketingAmount" column="total_marketing_amount"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="removed" column="removed"/>
+    </resultMap>
+
+    <sql id="marketingDetail_column_list">
+        id, provider_id, provider_name, order_id, sub_order_id, order_payment_time,
+        order_successful_time, sku_id, sku_name, activity_name, marketing_type,
+        marketing_amount, trade_successful_number, total_marketing_amount,
+        created_by, created_time, updated_by, updated_time, removed
+    </sql>
+
+    <sql id="marketingDetail_column_values">
+        #{marketingDetail.id}, #{marketingDetail.providerId}, #{marketingDetail.providerName},
+        #{marketingDetail.orderId}, #{marketingDetail.subOrderId}, #{marketingDetail.orderPaymentTime},
+        #{marketingDetail.orderSuccessfulTime}, #{marketingDetail.skuId}, #{marketingDetail.skuName},
+        #{marketingDetail.activityName}, #{marketingDetail.marketingType}, #{marketingDetail.marketingAmount},
+        #{marketingDetail.tradeSuccessfulNumber}, #{marketingDetail.totalMarketingAmount},
+        #{marketingDetail.createdBy}, #{marketingDetail.createdTime}, #{marketingDetail.updatedBy},
+        #{marketingDetail.updatedTime}, #{marketingDetail.removed}
+    </sql>
+
+    <insert id="addMarketingDetail" parameterType="list">
+        insert into t_marketing_detail
+            <include refid="marketingDetail_column_list"/>
+        values
+            <foreach collection="marketingDetails" item="marketingDetail" separator="," open="(" close=")">
+                <include refid="marketingDetail_column_values"/>
+            </foreach>
+    </insert>
+
+
+    <!--  查询营销明细列表的查询条件  -->
+    <sql id="queryConditions">
+        <where>
+            removed=0
+            <if test="providerName != null">and provider_name=#{providerName}</if>
+            <if test="activityName != null">and activity_name=#{activityName}</if>
+            <if test="skuName != null">and sku_name=#{skuName}</if>
+            <if test="marketingType != null">and marketing_type=#{marketingType}</if>
+            <if test="beginTime != null">and order_successful_time&gt;=#{beginTime}</if>
+            <if test="endTime != null">and order_successful_time&lt;=#{endTime}</if>
+        </where>
+    </sql>
+
+    <select id="selectMarketingDetails" parameterType="com.gugugou.provider.settlement.model.MarketingDetail" resultMap="MarketingDetailMap">
+        select
+            <include refid="marketingDetail_column_list"/>
+        from t_marketing_detail
+            <include refid="queryConditions"/>
+        order by created_time asc
+            limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <select id="selectMarketingDetailCount" resultType="java.lang.Integer">
+        select count(1)
+        from t_marketing_detail
+            <include refid="queryConditions"/>
+    </select>
+</mapper>

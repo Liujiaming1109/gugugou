@@ -1,6 +1,5 @@
 package com.gugugou.provider.settlement.dao;
 
-import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import org.apache.ibatis.annotations.Mapper;
 
