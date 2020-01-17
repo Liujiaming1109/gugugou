@@ -15,6 +15,7 @@
         <result property="actualPaymentPrice" column="actual_payment_price" jdbcType="DECIMAL"/>
         <result property="tradeSuccessfulNumber" column="trade_successful_number" jdbcType="INTEGER"/>
         <result property="originalPriceSales" column="original_price_sales" jdbcType="DECIMAL"/>
+        <result property="actualPriceSales" column="actual_price_sales" jdbcType="DECIMAL"/>
         <result property="pathId" column="path_id" jdbcType="BIGINT"/>
         <result property="bucklePoint" column="buckle_point" jdbcType="DOUBLE"/>
         <result property="settlementAmount" column="settlement_amount" jdbcType="DECIMAL"/>
@@ -29,7 +30,7 @@
     <sql id="settlementLine_column_list">
         id,settlement_id,order_id,sub_order_id,order_payment_time,
         order_successful_time, sku_id, sku_name,sku_original_price,actual_payment_price,
-        trade_successful_number,original_price_sales,path_id,buckle_point,settlement_amount,
+        trade_successful_number,original_price_sales,actual_price_sales,path_id,buckle_point,settlement_amount,
         created_by, created_time, updated_by, updated_time, removed,path_name
     </sql>
 
@@ -38,7 +39,7 @@
         #{settlementLine.id},#{settlementLine.settlementId},#{settlementLine.orderId},#{settlementLine.subOrderId},
         #{settlementLine.orderPaymentTime},#{settlementLine.orderSuccessfulTime},#{settlementLine.skuId},
         #{settlementLine.skuName},#{settlementLine.skuOriginalPrice},#{settlementLine.actualPaymentPrice},
-        #{settlementLine.tradeSuccessfulNumber},#{settlementLine.originalPriceSales},#{settlementLine.pathId},
+        #{settlementLine.tradeSuccessfulNumber},#{settlementLine.originalPriceSales},#{settlementLine.actualPriceSales},#{settlementLine.pathId},
         #{settlementLine.bucklePoint},#{settlementLine.settlementAmount},
         #{settlementLine.createdBy},#{settlementLine.createdTime},#{settlementLine.updatedBy},
         #{settlementLine.updatedTime},#{settlementLine.removed},#{settlementLine.pathName}
