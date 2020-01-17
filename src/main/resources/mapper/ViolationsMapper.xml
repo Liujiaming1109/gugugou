@@ -122,8 +122,8 @@
         <where>
             removed=0
             <if test="providerIdFk != null">and provider_id_fk= #{providerIdFk}</if>
-            <if test="providerName!=null and providerName.trim()!=''">and provider_name= #{providerName}</if>
-            <if test="punishType!=null and punishType.trim()!=''">and punish_type= #{punishType}</if>
+            <if test="providerName!=null">and provider_name like concat('%',#{providerName},'%')</if>
+            <if test="punishType!=null">and punish_type= #{punishType}</if>
             <if test="createdTime!=null">and created_time= #{createdTime}</if>
             <if test="punishAmount!=null">and punish_amount= #{punishAmount}</if>
             <if test="punishStatus!=null">and punish_status= #{punishStatus}</if>

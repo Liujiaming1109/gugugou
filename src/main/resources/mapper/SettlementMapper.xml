@@ -75,7 +75,7 @@
             removed=0
             <if test="providerId != null">and provider_id=#{providerId}</if>
             <if test="settlementCode != null">and settlement_code=#{settlementCode}</if>
-            <if test="providerName!=null and providerName.trim()!=''">and provider_name=#{providerName}</if>
+            <if test="providerName!=null">and provider_name like concat('%',#{providerName},'%')</if>
             <if test="settlementStatus!=null">and settlement_status=#{settlementStatus}</if>
             <if test="settlementBeginTime!=null">and settlement_time&gt;=#{settlementBeginTime}</if>
             <if test="settlementEndTime!=null">and settlement_time&lt;=#{settlementEndTime}</if>
