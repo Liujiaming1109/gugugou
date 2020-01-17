@@ -113,7 +113,7 @@ public class SettlementServiceImpl implements SettlementService {
                 List<SettlementLine> settlementLines = settlementLineDao.selectSettlementLinesBySettlementId(settlementDO.getId());
                 if (!settlementLines.isEmpty()){
                     //判断前台有没有用路径做筛选
-                    if ("".equals(settlement.getPathName())){
+                    if (settlement.getPathName()==null){
                         //这里是没有筛选，将结算单行下的数据，设置给结算单
                         settlementDO.setSettlementLines(settlementLines);
                     }else {

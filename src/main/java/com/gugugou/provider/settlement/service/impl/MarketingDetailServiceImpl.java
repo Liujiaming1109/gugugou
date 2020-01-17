@@ -31,7 +31,7 @@ public class MarketingDetailServiceImpl implements MarketingDetailService{
     public ResponseDTO selectMarketingDetails(MarketingDetail marketingDetail) {
         ResponseDTO responseDTO = new ResponseDTO();
         //获取pageIndex
-        Integer pageIndex= (marketingDetail.getPageIndex()- ProviderCentreConsts.INTEGER_ONE)*marketingDetail.getPageSize();
+        Integer pageIndex= (marketingDetail.getPageIndex()- ProviderCentreConsts.INTEGER_ONE) * marketingDetail.getPageSize();
         marketingDetail.setPageIndex(pageIndex);
         //获取营销明细列表
         List<MarketingDetail> marketingDetails = marketingDetailDao.selectMarketingDetails(marketingDetail);

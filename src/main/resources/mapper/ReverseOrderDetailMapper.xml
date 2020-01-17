@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.settlement.dao.ReverseOrderDetailDao">
+
+    <resultMap id="ReverseOrderDetailMap" type="com.gugugou.provider.settlement.model.ReverseOrderDetail">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderLineId" column="order_line_id"/>
+        <result property="refundSerialNo" column="refund_serial_no"/>
+        <result property="payAt" column="pay_at"/>
+        <result property="accomplishAt" column="accomplish_at"/>
+        <result property="refundAt" column="refund_at"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="actualRefundAmount" column="actual_refund_amount"/>
+        <result property="providerId" column="provider_id"/>
+        <result property="providerName" column="provider_name"/>
+        <result property="pathId" column="path_id"/>
+        <result property="pathName" column="path_name"/>
+        <result property="quantity" column="quantity"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="removed" column="removed"/>
+    </resultMap>
+
+    <sql id="ReverseOrderDetail_column_list">
+        id, order_id, order_line_id, refund_serial_no, pay_at, accomplish_at, refund_at,
+        item_id, item_name, actual_refund_amount, provider_id, provider_name, path_id,
+        path_name, quantity, created_by, created_time, updated_by, updated_time, removed
+    </sql>
+
+    <sql id="ReverseOrderDetail_column_values">
+        #{reverseOrderDetail.id}, #{reverseOrderDetail.orderId}, #{reverseOrderDetail.orderLineId},
+        #{reverseOrderDetail.refundSerialNo}, #{reverseOrderDetail.payAt}, #{reverseOrderDetail.accomplishAt},
+        #{reverseOrderDetail.refundAt}, #{reverseOrderDetail.itemId}, #{reverseOrderDetail.itemName},
+        #{reverseOrderDetail.actualRefundAmount}, #{reverseOrderDetail.providerId},
+        #{reverseOrderDetail.providerName}, #{reverseOrderDetail.pathId}, #{reverseOrderDetail.pathName},
+        #{reverseOrderDetail.quantity}, #{reverseOrderDetail.createdBy}, #{reverseOrderDetail.createdTime},
+        #{reverseOrderDetail.updatedBy}, #{reverseOrderDetail.updatedTime}, #{reverseOrderDetail.removed}
+    </sql>
+
+    <insert id="addReverseOrderDetail" parameterType="list">
+        insert into t_reverse_order_detail
+            <include refid="ReverseOrderDetail_column_list"/>
+        values
+            <foreach collection="reverseOrderDetails" item="reverseOrderDetail" separator="," open="(" close=")">
+                <include refid="ReverseOrderDetail_column_values"/>
+            </foreach>
+    </insert>
+
+    <!--  查询营销明细列表的查询条件  -->
+    <sql id="queryConditions">
+        <where>
+            removed=0
+            <if test="providerName != null">and provider_name like concat('%',#{providerName},'%')</if>
+            <if test="itemName != null">and item_name like concat('%',#{itemName},'%')</if>
+            <if test="beginTime != null">and refund_at&gt;=#{beginTime}</if>
+            <if test="endTime != null">and refund_at&lt;=#{endTime}</if>
+        </where>
+    </sql>
+
+    <select id="selectReverseOrderDetailList" parameterType="com.gugugou.provider.settlement.model.ReverseOrderDetail"
+            resultMap="ReverseOrderDetailMap">
+        select
+            <include refid="ReverseOrderDetail_column_list"/>
+        from t_reverse_order_detail
+            <include refid="queryConditions"/>
+        order by created_time asc
+            limit #{pageIndex}, #{pageSize}
+    </select>
+
+    <select id="selectReverseOrderDetailCount" resultType="java.lang.Integer">
+        select count(1)
+        from t_reverse_order_detail
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>
