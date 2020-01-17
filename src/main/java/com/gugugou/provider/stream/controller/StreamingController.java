@@ -85,6 +85,12 @@ public class StreamingController {
         return  streamingService.addLongVideo(longVideo);
     }
 
+    /**直播管理-商品管理----添加短视频*/
+    @PostMapping("shortVideo")
+    public int addShortVideo(@RequestBody ShortVideo shortVideo){
+        return streamingService.addShortVideo(shortVideo);
+    }
+
     /**直播管理-商品管理----展示排班间的录播列表*/
     @PostMapping("showStreamingRecorded")
     public List<ShortVideo> showStreamingRecorded(@RequestBody ShortVideo shortVideo){
@@ -97,11 +103,7 @@ public class StreamingController {
         return streamingService.findLongVideo(longVideo);
     }
 
-    /**直播管理-商品管理----添加短视频*/
-    @PostMapping("shortVideo")
-    public int addShortVideo(@RequestBody ShortVideo shortVideo){
-        return streamingService.addShortVideo(shortVideo);
-    }
+
 
     /**直播管理-商品管理----添加直播间的评论*/
     @RequestMapping("addComment")
@@ -168,6 +170,12 @@ public class StreamingController {
     public int shopEdit(@RequestBody ArrangeAndSku arrangeAndSku){
         return  streamingService.shopEdit(arrangeAndSku);
     }
+
+
+    /**直播管理-商品管理----添加录像*/
+   /* @PostMapping("saveVideo")
+    public int  saveEdit(@RequestBody )*/
+
 
 
 

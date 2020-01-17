@@ -6,10 +6,10 @@
      <insert id="addStreaming" useGeneratedKeys="true" keyProperty="id">
          insert into
          streaming_room
-         (id,anchor_name,anchor_describe,anchor_server,crossfire_key,is_on_line,streaming_type,created_by,created_time,
+         (anchor_name,anchor_describe,anchor_server,crossfire_key,is_on_line,streaming_type,created_by,created_time,
          updated_by,updated_time,removed)
          values
-         (null,#{anchorName},#{anchorDescribe},#{anchorServer},#{crossfireKey},#{isOnLine},#{streamingType}
+         (#{anchorName},#{anchorDescribe},#{anchorServer},#{crossfireKey},#{isOnLine},#{streamingType}
          #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
      </insert>
 
@@ -73,10 +73,10 @@
     <insert id="addWorkingSchedule">
         insert into
         streaming_working_schedule
-        (id,direct_broadcasting_room_id,anchor_name,anchor_title,anchor_start_date,anchor_end_date,anchor_picture,
+        (direct_broadcasting_room_id,anchor_name,anchor_title,anchor_start_date,anchor_end_date,anchor_picture,
         anchor_place,anchor_label,anchor_people_name,streaming_status,created_by,created_time,updated_by,updated_time,removed)
         values
-        (null,#{directBroadcastingRoomId},#{anchorName},#{anchorTitle},#{anchorStartDate},#{anchorEndDate},#{anchorPicture},
+        (#{directBroadcastingRoomId},#{anchorName},#{anchorTitle},#{anchorStartDate},#{anchorEndDate},#{anchorPicture},
         #{anchorPlace},#{anchorLabel},#{anchorPeopleName},#{streamingStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
 
@@ -154,14 +154,20 @@
     </resultMap>
 
     <!--展示排班商品数量-->
-    <select id="shopCount" parameterType="com.gugugou.provider.stream.model.ArrangeStreaming"  resultType="Integer">
-          select count(c.id) from
+    <select id="shopCount" parameterType="com.gugugou.provider.stream.model.ArrangeStreaming"  resultType="int">
+         select
+         count(item_id)
+         from
+         streaming_arrange_sku
+         where arrange_room_id = #{id}
+
+         /* select count(c.id) from
           streaming_working_schedule s
           left join
           streaming_commodity_management c
           on  s.direct_broadcasting_room_id = c.anchor_id
           where s.id = #{id} and s.anchor_start_date = #{anchorStartDate}
-          and s.anchor_end_date = #{anchorEndDate}
+          and s.anchor_end_date = #{anchorEndDate}*/
     </select>
 
     <!--展示排班所有直播间不带条件和冻结-->
@@ -195,60 +201,61 @@
    <insert id="addLongVideo">
         insert into
         streaming_recorded_management
-        (id,normal_start_time,normal_end_time,actual_start_time,actual_end_time,long_video_url,streaming_title,direct_broadcasting_room_id,arrange_room_id,
+        (normal_start_time,normal_end_time,actual_start_time,actual_end_time,video_url,direct_broadcasting_room_id,arrange_room_id,type,
         created_by,created_time,updated_by,updated_time,removed)
         values
-        (null,#{normalStartTime},#{normalEndTime},#{actualStartTime},#{actualEndTime},#{longVideoUrl},#{streamingTitle},#{directBroadcastingRoomId},#{arrangeRoomId},
+        (#{normalStartTime},#{normalEndTime},#{actualStartTime},#{actualEndTime},#{videoUrl},#{directBroadcastingRoomId},#{arrangeRoomId},#{type},
         #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
 
     <!--展示录播链接-->
     <select id="showStreamingRecorded" parameterType="com.gugugou.provider.stream.model.ShortVideo" resultMap="streamingRecorded">
             select
-            transcribe_start_time,transcribe_end_time,recorded_link
+            actual_start_time,actual_end_time,video_url
             from streaming_recorded_management
-            where arrange_room_id = #{arrangeRoomId}
+            where arrange_room_id = #{arrangeRoomId} and type = 1
     </select>
     <resultMap id="streamingRecorded" type="com.gugugou.provider.stream.model.ShortVideo">
-        <result column="transcribe_start_time" property="transcribeStartTime" jdbcType="DATE"/>
-        <result column="transcribe_end_time" property="transcribeEndTime" jdbcType="DATE"/>
-        <result column="recorded_link" property="recordedLink" jdbcType="VARCHAR"/>
+        <result column="actual_start_time" property="actualStartTime" jdbcType="DATE"/>
+        <result column="actual_end_time" property="actualEndTime" jdbcType="DATE"/>
+        <result column="video_url" property="videoUrl" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--排班表中复制直播表的路径-->
    <select id="findLongVideo" parameterType="com.gugugou.provider.stream.model.ShortVideo" resultType="String">
-        select recorded_link
+        select video_url
         from
         streaming_recorded_management
         where
-        arrange_room_id = #{arrangeRoomId} AND transcribe_start_time = #{transcribeStartTime} and  transcribe_end_time = #{transcribeEndTime}
+        arrange_room_id = #{arrangeRoomId} AND actual_start_time &gt;= #{actualStartTime} and  actual_end_time &lt;= #{transcribeEndTime} and type = 0
         ORDER BY transcribe_start_time DESC
     </select>
 
     <!--添加短视频-->
     <insert id="addShortVideo">
-        insert into streaming_recorded_management
-        (id,transcribe_start_time,transcribe_end_time,recorded_link,item_id,
-        streaming_title,order_form_id,direct_broadcasting_room_id,arrange_room_id,status,created_by,created_time,updated_by,updated_time,removed)
+        insert into
+        streaming_recorded_management
+        (actual_start_time,actual_end_time,video_url,item_id,
+        order_form_id,direct_broadcasting_room_id,arrange_room_id,status,type,created_by,created_time,updated_by,updated_time,removed)
         values
-        (null,#{transcribeStartTime},#{transcribeEndTime},#{recordedLink},#{itemId},
-        #{streamingTitle},#{orderFormId},#{directBroadcastingRoomId},#{arrangeRoomId},#{status},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
+        (#{actualStartTime},#{actualEndTime},#{videoUrl},#{itemId},
+        #{orderFormId},#{directBroadcastingRoomId},#{arrangeRoomId},#{status},#{type},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
 
     <!--录播管理查找短视频-->
    <select id="findShortVideo" parameterType="com.gugugou.provider.stream.model.ShortVideo" resultMap="shortMap">
-           select r.id,r.transcribe_start_time,r.transcribe_end_time,r.arrange_room_id,s.anchor_title,
+           select r.id,r.actual_start_time,r.actual_end_time,r.arrange_room_id,s.anchor_title,
            c.name,r.status
            from
            streaming_recorded_management r
            left join streaming_commodity_management c on r.item_id = c.item_id
            left join streaming_working_schedule s on r.arrange_room_id = s.id
-           where 1=1 and  r.removed = 0
-            <if test="transcribeStartTime!=null and transcribeStartTime!=''">
-               and r.transcribe_start_time  &gt;= #{transcribeStartTime}
+           where 1=1 and  r.removed = 0 and r.type = 1
+            <if test="actualStartTime!=null and actualStartTime!=''">
+               and r.actual_start_time  &gt;= #{actualStartTime}
             </if>
-            <if test="transcribeEndTime!=null and transcribeEndTime!=''">
-               and r.transcribe_end_time  &lt;= #{transcribeEndTime}
+            <if test="actualEndTime!=null and actualEndTime!=''">
+               and r.actual_end_time  &lt;= #{actualEndTime}
             </if>
             <if test="directBroadcastingRoomId!=null and directBroadcastingRoomId!=''">
                and r.direct_broadcasting_room_id = #{directBroadcastingRoomId}
@@ -261,8 +268,8 @@
     </select>
     <resultMap id="shortMap" type="com.gugugou.provider.stream.model.ShortVideo">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="transcribe_start_time" property="transcribeStartTime" jdbcType="DATE"/>
-        <result column="transcribe_end_time" property="transcribeEndTime" jdbcType="DATE"/>
+        <result column="actual_start_time" property="actualStartTime" jdbcType="DATE"/>
+        <result column="actual_end_time" property="actualEndTime" jdbcType="DATE"/>
         <result column="long_live_streaming_id" property="longLiveStreamingId" jdbcType="INTEGER"/>
         <result column="streaming_title" property="streamingTitle" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -275,12 +282,12 @@
         count(1)
         from
         streaming_recorded_management r
-        where 1=1 and removed = 0
-        <if test="transcribeStartTime!=null and transcribeStartTime!=''">
-            and r.transcribe_start_time &gt;= #{transcribeStartTime}
+        where 1=1 and removed = 0 and type = 1
+        <if test="actualStartTime!=null and actualStartTime!=''">
+            and r.actual_start_time &gt;= #{actualStartTime}
         </if>
-        <if test="transcribeEndTime!=null and transcribeEndTime!=''">
-            and r.transcribe_end_time &lt;= #{transcribeEndTime}
+        <if test="actualEndTime!=null and actualEndTime!=''">
+            and r.actual_end_time &lt;= #{actualEndTime}
         </if>
         <if test="directBroadcastingRoomId!=null and directBroadcastingRoomId!=''">
             and r.direct_broadcasting_room_id = #{directBroadcastingRoomId}
@@ -296,7 +303,7 @@
         comment_name,comment_content,comment_time
         from
         streaming_comment
-         where comment_time &gt;= #{anchorStartDate} and comment_time &lt;= #{anchorEndDate} and removed = 0 and arrange_room_id = #{arrangeRoomId}
+         where comment_time &lt;= #{anchorStartDate} and comment_time &gt;= #{anchorEndDate} and removed = 0 and arrange_room_id = #{arrangeRoomId}
          limit #{pageIndex}, #{pageSize}
     </select>
     <resultMap id="commentMap" type="com.gugugou.provider.stream.model.StreamingComment">
@@ -321,7 +328,7 @@
         streaming_commodity_management s
         left join  t_brand b on s.brand_id = b.brand_id
         where 1=1 and s.removed = 0
-        <if test="brandName != null and brandName != ''">
+    <!--    <if test="brandName != null and brandName != ''">
           and  b.brand_name like concat('%',#{brandName},'%')
         </if>
         <if test="typeName != null and typeName != ''">
@@ -332,7 +339,7 @@
         </if>
         <if test="commodityId != null">
           and s.commodity_id = #{commodityId}
-        </if>
+        </if>-->
     </select>
 
 
@@ -353,22 +360,22 @@
 
     <!--复制短视频链接-->
     <select id="copyUrl" parameterType="long" resultMap="ShortVideos">
-        select id,recorded_link
+        select id,video_url
         from
         streaming_recorded_management
         where id = #{id}
     </select>
     <resultMap id="ShortVideos" type="com.gugugou.provider.stream.model.ShortVideo">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="recorded_link" property="recordedLink" jdbcType="VARCHAR"/>
+        <result column="video_url" property="videoUrl" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--录播管理根据id查找短视频及商品-->
    <select id="findShortById" parameterType="long" resultMap="shortAndShopMap">
         SELECT
             s.arrange_room_id,
-            s.transcribe_start_time,
-            s.transcribe_end_time,
+            s.actual_start_time,
+            s.actual_end_time,
             w.anchor_title,
             s.item_id,
             c.name
@@ -382,8 +389,8 @@
     <resultMap id="shortAndShopMap" type="com.gugugou.provider.stream.model.ShortVideo">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="long_live_streaming_id" property="longLiveStreamingId" jdbcType="INTEGER"/>
-        <result column="transcribe_start_time" property="transcribeStartTime" jdbcType="DATE"/>
-        <result column="transcribe_end_time" property="transcribeEndTime" jdbcType="DATE"/>
+        <result column="actual_start_time" property="actualStartTime" jdbcType="DATE"/>
+        <result column="actual_end_time" property="actualEndTime" jdbcType="DATE"/>
         <result column="streaming_title" property="streamingTitle" jdbcType="VARCHAR"/>
         <result column="commodity_id" property="commodityId" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -406,7 +413,7 @@
     </update>-->
 
     <!--添加排班间直播的商品-->
-   <insert id="saveShop">
+   <insert id="saveShop" useGeneratedKeys="true" keyProperty="id">
         insert into
         streaming_arrange_sku
         (arrange_room_id,item_id,name,order,created_by,created_time,updated_by,updated_time,removed)
@@ -513,15 +520,25 @@
         select count(provider_id)  from sku_path where sku_id = #{commotityId}
     </select>
 
+
+
+
+
+    <!--调用API接口-->
     <!--查看有该sku的仓库数量-->
     <select id="getWarehouseCount" parameterType="long" resultType="int">
         select  count(warehouse_code)  from ipm_solution.inventory where entity_id = #{commotityId}
     </select>
 
+    <!--调用API接口-->
     <!--查看有该sku的仓库数量-->
     <select id="getSkuCount" parameterType="long" resultType="int">
         select  sum(a.real_quantity)  from ipm_solution.inventory a where a.entity_id = #{commotityId}
     </select>
+
+
+
+
 
     <!--排班表与spu中间表下的sku集合-->
     <select id="showStreamingSkus" parameterType="long" resultMap="skus">
@@ -597,8 +614,72 @@
         update
         streaming_arrange_sku s
         set s.order = #{order}
-        where arrange_room_id = #{arrangeRoomId}
+        where s.arrange_room_id = #{arrangeRoomId}
     </update>
 
+    <!--删除原直播间的商品-->
+    <delete id="deleteStreamingItemShop">
+        delete
+        from
+        streaming_arrange_sku
+        where arrange_room_id = #{arrangeRoomId}
+    </delete>
+
+    <!--删除原直播间商品的sku-->
+    <delete id="deletestreamingSkuShop">
+        delete
+        from
+        straming_arrange_sku_id
+        where arrange_room_id = #{arrangeRoomId}
+    </delete>
+
+    <!--删除原有排班间路径下sku的路径扣点-->
+    <delete id="deleteSkuAndPath">
+        delete
+        from
+        sku_path
+        where item_path_id = #{arrangeRoomId}
+    </delete>
+
+    <!--查看原有排班间下商品-->
+    <select id="findAllStreamingShopById" parameterType="com.gugugou.provider.stream.model.ArrangeAndSku" resultMap="findAllStreamingShops">
+        select item_id
+        from
+        arrange_id
+        where  arrange_room_id = #{arrangeRoomId}
+    </select>
+    <resultMap id="findAllStreamingShops" type="com.gugugou.provider.stream.model.ArrangeAndSku">
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!--返回直播排班表中有效状态-->
+    <select id="showArrangeRoomStatus" parameterType="com.gugugou.provider.stream.model.ArrangeAndSku" resultMap="arrangeRoomStatus">
+          select
+          id,anchor_name,anchor_title,anchor_start_date,anchor_end_date,streaming_status
+          from
+          streaming_working_schedule
+          where streaming_status = 0
+    </select>
+    <resultMap id="arrangeRoomStatus" type="com.gugugou.provider.stream.model.ArrangeAndSku">
+         <id column="id" property="id" jdbcType="BIGINT"/>
+         <result column="anchor_name" property="anchorName" jdbcType="VARCHAR"/>
+         <result column="anchor_title" property="anchorTitle" jdbcType="VARCHAR"/>
+         <result column="anchor_start_date" property="anchorStartDate" jdbcType="DATE"/>
+         <result column="anchor_end_date" property="anchorEndDate" jdbcType="DATE"/>
+         <result column="streaming_status" property="streamingStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查找排班表有效状态的sku-->
+    <select id="findStreamingsArrangeSkuFk" parameterType="com.gugugou.provider.stream.model.ArrangeAndSkuFk" resultMap="skuFks">
+        select arrange_sku_id,commotity_id,real_inventory,streaming_sell_price
+        from straming_arrange_sku_id
+        where arrange_sku_id = #{arrangeSkuId} and item_id = #{itemId}
+    </select>
+    <resultMap id="skuFks" type="com.gugugou.provider.stream.model.ArrangeAndSkuFk">
+         <result column="arrange_sku_id" property="arrangeSkuId" jdbcType="BIGINT"/>
+         <result column="commotity_id" property="commotityId" jdbcType="BIGINT"/>
+         <result column="real_inventory" property="realInventory" jdbcType="INTEGER"/>
+         <result column="streaming_sell_price" property="streamingSellPrice" jdbcType="INTEGER"/>
+    </resultMap>
 
 </mapper>

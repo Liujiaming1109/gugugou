@@ -74,6 +74,7 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public int addLongVideo(ShortVideo longVideo) {
         longVideo.setCreatedTime(new Date());
+        longVideo.setType(0);
         return streamingDao.addLongVideo(longVideo);
     }
 
@@ -81,6 +82,7 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public int addShortVideo(ShortVideo shortVideo) {
         shortVideo.setCreatedTime(new Date());
+        shortVideo.setType(1);
         return streamingDao.addShortVideo(shortVideo);
     }
 
@@ -90,6 +92,7 @@ public class StreamingServiceImpl implements StreamingService {
         Map<Object,Object> returnMap = new HashMap<>();
         Integer pageIndex = (shortVideo.getPageIndex() - ProviderCentreConsts.INTEGER_ONE)*(shortVideo.getPageSize());
         shortVideo.setPageIndex(pageIndex);
+        shortVideo.setType(1);
         List<ShortVideo> shortVideo1 = streamingDao.findShortVideo(shortVideo);
         if(!shortVideo1.isEmpty()){
             returnMap.put("data",shortVideo1);
@@ -363,7 +366,7 @@ public class StreamingServiceImpl implements StreamingService {
         return 1;
     }
 
-    /**排班间列表编辑商品)*/
+    /**排班间列表编辑商品(代码写到端点那面了)*/
     @Override
     public int updatedStreamingShop(List<ArrangeAndSku> arrangeAndSku) {
 
@@ -376,9 +379,9 @@ public class StreamingServiceImpl implements StreamingService {
                 List<ArrangeAndSku> arrangeAndSkus = streamingDao.findAllStreamingShopById(arr.getArrangeRoomId());
                 /**循环原排班表的商品*/
                 for (ArrangeAndSku arrs: arrangeAndSkus) {
-                     if(arr.getItemId() == arrs.getItemId()){
-                         break;
-                     }
+                    if(arr.getItemId() == arrs.getItemId()){
+                        break;
+                    }
                 }
                 Long itemId = arr.getItemId();
 

@@ -20,34 +20,23 @@ public class ShortVideo implements Serializable {
     /**每页数据*/
     private Integer pageSize;
 
-    /**短视频录制开始时间*/
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private String transcribeStartTime;
-
-    /**短视频录制结束时间*/
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private String transcribeEndTime;
-
-    /**短视频录制链接*/
-    private String recordedLink;
-
     /**关联商品id*/
     private Long itemId;
 
-    /**直播正常开始时间*/
+    /**正常开始时间*/
     private Date normalStartTime;
 
-    /**直播正常结束时间*/
+    /**正常结束时间*/
     private Date normalEndTime;
 
-    /**直播实际开始时间*/
+    /**实际开始时间*/
     private Date actualStartTime;
 
-    /**直播实际结束时间*/
+    /**实际结束时间*/
     private Date actualEndTime;
 
     /**长视频的存储路径*/
-    private String longVideoUrl;
+    private String videoUrl;
 
     /**订单id*/
     private Long orderFormId;
@@ -78,5 +67,11 @@ public class ShortVideo implements Serializable {
 
     /**商品*/
     private String name;
+
+    /**类型*/
+    private int type;
+
+    /**短视频标题*/
+    private String streamingTitle;
 
 }
