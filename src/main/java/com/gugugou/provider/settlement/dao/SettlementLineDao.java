@@ -3,8 +3,10 @@ package com.gugugou.provider.settlement.dao;
 import com.gugugou.provider.settlement.model.FinanceRouting;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -40,4 +42,11 @@ public interface SettlementLineDao {
      * @return
      */
     Integer selectSettlementLineCount(FinanceRouting financeRouting);
+
+    /**
+     * 根据id查询结算单行数据
+     * @param idSet
+     * @return
+     */
+    List<SettlementLine> findSettlementLineByIds(@Param("idSet") Set<Long> idSet);
 }

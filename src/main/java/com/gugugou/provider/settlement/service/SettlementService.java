@@ -2,10 +2,12 @@ package com.gugugou.provider.settlement.service;
 
 import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.FinanceRouting;
+import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -46,4 +48,23 @@ public interface SettlementService {
      * @return
      */
     ResponseDTO selectFinanceRoutingList(FinanceRouting financeRouting);
+
+    /**
+     * 根据id导出结算单列表
+     */
+    List<Settlement> findSettlementListById(Set<Long> idSet);
+
+    /**
+     * 根据id导出结算单行数据
+     * @param idSet
+     * @return
+     */
+    List<SettlementLine> findSettlementLineByIds(Set<Long> idSet);
+
+    /**
+     * 根据结算单行id导出财务分账信息
+     * @param idSet
+     * @return
+     */
+    List<FinancialCollectingExcel> selectFinancialCollectingById(Set<Long> idSet);
 }

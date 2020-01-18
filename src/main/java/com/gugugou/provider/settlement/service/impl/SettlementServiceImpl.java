@@ -5,6 +5,7 @@ import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.dao.SettlementDao;
 import com.gugugou.provider.settlement.dao.SettlementLineDao;
 import com.gugugou.provider.settlement.model.FinanceRouting;
+import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import com.gugugou.provider.settlement.service.SettlementService;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -112,5 +114,35 @@ public class SettlementServiceImpl implements SettlementService {
             responseDTO.setCount(count);
         }
         return responseDTO;
+    }
+
+    /**
+     * 根据id导出结算单列表
+     * @param idSet
+     * @return
+     */
+    @Override
+    public List<Settlement> findSettlementListById(Set<Long> idSet) {
+        return settlementDao.findSettlementListById(idSet);
+    }
+
+    /**
+     * 根据id导出结算单行数据
+     * @param idSet
+     * @return
+     */
+    @Override
+    public List<SettlementLine> findSettlementLineByIds(Set<Long> idSet) {
+        return settlementLineDao.findSettlementLineByIds(idSet);
+    }
+
+    /**
+     * 根据结算单行id导出财务分账信息
+     * @param idSet
+     * @return
+     */
+    @Override
+    public List<FinancialCollectingExcel> selectFinancialCollectingById(Set<Long> idSet) {
+        return settlementDao.selectFinancialCollectingById(idSet);
     }
 }
