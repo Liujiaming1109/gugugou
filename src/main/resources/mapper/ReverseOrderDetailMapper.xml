@@ -76,5 +76,14 @@
         from t_reverse_order_detail
             <include refid="queryConditions"/>
     </select>
-
+<!--根据id集合查询退货单明细-->
+    <select id="findReverseOrderDetailById" parameterType="map" resultMap="ReverseOrderDetailMap">
+        select <include refid="ReverseOrderDetail_column_list"/>
+        from t_reverse_order_detail
+        where id in
+        <foreach collection="idSet" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by created_time asc;
+    </select>
 </mapper>

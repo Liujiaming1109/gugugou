@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -47,5 +48,15 @@ public class ReverseOrderDetailServiceImpl implements ReverseOrderDetailService 
             responseDTO.setCount(count);
         }
         return responseDTO;
+    }
+
+    /**
+     * 根据id集合导出退货单明细
+     * @param idSet
+     * @return
+     */
+    @Override
+    public List<ReverseOrderDetail> findReverseOrderDetailById(Set<Long> idSet) {
+        return reverseOrderDetailDao.findReverseOrderDetailById(idSet);
     }
 }

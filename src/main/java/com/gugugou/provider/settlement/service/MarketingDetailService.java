@@ -4,6 +4,7 @@ import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.MarketingDetail;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -24,4 +25,11 @@ public interface MarketingDetailService {
      * @return
      */
     ResponseDTO selectMarketingDetails(MarketingDetail marketingDetail);
+
+    /**
+     * 根据id集合导出营销明细
+     * @param idSet
+     * @return
+     */
+    List<MarketingDetail> findMarketingDetailByIds(Set<Long> idSet);
 }

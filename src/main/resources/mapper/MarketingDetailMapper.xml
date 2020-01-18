@@ -78,4 +78,14 @@
         from t_marketing_detail
             <include refid="queryConditions"/>
     </select>
+<!--根据id集合查找营销数据-->
+    <select id="findMarketingDetailByIds" parameterType="map" resultMap="MarketingDetailMap">
+        select <include refid="marketingDetail_column_list"/>
+        from t_marketing_detail
+        where id in
+        <foreach collection="idSet" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by created_time asc;
+    </select>
 </mapper>

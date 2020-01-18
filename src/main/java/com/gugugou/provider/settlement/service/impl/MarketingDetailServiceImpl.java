@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -47,5 +48,15 @@ public class MarketingDetailServiceImpl implements MarketingDetailService{
         }
 
         return responseDTO;
+    }
+
+    /**
+     * 根据id集合导出营销数据
+     * @param idSet
+     * @return
+     */
+    @Override
+    public List<MarketingDetail> findMarketingDetailByIds(Set<Long> idSet) {
+        return marketingDetailDao.findMarketingDetailByIds(idSet);
     }
 }

@@ -2,8 +2,10 @@ package com.gugugou.provider.settlement.dao;
 
 import com.gugugou.provider.settlement.model.MarketingDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -32,4 +34,11 @@ public interface MarketingDetailDao {
      * @return
      */
     Integer selectMarketingDetailCount(MarketingDetail marketingDetail);
+
+    /**
+     * 根据id集合查找营销数据
+     * @param idSet
+     * @return
+     */
+    List<MarketingDetail> findMarketingDetailByIds(@Param("idSet") Set<Long> idSet);
 }

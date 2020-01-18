@@ -4,6 +4,7 @@ import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.ReverseOrderDetail;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -24,4 +25,11 @@ public interface ReverseOrderDetailService {
      * @return
      */
     ResponseDTO selectReverseOrderDetailList(ReverseOrderDetail reverseOrderDetail);
+
+    /**
+     * 根据id集合导出退货单明细
+     * @param idSet
+     * @return
+     */
+    List<ReverseOrderDetail> findReverseOrderDetailById(Set<Long> idSet);
 }

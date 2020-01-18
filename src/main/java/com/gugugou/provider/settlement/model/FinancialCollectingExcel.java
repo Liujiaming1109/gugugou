@@ -4,22 +4,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author: yuelitao
- * @date 2020/1/9 14:49
+ * @author: chengShaoShao
+ * @Title: FinancialCollectingExcel
+ * @ProjectName: provider
+ * @Description:
+ * @date 2020/1/17 15:51
  */
 @Data
-@Excel("付款订单分账金额明细")
-public class SettlementLine implements Serializable {
-    /** 主键id */
-    private Long id;
-    /** 结算单id */
-    private Long settlementId;
+@Excel("财务分账表")
+public class FinancialCollectingExcel implements Serializable {
+    private static final long serialVersionUID = -5847981693927915236L;
+
+
+    /** 结算单行数据 */
     /** 主订单号 */
     @ExcelField("主订单号")
     private Long orderId ;
@@ -36,6 +40,20 @@ public class SettlementLine implements Serializable {
     private Date orderSuccessfulTime ;
     @ExcelField("订单交易成功日期")
     private String orderSuccessfulTimeExcel;
+    /** 供应商id */
+    @ExcelField("供应商ID")
+    private Long providerId ;
+    /** 供应商名称 */
+    @ExcelField("供应商名称")
+    private String providerName ;
+    /**路径名称   用来筛选财务分账的结算单行数据（结算单库不存，结算单行要存）*/
+    @Transient
+    @ExcelField("结算路径")
+    private String pathName;
+    /** 结算单状态 */
+    private Integer settlementStatus ;
+    @ExcelField("结算单状态")
+    private String settlementStatusExcel;
     /** 商品id */
     @ExcelField("商品ID")
     private Long skuId ;
@@ -54,28 +72,13 @@ public class SettlementLine implements Serializable {
     /** 原价销售额 */
     @ExcelField("原价销售额")
     private BigDecimal originalPriceSales ;
-    /** 路径 */
-    private Long pathId ;
-    /**路径名称*/
-    @ExcelField("路径名称")
-    private String pathName;
+    @ExcelField("实际销售额")
+    private BigDecimal actualPriceSales;
     /** 扣点 */
     @ExcelField("扣点")
     private double bucklePoint ;
     /** 结算金额 */
     @ExcelField("结算金额")
     private BigDecimal settlementAmount ;
-    /** 创建人 */
-    private String createdBy ;
-    /** 创建时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private Date createdTime ;
-    /** 更新人 */
-    private String updatedBy ;
-    /** 更新时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private Date updatedTime ;
-    /** 逻辑删除 */
-    private Integer removed ;
 
 }

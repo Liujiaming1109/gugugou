@@ -2,8 +2,10 @@ package com.gugugou.provider.settlement.dao;
 
 import com.gugugou.provider.settlement.model.ReverseOrderDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -32,4 +34,11 @@ public interface ReverseOrderDetailDao {
      * @return
      */
     Integer selectReverseOrderDetailCount(ReverseOrderDetail reverseOrderDetail);
+
+    /**
+     * 根据id集合查询退货单明细
+     * @param idSet
+     * @return
+     */
+    List<ReverseOrderDetail> findReverseOrderDetailById(@Param("idSet") Set<Long> idSet);
 }
