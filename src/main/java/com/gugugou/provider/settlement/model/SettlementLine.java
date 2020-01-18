@@ -54,6 +54,8 @@ public class SettlementLine implements Serializable {
     /** 原价销售额 */
     @ExcelField("原价销售额")
     private BigDecimal originalPriceSales ;
+    /** 实际销售额 */
+    private BigDecimal actualPriceSales ;
     /** 路径 */
     private Long pathId ;
     /**路径名称*/

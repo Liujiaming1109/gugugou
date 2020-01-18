@@ -310,7 +310,7 @@
 				t_provider.removed
 				from
                 t_provider
-                where removed = 0 and manage_status != 1 and contract_status != 2
+                where removed = 0 and manage_status = 0 and contract_status != 2
     </select>
 
     <select id="findAllProvidersCount" resultType="java.lang.Integer" parameterType="com.gugugou.provider.provider.model.QueryField">
