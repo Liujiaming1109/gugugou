@@ -60,15 +60,59 @@
         from t_settlement_line
         where settlement_id = #{settlementId};
     </select>
-<!--根据id查询结算单行数据-->
-    <select id="findSettlementLineByIds" parameterType="map" resultMap="settlementLineMap">
-        select <include refid="settlementLine_column_list"/>
-        from t_settlement_line
-        where id in
-        <foreach collection="idSet" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-        order by created_time asc;
+
+    <resultMap id="FinanceRoutingMap" type="com.gugugou.provider.settlement.model.FinanceRouting">
+        <result property="orderId" column="order_id"/>
+        <result property="subOrderId" column="sub_order_id"/>
+        <result property="orderPaymentTime" column="order_payment_time"/>
+        <result property="orderSuccessfulTime" column="order_successful_time"/>
+        <result property="providerId" column="provider_id"/>
+        <result property="providerName" column="provider_name"/>
+        <result property="pathId" column="path_id"/>
+        <result property="pathName" column="path_name"/>
+        <result property="settlementStatus" column="settlement_status"/>
+        <result property="settlementTime" column="settlement_time"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="skuOriginalPrice" column="sku_original_price"/>
+        <result property="actualPaymentPrice" column="actual_payment_price"/>
+        <result property="tradeSuccessfulNumber" column="trade_successful_number"/>
+        <result property="originalPriceSales" column="original_price_sales"/>
+        <result property="actualPriceSales" column="actual_price_sales"/>
+        <result property="bucklePoint" column="buckle_point"/>
+        <result property="settlementAmount" column="settlement_amount"/>
+    </resultMap>
+
+    <!--  查询财务分账列表条件  -->
+    <sql id="queryConditions">
+        <where>
+            1 = 1
+            <if test="beginTime != null">and settlement_time &gt;= #{beginTime}</if>
+            <if test="endTime != null">and settlement_time &lt;= #{endTime}</if>
+            <if test="pathName != null">and path_name = #{pathName}</if>
+            <if test="providerName != null">and provider_name like concat('%',#{providerName},'%')</if>
+            <if test="settlementStatus != null">and settlement_status = #{settlementStatus}</if>
+            <if test="skuName != null">and sku_name like concat('%',#{skuName},'%')</if>
+        </where>
+    </sql>
+
+    <!--  查询财务分账列表  -->
+    <select id="selectFinanceRoutingList" parameterType="com.gugugou.provider.settlement.model.FinanceRouting" resultMap="FinanceRoutingMap">
+        select b.order_id,b.sub_order_id,b.order_payment_time,b.order_successful_time,
+                a.provider_id,a.provider_name,b.path_id,b.path_name,a.settlement_status,a.settlement_time,
+                b.sku_id,b.sku_name,b.sku_original_price,b.actual_payment_price,b.trade_successful_number,
+                b.original_price_sales,b.actual_price_sales,b.buckle_point,b.settlement_amount
+        from t_settlement a
+        left join t_settlement_line b on a.id = b.settlement_id
+            <include refid="queryConditions"/>
+        order by b.created_time asc
+            limit #{pageIndex}, #{pageSize}
     </select>
 
+    <!--  查询财务分账记录数  -->
+    <select id="selectSettlementLineCount" parameterType="com.gugugou.provider.settlement.model.FinanceRouting" resultType="java.lang.Integer">
+        select count(1)
+        from t_settlement_line
+            <include refid="queryConditions"/>
+    </select>
 </mapper>

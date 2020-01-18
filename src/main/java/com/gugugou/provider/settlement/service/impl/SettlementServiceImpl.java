@@ -4,7 +4,7 @@ import com.gugugou.provider.common.ProviderCentreConsts;
 import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.dao.SettlementDao;
 import com.gugugou.provider.settlement.dao.SettlementLineDao;
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
+import com.gugugou.provider.settlement.model.FinanceRouting;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import com.gugugou.provider.settlement.service.SettlementService;
@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -57,17 +56,10 @@ public class SettlementServiceImpl implements SettlementService {
      * @return
      */
     @Override
-    public Settlement getSettlementById(Long id) {
-        //先查出结算单
-        Settlement settlementDO = settlementDao.getSettlementById(id);
-        if (settlementDO != null){
-            //再查出结算单行数据
-            List<SettlementLine> settlementLines = settlementLineDao.selectSettlementLinesBySettlementId(id);
-            if (!settlementLines.isEmpty()){
-                settlementDO.setSettlementLines(settlementLines);
-            }
-        }
-        return settlementDO;
+    public List<SettlementLine> getSettlementById(Long id) {
+        //查出结算单行数据
+        List<SettlementLine> settlementLines = settlementLineDao.selectSettlementLinesBySettlementId(id);
+        return settlementLines;
     }
 
     @Override
@@ -92,7 +84,7 @@ public class SettlementServiceImpl implements SettlementService {
             //如果为空，返回一个空数组
             responseDTO.setData(new ArrayList<>());
         }
-        //获取结算单管理表记录数
+        //获取结算单表记录数
         Integer count = settlementDao.selectSettlementCount(settlement);
         if (count != null && count > 0){
             responseDTO.setCount(count);
@@ -102,76 +94,23 @@ public class SettlementServiceImpl implements SettlementService {
     }
 
     @Override
-    public ResponseDTO selectSettlementListForFinance(Settlement settlement) {
+    public ResponseDTO selectFinanceRoutingList(FinanceRouting financeRouting) {
         ResponseDTO responseDTO = new ResponseDTO();
         //获取pageIndex
-        Integer pageIndex= (settlement.getPageIndex()- ProviderCentreConsts.INTEGER_ONE)*settlement.getPageSize();
-        settlement.setPageIndex(pageIndex);
-        //获取结算单列表
-        List<Settlement> settlements = settlementDao.selectSettlementList(settlement);
-        if (!settlements.isEmpty()){
-            for (Settlement settlementDO : settlements) {
-                //获取该结算单下得所有结算单行数据
-                List<SettlementLine> settlementLines = settlementLineDao.selectSettlementLinesBySettlementId(settlementDO.getId());
-                if (!settlementLines.isEmpty()){
-                    //判断前台有没有用路径做筛选
-                    if (settlement.getPathName()==null){
-                        //这里是没有筛选，将结算单行下的数据，设置给结算单
-                        settlementDO.setSettlementLines(settlementLines);
-                    }else {
-                        //这里对结算单行数据做一个筛选
-                        List<SettlementLine> settlementLineList = new ArrayList<>();
-                        for (SettlementLine settlementLine : settlementLines) {
-                            if (settlementLine.getPathName().equals(settlement.getPathName())){
-
-                                settlementLineList.add(settlementLine);
-                            }
-                        }
-                        settlementDO.setSettlementLines(settlementLineList);
-                    }
-                }
-            }
-
-            responseDTO.setData(settlements);
+        Integer pageIndex= (financeRouting.getPageIndex()- ProviderCentreConsts.INTEGER_ONE)*financeRouting.getPageSize();
+        financeRouting.setPageIndex(pageIndex);
+        //获取财务分账列表
+        List<FinanceRouting> financeRoutings = settlementLineDao.selectFinanceRoutingList(financeRouting);
+        if (!financeRoutings.isEmpty()){
+            responseDTO.setData(financeRoutings);
         }else {
             responseDTO.setData(new ArrayList<>());
         }
-
-        //获取结算单管理表记录数
-        Integer count = settlementDao.selectSettlementCount(settlement);
+        //获取财务分账对应订单行的记录数
+        Integer count = settlementLineDao.selectSettlementLineCount(financeRouting);
         if (count != null && count > 0){
             responseDTO.setCount(count);
         }
         return responseDTO;
-    }
-
-    /**
-     * 根据id导出结算单列表
-     * @param idSet
-     * @return
-     */
-    @Override
-    public List<Settlement> findSettlementListById(Set<Long> idSet) {
-        return settlementDao.findSettlementListById(idSet);
-    }
-
-    /**
-     * 根据id导出结算单行数据
-     * @param idSet
-     * @return
-     */
-    @Override
-    public List<SettlementLine> findSettlementLineByIds(Set<Long> idSet) {
-        return settlementLineDao.findSettlementLineByIds(idSet);
-    }
-
-    /**
-     * 根据结算单行id导出财务分账信息
-     * @param idSet
-     * @return
-     */
-    @Override
-    public List<FinancialCollectingExcel> selectFinancialCollectingById(Set<Long> idSet) {
-        return settlementDao.selectFinancialCollectingById(idSet);
     }
 }

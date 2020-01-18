@@ -1,12 +1,11 @@
 package com.gugugou.provider.settlement.dao;
 
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
+import com.gugugou.provider.settlement.model.FinanceRouting;
 import com.gugugou.provider.settlement.model.Settlement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author: yuelitao
@@ -43,21 +42,9 @@ public interface SettlementDao {
     List<Settlement> selectSettlementList(Settlement settlement);
 
     /**
-     * 根据id查询结算单列表
-     */
-    List<Settlement> findSettlementListById(@Param("idSet") Set<Long> idSet);
-
-    /**
      * 查询结算单管理表的记录数
      * @param settlement
      * @return
      */
     Integer selectSettlementCount(Settlement settlement);
-
-    /**
-     * 根据结算单行id查询该数据
-     * @param idSet
-     * @return
-     */
-    List<FinancialCollectingExcel> selectFinancialCollectingById(@Param("idSet") Set<Long> idSet);
 }

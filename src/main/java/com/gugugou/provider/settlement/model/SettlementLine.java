@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * 结算单行(明细)
  * @author: yuelitao
  * @date 2020/1/9 14:49
  */

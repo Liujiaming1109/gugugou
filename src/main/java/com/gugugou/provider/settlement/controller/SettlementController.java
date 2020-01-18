@@ -1,20 +1,12 @@
 package com.gugugou.provider.settlement.controller;
 
 import com.gugugou.provider.common.ResponseDTO;
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
-import com.gugugou.provider.settlement.model.SettlementLine;
 import com.gugugou.provider.settlement.service.SettlementService;
-import com.wuwenze.poi.ExcelKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Set;
 
 
 /**

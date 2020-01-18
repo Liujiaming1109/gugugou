@@ -7,7 +7,7 @@ package com.gugugou.provider.common;
  * @Description:
  * @date 2019/12/2 16:17
  */
-public final class ProviderCentreConsts {
+public final class  ProviderCentreConsts {
 
     private ProviderCentreConsts() {
     }
