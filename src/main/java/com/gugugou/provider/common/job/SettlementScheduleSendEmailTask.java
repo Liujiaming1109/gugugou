@@ -47,17 +47,15 @@ public class SettlementScheduleSendEmailTask implements SchedulingConfigurer {
                     //这个方法其实就是查询的所有非过期状态的供应商
                     List<Information> informations = informationService.queryAllProviders();
                     //获取当前系统日期时间戳
-                    long nowDate = System.currentTimeMillis();
+                    Date nowTime = new Date();
                     for (Information information : informations) {
                         //获取该供应商的下一次结算时间
                         Date nextSettlementTime = information.getNextSettlementTime();
-                        //获取该供应商的上一次结算时间
-                        Date lastSettlementTime = information.getLastSettlementTime();
 
-                        //时间格式转换
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+                        //时间格式转换(精确到日)
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         String nextSettlementTimeStr = simpleDateFormat.format(nextSettlementTime);
-                        String lastSettlementTimeStr = simpleDateFormat.format(lastSettlementTime);
+                        String nowTimeStr = simpleDateFormat.format(nowTime);
 
                         //获取平台负责人邮件
                         String principalEmail = information.getPrincipalEmail();
@@ -65,7 +63,8 @@ public class SettlementScheduleSendEmailTask implements SchedulingConfigurer {
                         try {
                             //下一次结算日期
                             long nextSettlementTimeL = TimeToStamp.timeToStamp(nextSettlementTimeStr);
-                            if (nowDate == nextSettlementTimeL){
+                            long nowTimeL = TimeToStamp.timeToStamp(nowTimeStr);
+                            if (nowTimeL == nextSettlementTimeL){
                                 //到结算日期，发送邮件
                                 sendEmail.sendMail(principalEmail,"供应商id为"+information.getId()+"结算日期到了","结算提醒");
                             }
