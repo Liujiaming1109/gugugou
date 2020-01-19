@@ -37,23 +37,25 @@ public class SettlementServiceImpls implements SettlementServices {
                 System.out.println("增加一天后日期:"+sad);
                 settlementTimeNext = sad;
 
-        }else if (settlementInterval == 1 || settlementInterval == 2){
-            /**周结或两周结*/
+        }else if (settlementInterval == 1){
+            /**周结*/
             Date date = information.getContactStartDate();
             DateFormat format = DateFormat.getDateInstance();
             String tuesday = format.format(date);
             System.out.println("Today is : " + tuesday);
-            if(settlementInterval ==2){
-                date = getNextTuesdayTwo(date);
-            }else{
-                date = getNextTuesday(date);
-            }
+            date = getNextTuesday(date);
             String nextTuesday = format.format(date);
             String nexts = nextTuesday +" "+ "23:59:00";
             System.out.println("Next tuesday is: "+ nexts);
             settlementTimeNext = nexts;
 
-        }else if(settlementInterval == 3){
+        }else if(settlementInterval == 2){
+             /**两周结15号和28号*/
+             Date date = information.getContactStartDate();
+
+
+
+        } else if(settlementInterval == 3){
                  /**月结*/
                 //下次结算日期
                 String nextDate = null;
@@ -129,16 +131,4 @@ public class SettlementServiceImpls implements SettlementServices {
         return cal.getTime();
     }
 
-    /**最近下下周的周二结算日期*/
-    public  Date getNextTuesdayTwo(Date date){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        /**
-         * ammount:0 代表最近的周二
-         * 1:代表下一周周二
-         * 2:代表下下周周二*/
-        cal.add(Calendar.WEEK_OF_YEAR, 2);
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-        return cal.getTime();
-    }
 }

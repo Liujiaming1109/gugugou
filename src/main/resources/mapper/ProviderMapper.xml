@@ -74,10 +74,10 @@
                 updated_time = #{updatedTime},
             </if>
             <if test="removed !=null" >
-                removed = #{removed},
+                removed = #{removed}
             </if>
         </set>
-        where provider_id_fk = #{providerIdFk}
+        where provider_id_fk = #{providerIdFk};
     </update>
 
     <sql id="findProvider">
@@ -91,7 +91,7 @@
         from t_finance where provider_id_fk = #{fk}
     </select>
     <!--查找供应商的财务的信息根据id-->
-    <select id="selectBaseInfoByinformationId" resultMap="ProviderResultMap" parameterType="Long">
+    <select id="selectBaseInfoByinformationId" parameterType="Long" resultMap="ProviderResultMap" >
         select <include refid="findProvider"></include>
         from t_finance where provider_id_fk = #{id}
     </select>

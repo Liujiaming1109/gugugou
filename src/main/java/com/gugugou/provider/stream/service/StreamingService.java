@@ -22,11 +22,17 @@ public interface StreamingService {
     /**修改排班直播间的信息*/
     int updateArrange(ArrangeStreaming arrangeStreaming);
 
-    /**添加长视频*/
+    /**添加开始直播*/
     int addLongVideo(ShortVideo longVideo);
 
-    /**添加短视频*/
+    /**添加结束直播*/
+    int addEndLongVideo(ShortVideo longVideo);
+
+    /**添加开始录播*/
     int addShortVideo(ShortVideo shortVideo);
+
+    /**添加结束录播*/
+    int addEndShortVideo(ShortVideo shortVideo);
 
     /**查找短视频*/
     Map findShortVideo(ShortVideo shortVideo);
@@ -111,4 +117,13 @@ public interface StreamingService {
 
     /**返回排班表中有效状态表*/
     List<ArrangeStreaming> showArrangeRoomStatus(ArrangeStreaming arrangeStreaming);
+
+    /**直播管理-商品管理----添加录像*/
+    int updatedShortVideo(ShortVideo shortVideo);
+
+    /**录播管理-录播编辑----变更关联商品*/
+    List<ArrangeAndSku> selectStreamingAndShops(ShortVideo shortVideo);
+
+
+
 }

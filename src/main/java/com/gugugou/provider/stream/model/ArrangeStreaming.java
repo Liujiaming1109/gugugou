@@ -34,8 +34,14 @@ public class ArrangeStreaming implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date anchorEndDate;
 
-    /**直播间图片*/
-    private String anchorPicture;
+    /**直播间横向图片*/
+    private String anchorAcrossPicture;
+
+    /**直播间竖屏图片*/
+    private String anchorVerticalPicture;
+
+    /**直播间方屏图片*/
+    private String anchorSidePicture;
 
     /**直播间位置*/
     private String anchorPlace;

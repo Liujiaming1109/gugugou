@@ -73,10 +73,12 @@
     <insert id="addWorkingSchedule">
         insert into
         streaming_working_schedule
-        (direct_broadcasting_room_id,anchor_name,anchor_title,anchor_start_date,anchor_end_date,anchor_picture,
+        (direct_broadcasting_room_id,anchor_name,anchor_title,anchor_start_date,anchor_end_date,anchor_across_picture,
+        anchor_vertical_picture,anchor_side_picture,
         anchor_place,anchor_label,anchor_people_name,streaming_status,created_by,created_time,updated_by,updated_time,removed)
         values
-        (#{directBroadcastingRoomId},#{anchorName},#{anchorTitle},#{anchorStartDate},#{anchorEndDate},#{anchorPicture},
+        (#{directBroadcastingRoomId},#{anchorName},#{anchorTitle},#{anchorStartDate},#{anchorEndDate},#{anchorAcrossPicture},
+        #{anchorVerticalPicture},#{anchorSidePicture},
         #{anchorPlace},#{anchorLabel},#{anchorPeopleName},#{streamingStatus},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
 
@@ -99,8 +101,14 @@
         <if test="anchorEndDate != null">
             anchor_end_date=#{anchorEndDate},
         </if>
-        <if test="anchorPicture !=null and anchorPicture !=''">
-            anchor_picture = #{anchorPicture},
+        <if test="anchorAcrossPicture !=null and anchorAcrossPicture !=''">
+            anchor_across_picture = #{anchorAcrossPicture},
+        </if>
+        <if test="anchorVerticalPicture !=null and anchorVerticalPicture !=''">
+            anchor_vertical_picture = #{anchorVerticalPicture},
+        </if>
+        <if test="anchorSidePicture !=null and anchorSidePicture !=''">
+            anchor_side_picture = #{anchorSidePicture},
         </if>
         <if test="anchorPlace != null and anchorPlace!=''">
             anchor_picture=#{anchorPlace},
@@ -197,7 +205,7 @@
         where id = #{id}
     </update>
 
-    <!--添加长视频-->
+    <!--添加开始直播-->
    <insert id="addLongVideo">
         insert into
         streaming_recorded_management
@@ -208,12 +216,21 @@
         #{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
 
+    <!--添加结束直播-->
+    <update id="addEndLongVideo">
+        update
+        streaming_recorded_management
+        set actual_end_time = #{actualEndTime},video_url = #{videoUrl}
+        where arrange_room_id = #{arrangeRoomId} and direct_broadcasting_room_id = #{directBroadcastingRoomId}
+        and normal_start_time = #{normalStartTime} and normal_end_time = #{normalEndTime}
+    </update>
+
     <!--展示录播链接-->
     <select id="showStreamingRecorded" parameterType="com.gugugou.provider.stream.model.ShortVideo" resultMap="streamingRecorded">
             select
             actual_start_time,actual_end_time,video_url
             from streaming_recorded_management
-            where arrange_room_id = #{arrangeRoomId} and type = 1
+            where arrange_room_id = #{arrangeRoomId} and direct_broadcasting_room_id = #{directBroadcastingRoomId} and type = 1
     </select>
     <resultMap id="streamingRecorded" type="com.gugugou.provider.stream.model.ShortVideo">
         <result column="actual_start_time" property="actualStartTime" jdbcType="DATE"/>
@@ -231,7 +248,7 @@
         ORDER BY transcribe_start_time DESC
     </select>
 
-    <!--添加短视频-->
+    <!--添加开始录播-->
     <insert id="addShortVideo">
         insert into
         streaming_recorded_management
@@ -241,6 +258,15 @@
         (#{actualStartTime},#{actualEndTime},#{videoUrl},#{itemId},
         #{orderFormId},#{directBroadcastingRoomId},#{arrangeRoomId},#{status},#{type},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{removed})
     </insert>
+
+    <!--添加结束直播-->
+    <update id="addEndShortVideo">
+         update
+         streaming_recorded_management s
+         set s.actual_end_time = #{actualEndTime},s.video_url = #{videoUrl}
+         where s.type = 0 and  s.actual_start_time = #{actualStartTime} and s.actual_end_time = #{actualEndTime}
+         AND s.arrange_room_id = #{arrangeRoomId} and s.direct_broadcasting_room_id = #{directBroadcastingRoomId}
+    </update>
 
     <!--录播管理查找短视频-->
    <select id="findShortVideo" parameterType="com.gugugou.provider.stream.model.ShortVideo" resultMap="shortMap">
@@ -398,13 +424,13 @@
 
     <!--修改短视频里的商品-->
     <update id="updatedShop">
-        update streaming_recorded_management
+        update streaming_recorded_management s
         <set>
             <if test="itemId!=null and itemId!=''">
-                item_id = #{itemId}
+                s.item_id = #{itemId}
             </if>
         </set>
-        where id = #{id}
+        where s.id = #{id} and s.type = 1
     </update>
 
     <!--??????修该直播间的状态-->
@@ -614,7 +640,7 @@
         update
         streaming_arrange_sku s
         set s.order = #{order}
-        where s.arrange_room_id = #{arrangeRoomId}
+        where s.arrange_room_id = #{arrangeRoomId} and s.item_id = #{itemId}
     </update>
 
     <!--删除原直播间的商品-->
@@ -681,5 +707,30 @@
          <result column="real_inventory" property="realInventory" jdbcType="INTEGER"/>
          <result column="streaming_sell_price" property="streamingSellPrice" jdbcType="INTEGER"/>
     </resultMap>
+
+
+    <!--直播管理-商品管理-添加录播-->
+    <update id="updatedShortVideo">
+        updatd
+        streaming_recorded_management s
+        set
+        s.item_id = #{itemId}
+        where s.video_url = #{videoUrl} and s.type = 1
+    </update>
+
+    <!--录播管理-录播编辑-变更关联商品-->
+    <select id="selectStreamingAndShops" parameterType="long" resultMap="streamingAndSkuses">
+        select
+        item_id,name
+        from
+        streaming_arrange_sku
+        where arrange_room_id = #{arrangeRoomId}
+    </select>
+    <resultMap id="streamingAndSkues" type="com.gugugou.provider.stream.model.ArrangeAndSku">
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
 
 </mapper>

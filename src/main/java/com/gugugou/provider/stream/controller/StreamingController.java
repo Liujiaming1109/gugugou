@@ -36,6 +36,8 @@ public class StreamingController {
         return streamingService.allStreamings(anchorName);
     }
 
+   /**直播间排班表--在添加直播间名称时的下拉框调用<AllStreamings>接口*/
+
     /**直播间排班表----直播间排班添加*/
     @RequestMapping("arrange")
     public int arrangeStreaming(@RequestBody ArrangeStreaming arrangeStreaming){
@@ -55,13 +57,13 @@ public class StreamingController {
          return  streamingService.findArrangeList(arrangeStreaming);
     }
 
-    /**直播间排班表----列表的编辑商品*/
+    /**直播间排班表----列表的编辑商品(此功能在端点那边写了)*/
     @PostMapping("updatedStreamingShop")
     public int updatedStreamingShop(@RequestBody List<ArrangeAndSku> arrangeAndSku){
         return  streamingService.updatedStreamingShop(arrangeAndSku);
     }
 
-    /**直播间排班表----返回直播间排班表有效状态表*/
+    /**直播间排班表----返回直播间排班表有效状态表[暂时没用]*/
     @PostMapping("showArrangeRoomStatus")
     public List<ArrangeStreaming> showArrangeRoomStatus(@RequestBody ArrangeStreaming arrangeStreaming){
         return  streamingService.showArrangeRoomStatus(arrangeStreaming);
@@ -79,25 +81,41 @@ public class StreamingController {
         return streamingService.updateArrangeStatus(arrangeStreaming);
     }
 
-    /**直播管理-商品管理----添加长视频*/
-    @PostMapping("longVideo")
+
+
+    /**直播管理-商品管理----开始直播*/
+    @PostMapping("startLongVideo")
     public int addLongVideo(@RequestBody ShortVideo longVideo){
         return  streamingService.addLongVideo(longVideo);
     }
 
-    /**直播管理-商品管理----添加短视频*/
-    @PostMapping("shortVideo")
+    /**直播管理-商品管理----结束直播*/
+    @PostMapping("endLongVideo")
+    public int addEndLongVideo(@RequestBody ShortVideo longVideo){
+        return  streamingService.addEndLongVideo(longVideo);
+    }
+
+
+    /**直播管理-商品管理----开始录播*/
+    @PostMapping("addStartShortVideo")
     public int addShortVideo(@RequestBody ShortVideo shortVideo){
         return streamingService.addShortVideo(shortVideo);
     }
 
-    /**直播管理-商品管理----展示排班间的录播列表*/
+    /**直播管理-商品管理----关闭录播*/
+    @PostMapping("addEndShortVideo")
+    public int addEndShortVideo(@RequestBody ShortVideo shortVideo){
+        return streamingService.addEndShortVideo(shortVideo);
+    }
+
+    /**直播管理-商品管理----直播管理-录播列表*/
     @PostMapping("showStreamingRecorded")
     public List<ShortVideo> showStreamingRecorded(@RequestBody ShortVideo shortVideo){
           return  streamingService.showStreamingRecorded(shortVideo);
     }
 
-    /**直播管理-录播管理----排班表中的复制录播链接*/
+
+    /**直播管理-录播管理----直播管理-录播列表--复制链接*/
     @RequestMapping("streamingCopyUrl")
     public String findLongVideo(@RequestBody ShortVideo longVideo){
         return streamingService.findLongVideo(longVideo);
@@ -111,12 +129,18 @@ public class StreamingController {
         return  streamingService.addComment(streamingComment);
     }
 
+    /**直播管理-评论查看----直播管理-评论查看(根据排班表id和开始结束时间查看所有评论)*/
+    @PostMapping("findAllCommentById")
+    public Map findAllComment(@RequestBody ShortVideo longVideo){
+        return  streamingService.findAllCommentById(longVideo);
+    }
+
 
     /**?直播间商品管理----查找直播路径下的商品和sku信息价格*/
-    @PostMapping("streamingSkuPrice")
+    /*@PostMapping("streamingSkuPrice")
     public List<PathAndPrice> streamingSkuPrice(@RequestBody ArrangeStreaming arrangeStreaming){
         return streamingService.streamingSkuPrice(arrangeStreaming);
-    }
+    }*/
 
 
     /**直播间商品管理----添加直播间的商品(从前台传过来商品及sku的集合)*/
@@ -127,7 +151,7 @@ public class StreamingController {
     }
 
 
-    /**直播间的商品管理----展示直播间的商品名称及sku属性*/
+    /**直播管理-商品管理----展示直播间的商品名称及sku属性*/
     @GetMapping("showStreamingSku")
     public List<ArrangeAndSku> showStreamingSku(@RequestParam int id){
         long ids = id;
@@ -173,35 +197,37 @@ public class StreamingController {
 
 
     /**直播管理-商品管理----添加录像*/
-   /* @PostMapping("saveVideo")
-    public int  saveEdit(@RequestBody )*/
-
-
-
-
-
-    /**直播管理-评论查看----根据排班表id和开始结束时间查看所有评论*/
-    @PostMapping("findAllCommentById")
-    public Map findAllComment(@RequestBody ShortVideo longVideo){
-        return  streamingService.findAllCommentById(longVideo);
+    @PostMapping("upatedShortVideo")
+    public int  updatedShortVideo(@RequestBody ShortVideo shortVideo){
+        logger.info("直播管理-商品管理----添加录像",shortVideo);
+        return  streamingService.updatedShortVideo(shortVideo);
     }
 
-    /**录播管理----查找短视频*/
+
+
+    /**录播管理----展示所有短视频(带条件)*/
     @PostMapping("findShortVideo")
     public Map findShortVideo(@RequestBody ShortVideo shortVideo){
         return  streamingService.findShortVideo(shortVideo);
     }
 
-    /**录播管理----复制短视频链接(根据短视频id)*/
+    /**录播管理----复制短视频链接或观看(根据短视频id)*/
     @PostMapping("copyUrl")
     public ShortVideo copyUrl(@RequestBody ShortVideo shortVideo){
         return streamingService.copyUrl(shortVideo.getId());
     }
 
-    /**录播编辑----根据id返现短视频及商品*/
+    /**录播管理-录播编辑----根据id回现短视频及商品*/
     @PostMapping("findShortById")
     public ShortVideo findShortById(@RequestBody ShortVideo shortVideo){
         return  streamingService.findShortById(shortVideo.getId());
+    }
+
+    /**录播管理-录播编辑----变更关联商品*/
+    @PostMapping("selectStreamingAndShops")
+    private List<ArrangeAndSku> selectStreamingAndShops(@RequestBody ShortVideo shortVideo){
+        logger.info("变更商品时查询该直播间下传的条件----shortVide",shortVideo);
+        return  streamingService.selectStreamingAndShops(shortVideo);
     }
 
     /**录播编辑----短视频中商品的编辑*/
@@ -210,22 +236,26 @@ public class StreamingController {
         return  streamingService.updatedShop(shortVideo);
     }
 
-    /**录播管理----直播间查找商品(可能调端点的接口)*/
-    @RequestMapping("findStreamingShop")
+
+
+    /**录播管理----直播间查找商品(可能调端点的接口{有问题}写到端点那边代码)*/
+    /*@RequestMapping("findStreamingShop")
     public List<Commodity> findStreamingShop(@RequestBody FindStreamingShop findStreamingShop){
         return  streamingService.findStreamingShop(findStreamingShop);
+    }*/
+
+
+
+    /**录播管理----修改短视频的上下线状态*/
+    @PostMapping("changeShortStatus")
+    public int changeShortStatus(@RequestBody ShortVideo shortVideo){
+        return  streamingService.changeShortStatus(shortVideo);
     }
 
     /**录播管理----短视频删除*/
     @PostMapping("deleteShopVideo")
     public int deleteShortVideo(@RequestBody ShortVideo video){
         return streamingService.deleteShortVideo(video.getId());
-    }
-
-    /**录播管理----修改短视频的上下线状态*/
-    @PostMapping("changeShortStatus")
-    public int changeShortStatus(@RequestBody ShortVideo shortVideo){
-        return  streamingService.changeShortStatus(shortVideo);
     }
 
 

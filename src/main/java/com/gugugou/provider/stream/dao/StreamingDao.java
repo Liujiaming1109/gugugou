@@ -35,11 +35,17 @@ public interface StreamingDao {
     /**排班直播间冻结*/
     int updateArrangeStatus(ArrangeStreaming arrangeStreaming);
 
-    /**添加长视频*/
+    /**添加开始直播*/
     int addLongVideo(ShortVideo longVideo);
 
-    /**添加短视频*/
+    /**添加结束直播*/
+    int addEndLongVideo(ShortVideo longVideo);
+
+    /**添加开始直播*/
     int addShortVideo(ShortVideo shortVideo);
+
+    /**添加结束录播*/
+    int addEndShortVideo(ShortVideo shortVideo);
 
     /**查找短视频*/
     List<ShortVideo> findShortVideo(ShortVideo shortVideo);
@@ -166,4 +172,10 @@ public interface StreamingDao {
 
     /**查找排班表下有效状态的sku*/
     List<ArrangeAndSkuFk> findStreamingsArrangeSkuFk(ArrangeAndSku arrs);
+
+    /**直播管理-商品管理----添加录播*/
+    int updatedShortVideo(ShortVideo shortVideo);
+
+    /**录播管理-录播编辑----变更关联商品*/
+    List<ArrangeAndSku> selectStreamingAndShops(Long arrangeRoomId);
 }

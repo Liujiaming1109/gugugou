@@ -70,20 +70,52 @@ public class StreamingServiceImpl implements StreamingService {
         return streamingDao.updateArrange(arrangeStreaming);
     }
 
-    /**添加长视频*/
+    /**添加开始直播*/
     @Override
     public int addLongVideo(ShortVideo longVideo) {
-        longVideo.setCreatedTime(new Date());
-        longVideo.setType(0);
+            /**实际开始时间*/
+            longVideo.setActualStartTime(new Date());
+            /**创建时间*/
+            longVideo.setCreatedTime(new Date());
+            /**长视频类型*/
+            longVideo.setType(0);
+            /**调用腾讯云接口*/
+            String add = "";
         return streamingDao.addLongVideo(longVideo);
     }
 
-    /**添加短视频*/
+    /**添加结束直播*/
+    @Override
+    public int addEndLongVideo(ShortVideo longVideo) {
+        longVideo.setActualEndTime(new Date());
+        longVideo.setType(0);
+        /**调腾讯云接口,获取直播流的地址*/
+        String str = "调腾讯云接口";
+        longVideo.setVideoUrl(str);
+        return streamingDao.addEndLongVideo(longVideo);
+    }
+
+    /**添加开始录播*/
     @Override
     public int addShortVideo(ShortVideo shortVideo) {
+        /**录播开始时间*/
+        shortVideo.setActualStartTime(new Date());
         shortVideo.setCreatedTime(new Date());
         shortVideo.setType(1);
+        /**调用腾讯云的接口*/
+        String str = "";
         return streamingDao.addShortVideo(shortVideo);
+    }
+
+    /**添加结束直播*/
+    @Override
+    public int addEndShortVideo(ShortVideo shortVideo) {
+        shortVideo.setActualEndTime(new Date());
+        shortVideo.setType(0);
+        /**调用腾讯接口*/
+        String str = "";
+        shortVideo.setVideoUrl(str);
+        return streamingDao.addEndShortVideo(shortVideo);
     }
 
     /**查找短视频*/
@@ -182,10 +214,12 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public List<Commodity> findStreamingShop(FindStreamingShop findStreamingShop) {
         List<Commodity> streamingShop = streamingDao.findStreamingShop(findStreamingShop);
-        List<Integer> count = new ArrayList<Integer>();
-        for (Commodity comm: streamingShop) {
-             streamingDao.seekShopCount(comm.getItemId());
+        if(streamingShop != null){
+            for (Commodity comm: streamingShop) {
+                streamingDao.seekShopCount(comm.getItemId());
+            }
         }
+        List<Integer> count = new ArrayList<Integer>();
         return streamingDao.findStreamingShop(findStreamingShop);
     }
 
@@ -193,6 +227,7 @@ public class StreamingServiceImpl implements StreamingService {
     @Override
     public int saveShop(List<ArrangeAndSku> arrangeAndSkus) {
         SkuAndPath skuAndPath = new SkuAndPath();
+        if(arrangeAndSkus != null){
         for (ArrangeAndSku arrange:arrangeAndSkus) {
             if(arrange.getCommtitys()!=null && arrange.getCommtitys().size()>0 ){
                 List<ArrangeAndSkuFk> commtitys = arrange.getCommtitys();
@@ -207,7 +242,7 @@ public class StreamingServiceImpl implements StreamingService {
             }
             arrange.setCreatedTime(new Date());
             streamingDao.saveShop(arrange);
-
+          }
         }
         return 1;
     }
@@ -292,11 +327,15 @@ public class StreamingServiceImpl implements StreamingService {
     /**展示直播间的商品和sku属性集合*/
     @Override
     public List<ArrangeAndSku> showStreamingSku(Long ids) {
+        /**获取该直播间的商品的集合*/
         List<ArrangeAndSku> arrangeAndSkus = streamingDao.showStreamingSku(ids);
 
         for (ArrangeAndSku arrange: arrangeAndSkus) {
+            /**获取排班表与sku的中间表的主键id*/
             Long id = arrange.getId();
+            /**获取商品id*/
             Long itemId = arrange.getItemId();
+            /**查找skud的集合*/
             List<ArrangeAndSkuFk> skus = streamingDao.showStreamingSkus(id,itemId);
             for (ArrangeAndSkuFk arr:skus) {
                 Long commotityId = arr.getCommotityId();
@@ -346,7 +385,7 @@ public class StreamingServiceImpl implements StreamingService {
         if(math == orders){
             return 0;
         }
-        if(orders > math){
+       /* if(orders > math){
             for (ArrangeAndSku arr: findStreamingOrdes) {
                  if(math < arr.getOrder() && arr.getOrder() >= orders){
                        arr.setOrder(arr.getOrder()-1);
@@ -362,7 +401,23 @@ public class StreamingServiceImpl implements StreamingService {
                 }
             }
            streamingDao.updateStreamingOrder(arrangeAndSku);
-        }
+        }*/
+       if(orders > math){
+           for (ArrangeAndSku arr: findStreamingOrdes) {
+                   if(arr.getOrder() >= orders){
+                      arr.setOrder(arr.getOrder() + 1);
+                      streamingDao.updateStreamingOrder(arr);
+                   }
+           }
+       }else if(orders < math){
+           for (ArrangeAndSku arr: findStreamingOrdes) {
+               if(arr.getOrder() >= orders){
+                   arr.setOrder(arr.getOrder() + 1);
+                   streamingDao.updateStreamingOrder(arr);
+               }
+           }
+       }
+
         return 1;
     }
 
@@ -411,6 +466,20 @@ public class StreamingServiceImpl implements StreamingService {
             }
         }
         return arrangeStreamings;
+    }
+
+    /**直播管理-商品管理----添加录像*/
+    @Override
+    public int updatedShortVideo(ShortVideo shortVideo) {
+
+        return streamingDao.updatedShortVideo(shortVideo);
+    }
+
+    /**录播管理-录播编辑----变更关联商品*/
+    @Override
+    public List<ArrangeAndSku> selectStreamingAndShops(ShortVideo shortVideo) {
+         /**没有去重*/
+        return streamingDao.selectStreamingAndShops(shortVideo.getArrangeRoomId());
     }
 
 }

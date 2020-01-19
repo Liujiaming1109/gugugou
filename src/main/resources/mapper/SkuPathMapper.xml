@@ -17,9 +17,9 @@
 <!--新增sku扣点表-->
     <insert id="insertSkuPath" useGeneratedKeys="true" keyProperty="id">
         insert into sku_path
-        (id, sku_id, provider_id, item_path_id, point, created_by, created_time, updated_by, updated_time, removed)
+        (id, sku_id, provider_id, point, created_by, created_time, updated_by, updated_time, removed)
         values
-        (#{id}, #{skuId}, #{providerId}, #{itemPathId}, #{point}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+        (#{id}, #{skuId}, #{providerId},  #{point}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
     </insert>
 
 <!--查询扣点列表-->
