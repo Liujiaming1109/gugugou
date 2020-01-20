@@ -19,7 +19,11 @@
     </properties>
 
     <dependencies>
-
+        <dependency>
+              <groupId>io.terminus.parana.inventory</groupId>
+              <artifactId>inventory-api</artifactId>
+              <version>5.2.2.0.RELEASE</version>
+       </dependency>
 
         <!--Redis-->
         <dependency>
@@ -94,6 +98,40 @@
         <version>1.4.01</version>
     </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>nexus-sys.592yx.cn</id>
+            <url>http://nexus-sys.592yx.cn/repository/terminus-dcos/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-sys.592yx.cn</id>
+            <name>terminus release repository</name>
+            <url>http://nexus-sys.592yx.cn/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-sys.592yx.cn</id>
+            <name>terminus snapshot repository</name>
+            <url>http://nexus-sys.592yx.cn/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
