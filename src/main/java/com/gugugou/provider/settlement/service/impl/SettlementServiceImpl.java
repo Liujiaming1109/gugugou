@@ -5,7 +5,6 @@ import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.dao.SettlementDao;
 import com.gugugou.provider.settlement.dao.SettlementLineDao;
 import com.gugugou.provider.settlement.model.FinanceRouting;
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import com.gugugou.provider.settlement.service.SettlementService;
@@ -142,7 +141,7 @@ public class SettlementServiceImpl implements SettlementService {
      * @return
      */
     @Override
-    public List<FinancialCollectingExcel> selectFinancialCollectingById(Set<Long> idSet) {
+    public List<FinanceRouting> selectFinancialCollectingById(Set<Long> idSet) {
         return settlementDao.selectFinancialCollectingById(idSet);
     }
 }

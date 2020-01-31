@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.commodity.dao.IconDao">
+    <resultMap id="IconMap" type="com.gugugou.provider.commodity.model.IconModel">
+        <id column="id" property="id"/>
+        <result column="guide_name" property="guideName"/>
+        <result column="logo_url" property="logoUrl"/>
+        <result column="logo_type" property="logoType"/>
+        <result column="logo_status" property="logoStatus"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="removed" property="removed"/>
+    </resultMap>
+<!--新增图片-->
+    <insert id="insertIcon" parameterType="com.gugugou.provider.commodity.model.IconModel" useGeneratedKeys="true" keyProperty="id">
+        insert into t_icon
+        (id, guide_name, logo_url, logo_type, logo_status, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id}, #{guideName}, #{logoUrl}, #{logoType}, #{logoStatus}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+    </insert>
+<!--批量新增图片-->
+    <insert id="insertIconList" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        insert into t_icon
+        (id, guide_name, logo_url, logo_type, logo_status, created_by, created_time, updated_by, updated_time, removed)
+        values 
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.guideName}, #{item.logoUrl}, #{item.logoType}, #{item.logoStatus}, #{item.createdBy}, #{item.createdTime}, #{item.updatedBy}, #{item.updatedTime}, #{item.removed})
+        </foreach>
+    </insert>
+<!--基础字段-->
+    <sql id="Base">
+        id, guide_name, logo_url, logo_type, logo_status, created_by, created_time, updated_by, updated_time, removed
+    </sql>
+<!--条件查询sql-->
+    <sql id="pageConditions">
+        <where>
+            <if test="guideName != '' and guideName != null">
+                guide_name = #{guideName}
+            </if>
+            <if test="logoType != null and logoType != ''">
+                and logo_type = #{logoType}
+            </if>
+            <if test="logoStatus != null">
+                and logo_status = #{logoStatus}
+            </if>
+            and removed = 0;
+        </where>
+    </sql>
+<!--分页查询图片列表-->
+    <select id="selectIconListByPage" parameterType="com.gugugou.provider.commodity.model.IconModel" resultMap="IconMap">
+        select <include refid="Base"/>
+        from t_icon
+        <include refid="pageConditions"/>
+        order by created_time desc
+        limit #{pageIndex}, #{pageSzie};
+    </select>
+
+<!--分页查询图片列表数量-->
+    <select id="selectIconListCount" parameterType="com.gugugou.provider.commodity.model.IconModel" resultMap="IconMap">
+        select count(1)
+        from t_icon
+        <include refid="pageConditions"/>
+    </select>
+
+<!--根据id查询单条数据-->
+    <select id="getIconById" parameterType="long" resultMap="IconMap">
+        select <include refid="Base"/>
+        from t_icon
+        where id = #{id}
+        and removed = 0;
+    </select>
+<!--根据id删除图片-->
+    <delete id="deleteById" parameterType="com.gugugou.provider.commodity.model.IconModel">
+        update t_icon set removed = 1
+        and updated_by = #{updatedBy}
+        and updated_time = #{updatedTime}
+        where id = #{id};
+    </delete>
+<!--编辑字段-->
+    <sql id="update_fields">
+        <set>
+            <if test="guideName != null" >
+                guide_name = #{guideName},
+            </if>
+            <if test="logoUrl != null ">
+                logo_url = #{logoUrl},
+            </if>
+            <if test="logoType != null" >
+                logo_type = #{logoType},
+            </if>
+            <if test="createdBy != null" >
+                created_by = #{createdBy},
+            </if>
+            <if test="createdTime != null" >
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedBy != null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+    </sql>
+<!--编辑图片-->
+    <update id="updateIcon" parameterType="com.gugugou.provider.commodity.model.IconModel">
+        update t_icon
+        <include refid="update_fields"/>
+        where id = #{id};
+    </update>
+</mapper>

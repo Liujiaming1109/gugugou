@@ -2,7 +2,6 @@ package com.gugugou.provider.settlement.controller;
 
 import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.FinanceRouting;
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 import com.gugugou.provider.settlement.service.SettlementService;
@@ -151,10 +150,10 @@ public class SettlementController {
     @GetMapping("selectFinancialCollectingById/excel")
     public void selectFinancialCollectingById(@RequestParam("idSet") Set<Long> idSet, HttpServletResponse response) {
         logger.info("根据结算单行id导出财务分账信息的入参--idSet：{}", idSet);
-        List<FinancialCollectingExcel> financialCollectingExcelList = settlementService.selectFinancialCollectingById(idSet);
+        List<FinanceRouting> financeRoutings = settlementService.selectFinancialCollectingById(idSet);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (!financialCollectingExcelList.isEmpty()) {
-            for (FinancialCollectingExcel financialCollectingExcel:financialCollectingExcelList) {
+        if (!financeRoutings.isEmpty()) {
+            for (FinanceRouting financialCollectingExcel:financeRoutings) {
                 String format = formatter.format(financialCollectingExcel.getOrderPaymentTime());
                 financialCollectingExcel.setOrderPaymentTimeExcel(format);
                 String format1 = formatter.format(financialCollectingExcel.getOrderSuccessfulTime());
@@ -166,6 +165,6 @@ public class SettlementController {
                 }
             }
         }
-        ExcelKit.$Export(FinancialCollectingExcel.class, response).downXlsx(financialCollectingExcelList, false);
+        ExcelKit.$Export(FinanceRouting.class, response).downXlsx(financeRoutings, false);
     }
 }

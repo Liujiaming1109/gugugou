@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.commodity.dao.PicDao">
+    <resultMap id="PicMap" type="com.gugugou.provider.commodity.model.PicModel">
+        <id column="id" property="id"/>
+        <result column="pic_topic" property="picTopic"/>
+        <result column="pic_type" property="picType"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="pic_status" property="picStatus"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="updated_time" property="updatedTime"/>
+        <result column="removed" property="removed"/>
+    </resultMap>
+<!--新增图片-->
+    <insert id="insertPic" parameterType="com.gugugou.provider.commodity.model.PicModel" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pic
+        (id, pic_topic, pic_type, pic_url, pic_status, created_by, created_time, updated_by, updated_time, removed)
+        values
+        (#{id}, #{picTopic}, #{picType}, #{picUrl}, #{picStatus}, #{createdBy}, #{createdTime}, #{updatedBy}, #{updatedTime}, #{removed})
+    </insert>
+<!--批量新增图片-->
+    <insert id="insertPicList" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pic
+        (id, pic_topic, pic_type, pic_url, pic_status, created_by, created_time, updated_by, updated_time, removed)
+        values 
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.picTopic}, #{item.picType}, #{item.picUrl}, #{item.picStatus}, #{item.createdBy}, #{item.createdTime}, #{item.updatedBy}, #{item.updatedTime}, #{item.removed})
+        </foreach>
+    </insert>
+<!--基础字段-->
+    <sql id="Base">
+        id, pic_topic, pic_type, pic_url, pic_status, created_by, created_time, updated_by, updated_time, removed
+    </sql>
+<!--条件查询sql-->
+    <sql id="pageConditions">
+        <where>
+            <if test="picTopic != '' and picTopic != null">
+                pic_topic = #{picTopic}
+            </if>
+            <if test="picType != null">
+                and pic_type = #{picType}
+            </if>
+            <if test="picStatus != null">
+                and pic_status = #{picStatus}
+            </if>
+            and removed = 0;
+        </where>
+    </sql>
+<!--分页查询图片列表-->
+    <select id="selectPicListByPage" parameterType="com.gugugou.provider.commodity.model.PicModel" resultMap="PicMap">
+        select <include refid="Base"/>
+        from t_pic
+        <include refid="pageConditions"/>
+        order by cteated_time desc
+        limit #{pageIndex}, #{pageSzie};
+    </select>
+
+<!--分页查询图片列表数量-->
+    <select id="selectPicListCount" parameterType="com.gugugou.provider.commodity.model.PicModel" resultMap="PicMap">
+        select count(1)
+        from t_pic
+        <include refid="pageConditions"/>
+    </select>
+
+<!--根据id查询单条数据-->
+    <select id="getPicById" parameterType="long" resultMap="PicMap">
+        select <include refid="Base"/>
+        from t_pic
+        where id = #{id}
+        and removed = 0;
+    </select>
+<!--根据id删除图片-->
+    <delete id="deleteById" parameterType="com.gugugou.provider.commodity.model.PicModel">
+        update t_pic set removed = 1
+        and updated_by = #{updatedBy}
+        and updated_time = #{updatedTime}
+        where id = #{id};
+    </delete>
+<!--编辑字段-->
+    <sql id="update_fields">
+        <set>
+            <if test="picTopic != null" >
+                pic_topic = #{picTopic},
+            </if>
+            <if test="picUrl != null ">
+                pic_url = #{picUrl},
+            </if>
+            <if test="picStatus != null" >
+                pic_status = #{picStatus},
+            </if>
+            <if test="createdBy != null" >
+                created_by = #{createdBy},
+            </if>
+            <if test="createdTime != null" >
+                created_time = #{createdTime},
+            </if>
+            <if test="updatedBy != null" >
+                updated_by = #{updatedBy},
+            </if>
+            <if test="updatedTime != null" >
+                updated_time = #{updatedTime},
+            </if>
+            <if test="removed !=null" >
+                removed = #{removed}
+            </if>
+        </set>
+    </sql>
+<!--编辑图片-->
+    <update id="updatePic" parameterType="com.gugugou.provider.commodity.model.PicModel">
+        update t_pic
+        <include refid="update_fields"/>
+        where id = #{id};
+    </update>
+</mapper>

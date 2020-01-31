@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +36,8 @@ public class UploadController {
             return jsonResultVo;
         }
         String fileName = file.getOriginalFilename();
+        String[] split = fileName.split("\\.");
+        fileName = new Date() + split[1];
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;

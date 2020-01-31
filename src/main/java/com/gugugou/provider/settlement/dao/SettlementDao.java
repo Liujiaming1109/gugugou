@@ -1,6 +1,6 @@
 package com.gugugou.provider.settlement.dao;
 
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
+import com.gugugou.provider.settlement.model.FinanceRouting;
 import com.gugugou.provider.settlement.model.Settlement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -59,5 +59,5 @@ public interface SettlementDao {
      * @param idSet
      * @return
      */
-    List<FinancialCollectingExcel> selectFinancialCollectingById(@Param("idSet") Set<Long> idSet);
+    List<FinanceRouting> selectFinancialCollectingById(@Param("idSet") Set<Long> idSet);
 }

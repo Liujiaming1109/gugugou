@@ -2,7 +2,6 @@ package com.gugugou.provider.settlement.service;
 
 import com.gugugou.provider.common.ResponseDTO;
 import com.gugugou.provider.settlement.model.FinanceRouting;
-import com.gugugou.provider.settlement.model.FinancialCollectingExcel;
 import com.gugugou.provider.settlement.model.Settlement;
 import com.gugugou.provider.settlement.model.SettlementLine;
 
@@ -66,5 +65,5 @@ public interface SettlementService {
      * @param idSet
      * @return
      */
-    List<FinancialCollectingExcel> selectFinancialCollectingById(Set<Long> idSet);
+    List<FinanceRouting> selectFinancialCollectingById(Set<Long> idSet);
 }
