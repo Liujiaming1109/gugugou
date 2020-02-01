@@ -178,4 +178,17 @@ public interface StreamingDao {
 
     /**录播管理-录播编辑----变更关联商品*/
     List<ArrangeAndSku> selectStreamingAndShops(Long arrangeRoomId);
+
+    /**
+     * 好货档口查询(有效且是长视频)的视频数据，返回列表数据（取第一个）
+     * @return
+     */
+    List<ShortVideo> selectVideos();
+
+    /**
+     * 咕咕购直播,根据直播间id获取该直播间最近的一条长视频
+     * @param directBroadcastingRoomId
+     * @return
+     */
+    List<ShortVideo> selectVideo(Long directBroadcastingRoomId);
 }

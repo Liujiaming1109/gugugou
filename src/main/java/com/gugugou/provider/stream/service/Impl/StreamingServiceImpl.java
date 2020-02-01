@@ -482,4 +482,27 @@ public class StreamingServiceImpl implements StreamingService {
         return streamingDao.selectStreamingAndShops(shortVideo.getArrangeRoomId());
     }
 
+
+    @Override
+    public List<ShortVideo> selectVideos() {
+
+        List<ShortVideo> videos = streamingDao.selectVideos();
+        if (!videos.isEmpty()){
+            return videos;
+        }
+        return null;
+    }
+
+    @Override
+    public ShortVideo selectVideo(Long directBroadcastingRoomId) {
+
+        List<ShortVideo> videos = streamingDao.selectVideo(directBroadcastingRoomId);
+        if (!videos.isEmpty()){
+            //返回该直播间最近的一条长视频数据
+            ShortVideo video = videos.get(0);
+            return video;
+        }
+        return null;
+    }
+
 }

@@ -732,5 +732,49 @@
     </resultMap>
 
 
+    <!--  好货档口，边看边买，咕咕购直播map  -->
+    <resultMap id="videoMap" type="com.gugugou.provider.stream.model.ShortVideo">
+        <id property="id" column="id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="normalStartTime" column="nomal_start_time"/>
+        <result property="normalEndTime" column="nomal_end_time"/>
+        <result property="actualStartTime" column="actual_start_time"/>
+        <result property="actualEndTime" column="actual_end_time"/>
+        <result property="videoUrl" column="video_url"/>
+        <result property="orderFormId" column="order_form_id"/>
+        <result property="directBroadcastingRoomId" column="direct_broadcasting_room_id"/>
+        <result property="arrangeRoomId" column="arrange_room_id"/>
+        <result property="status" column="status"/>
+        <result property="createdBy" column="CREATED_BY"/>
+        <result property="createdTime" column="CREATED_TIME"/>
+        <result property="updatedBy" column="UPDATED_BY"/>
+        <result property="updatedTime" column="UPDATED_TIME"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+    <sql id="video_list">
+        id,item_id,nomal_start_time,nomal_end_time,actual_start_time,actual_end_time,
+        video_url,order_form_id,direct_broadcasting_room_id,arrange_room_id,status,CREATED_BY,
+        CREATED_TIME,UPDATED_BY,UPDATED_TIME,`type`
+    </sql>
+
+    <!--  好货档口，获取视频数据  -->
+    <select id="selectVideos" resultMap="videoMap">
+        select
+            <include refid="video_list"/>
+        from streaming_recorded_management
+        where removed = 0 and type = 0
+        order by actual_end_time desc
+    </select>
+
+    <!--  咕咕购直播  -->
+    <select id="selectVideo" resultMap="videoMap">
+        select
+            <include refid="video_list"/>
+        from streaming_recorded_management a
+        left join streaming_working_schedule b on a.direct_broadcasting_room_id = b.direct_broadcasting_room_id
+        where a.type = 0 and a.removed = 0 and b.streaming_status = 0 and a.direct_broadcasting_room_id = #{directBroadcastingRoomId}
+        order by a.actual_end_time desc
+    </select>
 
 </mapper>

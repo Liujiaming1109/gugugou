@@ -266,4 +266,24 @@ public class StreamingController {
         return streamingService.updateCommentStatus(streamingComment);
     }*/
 
+    /**
+     * 好货档口,边看边买的数据(返回最近的视频列表)
+     * @return
+     */
+    @GetMapping("getVideos")
+    public List<ShortVideo> selectVideos(){
+
+        return streamingService.selectVideos();
+    }
+
+    /**
+     * 咕咕购直播接口(根据直播间id查询该直播间最近的一条长视频)
+     * @param directBroadcastingRoomId
+     * @return
+     */
+    @GetMapping("getVideo")
+    public ShortVideo selectVideo(@RequestParam Long directBroadcastingRoomId){
+        logger.info("咕咕购直播接口的入参---directBroadcastingRoomId：{}",directBroadcastingRoomId);
+        return streamingService.selectVideo(directBroadcastingRoomId);
+    }
 }

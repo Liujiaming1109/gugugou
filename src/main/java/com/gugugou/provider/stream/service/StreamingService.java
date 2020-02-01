@@ -124,6 +124,16 @@ public interface StreamingService {
     /**录播管理-录播编辑----变更关联商品*/
     List<ArrangeAndSku> selectStreamingAndShops(ShortVideo shortVideo);
 
+    /**
+     * 好货档口查询(有效且是长视频)的视频数据，返回列表数据
+     * @return
+     */
+    List<ShortVideo> selectVideos();
 
-
+    /**
+     * 根据直播间id查询该直播间最近的一条长视频
+     * @param directBroadcastingRoomId
+     * @return
+     */
+    ShortVideo selectVideo(Long directBroadcastingRoomId);
 }

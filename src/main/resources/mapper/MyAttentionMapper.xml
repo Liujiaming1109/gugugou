@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gugugou.provider.stream.dao.MyAttentionDao">
+
+    <resultMap id="myAttentionMap" type="com.gugugou.provider.stream.model.MyAttention">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="directBroadcastingRoomId" column="direct_broadcasting_room_id"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="removed" column="removed"/>
+    </resultMap>
+
+    <sql id="myAttention_list_column">
+        id,user_id,direct_broadcasting_room_id,created_by,created_time,updated_by,updated_time,removed
+    </sql>
+
+    <insert id="addMyAttention" useGeneratedKeys="true" parameterType="com.gugugou.provider.stream.model.MyAttention">
+        insert into streaming_attention
+            <include refid="myAttention_list_column"/>
+        values
+            (#{id},#{userId},#{directBroadcastingRoomId},#{createdBy},#{createdTime}
+            #{updatedBy},#{updatedTime},#{removed})
+    </insert>
+
+    <resultMap id="arrangeStreamingMap" type="com.gugugou.provider.stream.model.ArrangeStreaming">
+        <id column="id"  property="id" jdbcType="INTEGER"/>
+        <result property="directBroadcastingRoomId" column="direct_broad_casting_room_id"/>
+        <result property="anchorName" column="anchor_name"/>
+        <result property="anchorTitle" column="anchor_title"/>
+        <result property="anchorStartDate" column="anchor_start_date"/>
+        <result property="anchorEndDate" column="anchor_end_date"/>
+        <result property="anchorAcrossPicture" column="anchor_across_picture"/>
+        <result property="anchorVerticalPicture" column="anchor_vertical_picture"/>
+        <result property="anchorSidePicture" column="anchor_side_picture"/>
+        <result property="anchorPlace" column="anchor_place"/>
+        <result property="anchorLabel" column="anchor_label"/>
+        <result property="anchorPeopleName" column="anchor_people_name"/>
+        <result property="streamingStatus" column="streaming_status"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="removed" column="removed"/>
+    </resultMap>
+
+    <select id="selectMyAttentions" parameterType="long" resultMap="arrangeStreamingMap">
+        select * from streaming_attention a
+        left join streaming_working_schedule b on a.direct_broadcasting_room_id = b.direct_broadcasting_room_id
+        where a.user_id = #{userId};
+    </select>
+
+</mapper>

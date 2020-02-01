@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,13 +25,13 @@ public class ReverseOrderDetail implements Serializable {
     private Integer pageSize;
 
     /** 主键id */
-    private Integer id ;
+    private Long id ;
     /** 主订单号 */
     @ExcelField("主订单号")
-    private Integer orderId ;
+    private Long orderId ;
     /** 子订单号 */
     @ExcelField("子订单号")
-    private Integer orderLineId ;
+    private Long orderLineId ;
     /** 退款编号 */
     @ExcelField("退款编号")
     private String refundSerialNo ;
@@ -51,15 +52,15 @@ public class ReverseOrderDetail implements Serializable {
     private String refundAtExcel;
     /** 商品id */
     @ExcelField("商品ID")
-    private Integer itemId ;
+    private Long itemId ;
     /** 商品名称 */
     @ExcelField("商品名称")
     private String itemName ;
     /** 实际退款金额 */
     @ExcelField("实际退款金额")
-    private Double actualRefundAmount ;
+    private BigDecimal actualRefundAmount ;
     /** 路径id */
-    private Integer pathId ;
+    private Long pathId ;
     /** 路径名称 */
     @ExcelField("路径名称")
     private String pathName ;
