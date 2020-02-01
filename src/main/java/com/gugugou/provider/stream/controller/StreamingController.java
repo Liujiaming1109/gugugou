@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+/**
+ * 直播间
+ * */
 
 @RequestMapping("streaming")
 @RestController
 public class StreamingController {
+
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
@@ -79,6 +83,13 @@ public class StreamingController {
     @PostMapping("updateArrangeStatus")
     public int updateArrangeStatus(@RequestBody ArrangeStreaming arrangeStreaming){
         return streamingService.updateArrangeStatus(arrangeStreaming);
+    }
+
+    /**直播间排班表----管理*/
+    @PostMapping("streamingManage")
+    public List<ArrangeAndSkuFk> streamingManage(@RequestBody ArrangeStreaming arrangeStreaming){
+        logger.info("直播间排班表传的参数---arrangeStreaming",arrangeStreaming);
+        return  streamingService.streamingManage(arrangeStreaming);
     }
 
 

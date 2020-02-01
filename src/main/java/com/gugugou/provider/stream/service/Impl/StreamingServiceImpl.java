@@ -70,6 +70,21 @@ public class StreamingServiceImpl implements StreamingService {
         return streamingDao.updateArrange(arrangeStreaming);
     }
 
+    /**直播间排班表----管理*/
+    @Override
+    public List<ArrangeAndSkuFk> streamingManage(ArrangeStreaming arrangeStreaming) {
+
+        /**获取排班表的id*/
+        Long id = arrangeStreaming.getId();
+        /**查找排班表与中间表的商品根据排班id*/
+        List<ArrangeAndSku> arrange =  streamingDao.queryArrangeAndSku(id);
+        /**查找排班表与sku中间表下的sku表*/
+
+
+
+        return streamingDao.streamingManage(arrangeStreaming);
+    }
+
     /**添加开始直播*/
     @Override
     public int addLongVideo(ShortVideo longVideo) {
@@ -378,10 +393,10 @@ public class StreamingServiceImpl implements StreamingService {
         List<ArrangeAndSku> findStreamingOrdes = streamingDao.findStreamingOrders(arrangeAndSku.getArrangeRoomId());
 
         /**查找原表中商品id的排序*/
-        int math = streamingDao.findArrangeOrder(arrangeAndSku.getOrder());
+        int math = streamingDao.findArrangeOrder(arrangeAndSku.getShopOrder());
 
         /**前台传过来的顺序数*/
-        int orders = arrangeAndSku.getOrder();
+        int orders = arrangeAndSku.getShopOrder();
         if(math == orders){
             return 0;
         }
@@ -404,15 +419,15 @@ public class StreamingServiceImpl implements StreamingService {
         }*/
        if(orders > math){
            for (ArrangeAndSku arr: findStreamingOrdes) {
-                   if(arr.getOrder() >= orders){
-                      arr.setOrder(arr.getOrder() + 1);
+                   if(arr.getShopOrder() >= orders){
+                      arr.setShopOrder(arr.getShopOrder() + 1);
                       streamingDao.updateStreamingOrder(arr);
                    }
            }
        }else if(orders < math){
            for (ArrangeAndSku arr: findStreamingOrdes) {
-               if(arr.getOrder() >= orders){
-                   arr.setOrder(arr.getOrder() + 1);
+               if(arr.getShopOrder() >= orders){
+                   arr.setShopOrder(arr.getShopOrder() + 1);
                    streamingDao.updateStreamingOrder(arr);
                }
            }

@@ -30,9 +30,11 @@ public class ShortVideo implements Serializable {
     private Date normalEndTime;
 
     /**实际开始时间*/
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date actualStartTime;
 
     /**实际结束时间*/
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date actualEndTime;
 
     /**长视频的存储路径*/

@@ -29,7 +29,7 @@ public class ArrangeAndSku implements Serializable {
     private List<ArrangeAndSkuFk> Commtitys;
 
     /**商品的排列顺序*/
-    private int order;
+    private int shopOrder;
 
     /**商品上下线状态*/
     private int status;

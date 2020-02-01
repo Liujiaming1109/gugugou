@@ -191,4 +191,8 @@ public interface StreamingDao {
      * @return
      */
     List<ShortVideo> selectVideo(Long directBroadcastingRoomId);
+
+    List<ArrangeAndSku> queryArrangeAndSku(Long id);
+
+    List<ArrangeAndSkuFk> streamingManage(ArrangeStreaming arrangeStreaming);
 }

@@ -22,6 +22,9 @@ public interface StreamingService {
     /**修改排班直播间的信息*/
     int updateArrange(ArrangeStreaming arrangeStreaming);
 
+    /**直播间排班表----管理*/
+    List<ArrangeAndSkuFk> streamingManage(ArrangeStreaming arrangeStreaming);
+
     /**添加开始直播*/
     int addLongVideo(ShortVideo longVideo);
 
@@ -124,6 +127,7 @@ public interface StreamingService {
     /**录播管理-录播编辑----变更关联商品*/
     List<ArrangeAndSku> selectStreamingAndShops(ShortVideo shortVideo);
 
+
     /**
      * 好货档口查询(有效且是长视频)的视频数据，返回列表数据
      * @return
@@ -136,4 +140,5 @@ public interface StreamingService {
      * @return
      */
     ShortVideo selectVideo(Long directBroadcastingRoomId);
+
 }
