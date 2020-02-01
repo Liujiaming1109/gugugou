@@ -110,7 +110,7 @@
     </select>
 
     <!--财务分账字段映射-->
-    <resultMap id="FinancialCollectingMap" type="com.gugugou.provider.settlement.model.FinancialCollectingExcel">
+    <resultMap id="FinancialCollectingMap" type="com.gugugou.provider.settlement.model.FinanceRouting">
         <result property="orderId" column="order_id"/>
         <result property="subOrderId" column="sub_order_id"/>
         <result property="orderPaymentTime" column="order_payment_time"/>
