@@ -726,7 +726,7 @@
         streaming_arrange_sku
         where arrange_room_id = #{arrangeRoomId}
     </select>
-    <resultMap id="streamingAndSkues" type="com.gugugou.provider.stream.model.ArrangeAndSku">
+    <resultMap id="streamingAndSkuses" type="com.gugugou.provider.stream.model.ArrangeAndSku">
         <result column="item_id" property="itemId" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
@@ -736,8 +736,8 @@
     <resultMap id="videoMap" type="com.gugugou.provider.stream.model.ShortVideo">
         <id property="id" column="id"/>
         <result property="itemId" column="item_id"/>
-        <result property="normalStartTime" column="nomal_start_time"/>
-        <result property="normalEndTime" column="nomal_end_time"/>
+        <result property="normalStartTime" column="normal_start_time"/>
+        <result property="normalEndTime" column="normal_end_time"/>
         <result property="actualStartTime" column="actual_start_time"/>
         <result property="actualEndTime" column="actual_end_time"/>
         <result property="videoUrl" column="video_url"/>
@@ -753,7 +753,7 @@
     </resultMap>
 
     <sql id="video_list">
-        id,item_id,nomal_start_time,nomal_end_time,actual_start_time,actual_end_time,
+        id,item_id,normal_start_time,normal_end_time,actual_start_time,actual_end_time,
         video_url,order_form_id,direct_broadcasting_room_id,arrange_room_id,status,CREATED_BY,
         CREATED_TIME,UPDATED_BY,UPDATED_TIME,`type`
     </sql>
@@ -770,7 +770,11 @@
     <!--  咕咕购直播  -->
     <select id="selectVideo" resultMap="videoMap">
         select
-            <include refid="video_list"/>
+            a.id,a.item_id,a.normal_start_time,a.normal_end_time,a.actual_start_time,a.actual_end_time,
+            a.video_url,a.order_form_id,a.direct_broadcasting_room_id,a.arrange_room_id,a.status,a.type,
+            b.id,b.direct_broadcasting_room_id,b.anchor_name,b.anchor_title,b.anchor_start_date,b.anchor_end_date,
+            b.anchor_across_picture,b.anchor_vertical_picture,b.anchor_side_picture,b.anchor_place,b.anchor_label,
+            b.anchor_people_name,b.streaming_status
         from streaming_recorded_management a
         left join streaming_working_schedule b on a.direct_broadcasting_room_id = b.direct_broadcasting_room_id
         where a.type = 0 and a.removed = 0 and b.streaming_status = 0 and a.direct_broadcasting_room_id = #{directBroadcastingRoomId}

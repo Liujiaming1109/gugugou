@@ -14,14 +14,14 @@
     </resultMap>
 
     <sql id="myAttention_list_column">
-        id,user_id,direct_broadcasting_room_id,created_by,created_time,updated_by,updated_time,removed
+        id, user_id, direct_broadcasting_room_id, created_by, created_time, updated_by, updated_time, removed
     </sql>
 
-    <insert id="addMyAttention" useGeneratedKeys="true" parameterType="com.gugugou.provider.stream.model.MyAttention">
+    <insert id="addMyAttention" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.gugugou.provider.stream.model.MyAttention">
         insert into streaming_attention
-            <include refid="myAttention_list_column"/>
+            (<include refid="myAttention_list_column"/>)
         values
-            (#{id},#{userId},#{directBroadcastingRoomId},#{createdBy},#{createdTime}
+            (#{id},#{userId},#{directBroadcastingRoomId},#{createdBy},#{createdTime},
             #{updatedBy},#{updatedTime},#{removed})
     </insert>
 

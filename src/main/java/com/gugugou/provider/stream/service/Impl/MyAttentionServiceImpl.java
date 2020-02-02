@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,8 +23,13 @@ public class MyAttentionServiceImpl implements MyAttentionService {
 
     @Override
     public Integer addMyAttention(MyAttention attention) {
-
-        return myAttentionDao.addMyAttention(attention);
+        MyAttention myAttention = new MyAttention();
+        myAttention.setUserId(attention.getUserId());
+        myAttention.setDirectBroadcastingRoomId(attention.getDirectBroadcastingRoomId());
+        myAttention.setCreatedBy("lalala");
+        myAttention.setCreatedTime(new Date());
+        myAttention.setRemoved(0);
+        return myAttentionDao.addMyAttention(myAttention);
     }
 
     @Override

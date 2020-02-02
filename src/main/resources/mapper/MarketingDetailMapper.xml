@@ -43,7 +43,7 @@
 
     <insert id="addMarketingDetail" parameterType="list">
         insert into t_marketing_detail
-            <include refid="marketingDetail_column_list"/>
+            (<include refid="marketingDetail_column_list"/>)
         values
             <foreach collection="marketingDetails" item="marketingDetail" separator="," open="(" close=")">
                 <include refid="marketingDetail_column_values"/>
